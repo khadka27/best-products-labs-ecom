@@ -182,7 +182,7 @@ export default async function ProductPage({
           <div className="mt-6 sm:mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
             {/* Left: Image Gallery */}
             <div className="lg:col-span-7 xl:col-span-7">
-              <div className="relative aspect-[16/10] sm:aspect-[16/9] rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden border border-white shadow-2xl shadow-blue-900/10 bg-white">
+              <div className="relative aspect-[16/10] sm:aspect-[16/9] rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden border border-white shadow-2xl shadow-[#007BFF]/10 bg-white">
                 <Image
                   src={product.image}
                   alt={product.imageAlt || product.name}
@@ -191,7 +191,7 @@ export default async function ProductPage({
                   priority
                 />
                 <div className="absolute top-4 left-4 sm:top-6 sm:left-6 flex flex-col gap-2">
-                  <span className="px-4 py-1.5 bg-white/90 backdrop-blur-md rounded-full text-[10px] sm:text-xs font-bold text-blue-800 uppercase tracking-widest shadow-sm border border-blue-100/50">
+                  <span className="px-4 py-1.5 bg-white/90 backdrop-blur-md rounded-full text-[10px] sm:text-xs font-bold text-[#007BFF] uppercase tracking-widest shadow-sm border border-[#007BFF]/50">
                     Product
                   </span>
                 </div>
@@ -199,25 +199,25 @@ export default async function ProductPage({
 
               {/* Trust Markers */}
               <div className="grid grid-cols-3 gap-3 sm:gap-4 mt-6 sm:mt-8">
-                <div className="bg-white p-3 sm:p-5 rounded-2xl sm:rounded-3xl border border-gray-100 flex flex-col items-center text-center group hover:border-blue-200 transition-colors shadow-sm">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-blue-50 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                    <ShieldCheck className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
+                <div className="bg-white p-3 sm:p-5 rounded-2xl sm:rounded-3xl border border-gray-100 flex flex-col items-center text-center group hover:border-[#007BFF]/40 transition-colors shadow-sm">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-[#007BFF]/10 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                    <ShieldCheck className="w-5 h-5 sm:w-6 sm:h-6 text-[#007BFF]" />
                   </div>
                   <span className="text-[10px] sm:text-xs font-bold text-slate-900 uppercase tracking-tight">
                     Pure Quality
                   </span>
                 </div>
-                <div className="bg-white p-3 sm:p-5 rounded-2xl sm:rounded-3xl border border-gray-100 flex flex-col items-center text-center group hover:border-blue-200 transition-colors shadow-sm">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-blue-50 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                    <Truck className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
+                <div className="bg-white p-3 sm:p-5 rounded-2xl sm:rounded-3xl border border-gray-100 flex flex-col items-center text-center group hover:border-[#007BFF]/40 transition-colors shadow-sm">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-[#007BFF]/10 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                    <Truck className="w-5 h-5 sm:w-6 sm:h-6 text-[#007BFF]" />
                   </div>
                   <span className="text-[10px] sm:text-xs font-bold text-slate-900 uppercase tracking-tight">
                     Fast Shipping
                   </span>
                 </div>
-                <div className="bg-white p-3 sm:p-5 rounded-2xl sm:rounded-3xl border border-gray-100 flex flex-col items-center text-center group hover:border-blue-200 transition-colors shadow-sm">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-blue-50 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                    <RotateCcw className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
+                <div className="bg-white p-3 sm:p-5 rounded-2xl sm:rounded-3xl border border-gray-100 flex flex-col items-center text-center group hover:border-[#007BFF]/40 transition-colors shadow-sm">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-[#007BFF]/10 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                    <RotateCcw className="w-5 h-5 sm:w-6 sm:h-6 text-[#007BFF]" />
                   </div>
                   <span className="text-[10px] sm:text-xs font-bold text-slate-900 uppercase tracking-tight">
                     Easy Returns
@@ -247,7 +247,7 @@ export default async function ProductPage({
               </h1>
 
               <div className="flex items-baseline gap-3 mb-6 sm:mb-8">
-                <span className="text-4xl sm:text-5xl font-black text-blue-600 tracking-tighter">
+                <span className="text-4xl sm:text-5xl font-black text-[#007BFF] tracking-tighter">
                   ${product.price.toFixed(2)}
                 </span>
                 <span className="text-sm font-bold text-slate-400 uppercase tracking-widest line-through decoration-2">
@@ -256,7 +256,7 @@ export default async function ProductPage({
               </div>
 
               {/* Short description */}
-              <p className="text-gray-500 text-sm sm:text-base leading-relaxed border-l-4 border-blue-400 pl-4 italic mb-5">
+              <p className="text-gray-500 text-sm sm:text-base leading-relaxed border-l-4 border-[#007BFF]/40 pl-4 italic mb-5">
                 {product.shortDescription}
               </p>
 

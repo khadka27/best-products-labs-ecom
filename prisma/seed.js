@@ -27,36 +27,36 @@ async function main() {
         const existing = await prisma.user.findUnique({ where: { email } });
         if (existing) {
             console.log('✓ Admin user already exists:', existing.email);
-            return;
+            // continue with seeding other sample data instead of returning
+        } else {
+            // Hash password
+            const hashed = await bcrypt.hash(password, 12);
+
+            // Create admin user
+            const admin = await prisma.user.create({
+                data: {
+                    email,
+                    password: hashed,
+                    name,
+                    role: 'ADMIN',
+                },
+                select: {
+                    id: true,
+                    email: true,
+                    name: true,
+                    role: true,
+                },
+            });
+
+            console.log('✓ Admin user created successfully:');
+            console.log(`  Email: ${admin.email}`);
+            console.log(`  Name: ${admin.name}`);
+            console.log(`  Role: ${admin.role}`);
         }
-
-        // Hash password
-        const hashed = await bcrypt.hash(password, 12);
-        
-        // Create admin user
-        const admin = await prisma.user.create({
-            data: {
-                email,
-                password: hashed,
-                name,
-                role: 'ADMIN',
-            },
-            select: {
-                id: true,
-                email: true,
-                name: true,
-                role: true,
-            },
-        });
-
-        console.log('✓ Admin user created successfully:');
-        console.log(`  Email: ${admin.email}`);
-        console.log(`  Name: ${admin.name}`);
-        console.log(`  Role: ${admin.role}`);
 
         // Create sample categories
         console.log('\n🏷️ Creating sample categories...');
-        
+
         const nutraCategory = await prisma.category.create({
             data: {
                 name: 'Supplements',
@@ -81,7 +81,7 @@ async function main() {
 
         // Create sample subcategories
         console.log('\n📂 Creating sample subcategories...');
-        
+
         const vitaminsSub = await prisma.subcategory.create({
             data: {
                 name: 'Vitamins',
@@ -119,7 +119,7 @@ async function main() {
 
         // Create sample products
         console.log('\n🛍️ Creating sample products...');
-        
+
         await prisma.product.create({
             data: {
                 name: 'Vitamin D3 1000 IU',
@@ -172,13 +172,13 @@ async function main() {
         });
 
         console.log('✓ Sample products created');
-        
+
         console.log('\n✅ Database seed completed successfully!\n');
         console.log('📝 Admin Credentials:');
         console.log(`   Email: ${email}`);
         console.log(`   Password: ${password}`);
         console.log('\n⚠️  Please change the password after first login!\n');
-        
+
     } catch (error) {
         console.error('❌ Error during seed:', error.message);
         process.exitCode = 1;

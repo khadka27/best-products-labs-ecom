@@ -2,235 +2,175 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Menu, X, Search, Lock } from "lucide-react";
+import { Menu, X, Search, Lock, ShoppingCart, User } from "lucide-react";
 import SearchBar from "./SearchBar";
 import { useSession } from "next-auth/react";
 
 export default function Header() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const { data: session } = useSession();
 
   return (
-    <header className="sticky top-0 z-50 bg-transparent pt-4 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full transition-all duration-300">
-      
-      {/* ── DESKTOP NAVBAR (lg and above) ── */}
-      <div className="hidden lg:block relative w-full h-20">
-        
-        {/* Background Shape Layer */}
-        <div className="absolute inset-0 -z-10 flex items-stretch text-[#b8c8cb] filter drop-shadow-[0_10px_25px_rgba(0,0,0,0.08)]">
-          {/* Left Wing Bg */}
-          <div className="flex-1 bg-current rounded-l-[24px]"></div>
-          
-          {/* Left Transition SVG Curve */}
-          <svg viewBox="0 0 48 80" className="w-12 h-20 fill-current shrink-0 -mx-[1px]" preserveAspectRatio="none">
-            <path d="M 0 0 L 12 0 C 30 0, 30 48, 48 48 L 48 80 L 0 80 Z" />
-          </svg>
-          
-          {/* Center Notch Bg (with bottom bar of 32px height) */}
-          <div className="w-[320px] h-20 shrink-0 relative bg-transparent">
-            <div className="absolute bottom-0 left-0 right-0 h-8 bg-current"></div>
-          </div>
-          
-          {/* Right Transition SVG Curve */}
-          <svg viewBox="0 0 48 80" className="w-12 h-20 fill-current shrink-0 -mx-[1px]" preserveAspectRatio="none">
-            <path d="M 0 48 C 18 48, 18 0, 36 0 L 48 0 L 48 80 L 0 80 Z" />
-          </svg>
-          
-          {/* Right Wing Bg */}
-          <div className="flex-1 bg-current rounded-r-[24px]"></div>
-        </div>
-
-        {/* Content Layer */}
-        <div className="absolute inset-0 flex items-center justify-between px-8 z-10">
-          
-          {/* Left Wing Navigation links */}
-          <div className="flex-1 flex items-center gap-8 justify-start pl-4 text-[11px] font-extrabold uppercase tracking-[0.18em] text-slate-800">
-            <Link href="/products" className="hover:text-black hover:scale-105 transition-all duration-300">
-              Shop
-            </Link>
-            <Link href="/products" className="hover:text-black hover:scale-105 transition-all duration-300">
-              Men
-            </Link>
-            <Link href="/products" className="hover:text-black hover:scale-105 transition-all duration-300">
-              Women
-            </Link>
-            <Link href="/products" className="hover:text-black hover:scale-105 transition-all duration-300">
-              Trending
-            </Link>
-          </div>
-
-          {/* Center Notch Logo */}
-          <div className="w-[320px] flex items-center justify-center pb-3">
-            <Link href="/" className="font-extrabold text-[13px] sm:text-sm tracking-[0.3em] text-slate-900 uppercase transition-all duration-300 hover:opacity-85">
-              officialproductslab
-            </Link>
-          </div>
-
-          {/* Right Wing Navigation links & buttons */}
-          <div className="flex-1 flex items-center gap-6 justify-end pr-4">
-            <div className="flex items-center gap-8 text-[11px] font-extrabold uppercase tracking-[0.18em] text-slate-800 mr-2">
-              <Link href="/products" className="hover:text-black hover:scale-105 transition-all duration-300">
-                Seasonal
-              </Link>
-              <Link href="/products" className="hover:text-black hover:scale-105 transition-all duration-300">
-                Accessories
-              </Link>
-            </div>
-
-            {/* Search Button (matches Lock button style) */}
+    <header className="sticky top-0 z-50 w-full bg-white/60 backdrop-blur-sm border-b border-slate-200/60">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Left: Logo */}
+          <div className="flex items-center gap-4">
             <button
-              onClick={() => setSearchOpen(!searchOpen)}
-              className={`h-9 w-9 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-105 active:scale-95 ${
-                searchOpen
-                  ? "bg-blue-600 text-white shadow-[0_4px_15px_rgba(37,99,235,0.4)]"
-                  : "bg-slate-950 text-white hover:bg-black"
-              }`}
-              aria-label="Search"
+              className="lg:hidden p-2 rounded-md hover:bg-slate-100"
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label="Toggle menu"
             >
-              <Search className="w-3.5 h-3.5" />
+              {mobileOpen ? (
+                <X className="w-5 h-5" />
+              ) : (
+                <Menu className="w-5 h-5" />
+              )}
             </button>
 
-            {/* Sign In / Up Button */}
+            <Link href="/" className="flex items-center gap-3">
+              <img
+                src="/logo.png"
+                alt="Logo"
+                className="h-8 w-auto object-contain"
+              />
+              <span className="font-semibold text-slate-900 tracking-wide hidden sm:inline-block">
+                OfficialProductsLab
+              </span>
+            </Link>
+          </div>
+
+          {/* Center: Nav Links (desktop) */}
+          <nav className="hidden lg:flex items-center gap-6">
+            <Link
+              href="/products"
+              className="text-sm text-slate-700 hover:text-slate-900"
+            >
+              Shop
+            </Link>
+            <Link
+              href="/products?type=ECOM"
+              className="text-sm text-slate-700 hover:text-slate-900"
+            >
+              Equipment
+            </Link>
+            <Link
+              href="/products?type=NUTRA"
+              className="text-sm text-slate-700 hover:text-slate-900"
+            >
+              Supplements
+            </Link>
+            <Link
+              href="/about"
+              className="text-sm text-slate-700 hover:text-slate-900"
+            >
+              About
+            </Link>
+            <Link
+              href="/article"
+              className="text-sm text-slate-700 hover:text-slate-900"
+            >
+              Guides
+            </Link>
+          </nav>
+
+          {/* Right: Actions */}
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setSearchOpen(!searchOpen)}
+              className="p-2 rounded-lg hover:bg-slate-100"
+              aria-label="Open search"
+            >
+              <Search className="w-5 h-5 text-slate-700" />
+            </button>
+
+            <Link
+              href="/cart"
+              className="relative p-2 rounded-lg hover:bg-slate-100"
+            >
+              <ShoppingCart className="w-5 h-5 text-slate-700" />
+              <span className="absolute -top-1 -right-1 text-[10px] bg-rose-500 text-white rounded-full px-1 leading-none">
+                3
+              </span>
+            </Link>
+
             {session ? (
               <Link
-                href="/admin"
-                className="h-9 px-5 bg-slate-950 text-white rounded-full text-[10px] font-bold uppercase tracking-widest flex items-center justify-center transition-all duration-300 hover:bg-black hover:scale-105 active:scale-95"
+                href="/account"
+                className="p-2 rounded-lg hover:bg-slate-100 flex items-center gap-2"
               >
-                Dashboard
+                <User className="w-5 h-5 text-slate-700" />
+                <span className="hidden sm:inline text-sm text-slate-700">
+                  {session.user?.name ?? "Account"}
+                </span>
               </Link>
             ) : (
               <Link
                 href="/admin"
-                className="h-9 px-5 bg-slate-950 text-white rounded-full text-[10px] font-bold uppercase tracking-widest flex items-center justify-center transition-all duration-300 hover:bg-black hover:scale-105 active:scale-95"
+                className="px-3 py-2 bg-slate-900 text-white rounded-md text-sm font-medium hover:bg-black"
               >
-                Sign In / Up
+                Sign In
               </Link>
             )}
-
-            {/* Lock / Dashboard Button */}
-            <Link
-              href="/admin"
-              className="h-9 w-9 bg-slate-950 text-white rounded-full flex items-center justify-center transition-all duration-300 hover:bg-black hover:scale-105 active:scale-95"
-              aria-label="Admin Dashboard"
-            >
-              <Lock className="w-3.5 h-3.5" />
-            </Link>
           </div>
-
         </div>
       </div>
 
-      {/* ── MOBILE/TABLET NAVBAR (under lg) ── */}
-      <div className="lg:hidden flex items-center justify-between h-16 px-4 bg-[#b8c8cb] rounded-[20px] shadow-[0_6px_20px_rgba(0,0,0,0.04)] text-slate-800 relative z-10">
-        
-        {/* Left: Mobile Menu Trigger */}
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="h-9 w-9 bg-slate-950 text-white rounded-full flex items-center justify-center transition-all hover:bg-black"
-          aria-label="Toggle menu"
-        >
-          {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
-        </button>
-
-        {/* Center: Brand name */}
-        <Link href="/" className="font-extrabold text-[11px] tracking-[0.2em] text-slate-900 uppercase">
-          officialproductslab
-        </Link>
-
-        {/* Right: Search & Lock buttons */}
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => setSearchOpen(!searchOpen)}
-            className={`h-9 w-9 rounded-full flex items-center justify-center transition-all ${
-              searchOpen ? "bg-blue-600 text-white" : "bg-slate-950 text-white hover:bg-black"
-            }`}
-            aria-label="Search"
-          >
-            <Search className="w-3.5 h-3.5" />
-          </button>
-          
-          <Link
-            href="/admin"
-            className="h-9 w-9 bg-slate-950 text-white rounded-full flex items-center justify-center transition-all hover:bg-black"
-            aria-label="Admin Dashboard"
-          >
-            <Lock className="w-3.5 h-3.5" />
-          </Link>
+      {/* Mobile menu */}
+      {mobileOpen && (
+        <div className="lg:hidden bg-white/90 backdrop-blur-sm border-t border-slate-200/60">
+          <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-2">
+            <Link
+              href="/products"
+              className="py-2 px-3 rounded-md hover:bg-slate-100"
+            >
+              Shop
+            </Link>
+            <Link
+              href="/products?type=ECOM"
+              className="py-2 px-3 rounded-md hover:bg-slate-100"
+            >
+              Equipment
+            </Link>
+            <Link
+              href="/products?type=NUTRA"
+              className="py-2 px-3 rounded-md hover:bg-slate-100"
+            >
+              Supplements
+            </Link>
+            <Link
+              href="/about"
+              className="py-2 px-3 rounded-md hover:bg-slate-100"
+            >
+              About
+            </Link>
+            <Link
+              href="/article"
+              className="py-2 px-3 rounded-md hover:bg-slate-100"
+            >
+              Guides
+            </Link>
+            <div className="pt-2 border-t border-slate-100 mt-2">
+              <Link
+                href="/admin"
+                className="block px-3 py-2 rounded-md text-sm bg-slate-900 text-white text-center"
+              >
+                Sign In / Dashboard
+              </Link>
+            </div>
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* ── SEARCH BAR COLLAPSIBLE ── */}
+      {/* Search collapsible */}
       {searchOpen && (
-        <div className="mt-3 p-4 bg-white/95 backdrop-blur-xl rounded-2xl border border-slate-200/50 shadow-[0_15px_30px_rgba(0,0,0,0.06)] animate-in fade-in slide-in-from-top-2 duration-300">
-          <SearchBar />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+          <div className="bg-white border border-slate-200 rounded-lg p-3 shadow-sm">
+            <SearchBar />
+          </div>
         </div>
       )}
-
-      {/* ── MOBILE MENU COLLAPSIBLE ── */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden mt-3 p-5 bg-[#b8c8cb]/95 backdrop-blur-xl rounded-2xl shadow-[0_15px_30px_rgba(0,0,0,0.06)] flex flex-col gap-4 border border-white/20 animate-in fade-in slide-in-from-top-2 duration-300">
-          <Link
-            href="/products"
-            onClick={() => setMobileMenuOpen(false)}
-            className="px-4 py-3 bg-white/40 hover:bg-white/60 rounded-xl text-xs font-bold uppercase tracking-widest text-slate-900 flex items-center justify-between transition-colors"
-          >
-            Shop
-            <span className="text-lg">→</span>
-          </Link>
-          <Link
-            href="/products"
-            onClick={() => setMobileMenuOpen(false)}
-            className="px-4 py-3 bg-white/40 hover:bg-white/60 rounded-xl text-xs font-bold uppercase tracking-widest text-slate-900 flex items-center justify-between transition-colors"
-          >
-            Men
-            <span className="text-lg">→</span>
-          </Link>
-          <Link
-            href="/products"
-            onClick={() => setMobileMenuOpen(false)}
-            className="px-4 py-3 bg-white/40 hover:bg-white/60 rounded-xl text-xs font-bold uppercase tracking-widest text-slate-900 flex items-center justify-between transition-colors"
-          >
-            Women
-            <span className="text-lg">→</span>
-          </Link>
-          <Link
-            href="/products"
-            onClick={() => setMobileMenuOpen(false)}
-            className="px-4 py-3 bg-white/40 hover:bg-white/60 rounded-xl text-xs font-bold uppercase tracking-widest text-slate-900 flex items-center justify-between transition-colors"
-          >
-            Trending
-            <span className="text-lg">→</span>
-          </Link>
-          <Link
-            href="/products"
-            onClick={() => setMobileMenuOpen(false)}
-            className="px-4 py-3 bg-white/40 hover:bg-white/60 rounded-xl text-xs font-bold uppercase tracking-widest text-slate-900 flex items-center justify-between transition-colors"
-          >
-            Seasonal
-            <span className="text-lg">→</span>
-          </Link>
-          <Link
-            href="/products"
-            onClick={() => setMobileMenuOpen(false)}
-            className="px-4 py-3 bg-white/40 hover:bg-white/60 rounded-xl text-xs font-bold uppercase tracking-widest text-slate-900 flex items-center justify-between transition-colors"
-          >
-            Accessories
-            <span className="text-lg">→</span>
-          </Link>
-          
-          <hr className="border-white/20" />
-          
-          <Link
-            href="/admin"
-            onClick={() => setMobileMenuOpen(false)}
-            className="px-4 py-3 bg-slate-950 text-white rounded-xl text-xs font-bold uppercase tracking-widest text-center transition-colors hover:bg-black"
-          >
-            {session ? "Dashboard" : "Sign In / Up"}
-          </Link>
-        </div>
-      )}
-
     </header>
   );
 }

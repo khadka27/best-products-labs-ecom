@@ -54,22 +54,22 @@ model Subcategory {
 }
 
 model Article {
-  id              String   @id @default(cuid())
-  title           String
-  slug            String   @unique
-  excerpt         String?
-  content         String   @db.Text
-  featuredImage   String?
+  id               String        @id @default(cuid())
+  title            String
+  slug             String        @unique
+  excerpt          String?
+  content          String        @db.Text
+  featuredImage    String?
   featuredImageAlt String?
-  metaTitle       String?
-  metaDescription String?
-  metaKeywords    String?
-  status          ArticleStatus @default(DRAFT)
-  publishedAt     DateTime?
-  author          Author?  @relation(fields: [authorId], references: [id])
-  authorId        String?
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  metaTitle        String?
+  metaDescription  String?
+  metaKeywords     String?
+  status           ArticleStatus @default(DRAFT)
+  publishedAt      DateTime?
+  author           Author?       @relation(fields: [authorId], references: [id])
+  authorId         String?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
 
   @@map("articles")
 }
@@ -120,7 +120,7 @@ model Product {
   subcategory         Subcategory  @relation(fields: [subcategoryId], references: [id])
   subcategoryId       String
 
-  ingredients         Ingredient[] @relation("ProductIngredients")
+  ingredients Ingredient[] @relation("ProductIngredients")
 
   @@map("products")
 }
@@ -150,6 +150,9 @@ model HeroSettings {
   gradientVia        String         @default("#15803D")
   gradientTo         String         @default("#14532D")
   textColor          String         @default("#FFFFFF")
+  primaryColor       String         @default("#007BFF")
+  ctaColor           String         @default("#FF6600")
+  accentColor        String         @default("#28A745")
   overlayOpacity     Int            @default(30)
   backgroundPosition String         @default("center")
   backgroundSize     String         @default("cover")

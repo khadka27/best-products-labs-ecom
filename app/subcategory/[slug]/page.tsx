@@ -1,5 +1,5 @@
 "use client";
- 
+
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Breadcrumb from "@/components/Breadcrumb";
@@ -8,14 +8,14 @@ import SkeletonCard from "@/components/SkeletonCard";
 import { CategorySchema, BreadcrumbSchema } from "@/components/SEOSchema";
 import type { Product, Subcategory } from "@/lib/types";
 import { PackageSearch } from "lucide-react";
- 
+
 export default function SubcategoryPage() {
   const slug = useParams<{ slug: string }>().slug;
   const [subcategory, setSubcategory] = useState<Subcategory | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
- 
+
   useEffect(() => {
     setLoading(true);
     setError("");
@@ -39,7 +39,7 @@ export default function SubcategoryPage() {
       .catch(() => setError("Failed to load data"))
       .finally(() => setLoading(false));
   }, [slug]);
- 
+
   return (
     <main className="min-h-screen">
       {subcategory && (
@@ -59,8 +59,7 @@ export default function SubcategoryPage() {
               },
               {
                 name: "Products",
-                url:
-                  `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/products`,
+                url: `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/products`,
               },
               {
                 name: subcategory.name,
@@ -72,7 +71,7 @@ export default function SubcategoryPage() {
       )}
       {/* Subcategory Hero */}
       {subcategory && (
-        <section className="relative h-48 sm:h-60 md:h-72 overflow-hidden mx-3 mt-4 sm:mx-4 sm:mt-6 rounded-2xl sm:rounded-[2rem] border border-white/30 shadow-2xl shadow-blue-950/15 max-w-[1320px] lg:mx-auto">
+        <section className="relative h-48 sm:h-60 md:h-72 overflow-hidden mx-3 mt-4 sm:mx-4 sm:mt-6 rounded-2xl sm:rounded-[2rem] border border-white/30 shadow-2xl shadow-[#007BFF]/15 max-w-[1320px] lg:mx-auto">
           <img
             src={subcategory.image}
             alt={subcategory.name}
@@ -98,12 +97,14 @@ export default function SubcategoryPage() {
           </div>
         </section>
       )}
- 
+
       <div className="max-w-[1320px] mx-auto px-3 sm:px-6 lg:px-8 py-6 md:py-10 lg:py-12">
         {/* Toggle */}
         <div className="glass-band rounded-2xl sm:rounded-3xl p-3 sm:p-4 md:p-5 flex items-center justify-between mb-6 sm:mb-8 flex-wrap gap-3">
           <p className="text-xs sm:text-sm text-slate-600">
-            {loading ? "..." : `${products.length} product${products.length !== 1 ? "s" : ""} found`}
+            {loading
+              ? "..."
+              : `${products.length} product${products.length !== 1 ? "s" : ""} found`}
           </p>
         </div>
 
