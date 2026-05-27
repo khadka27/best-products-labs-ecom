@@ -15,7 +15,11 @@ if (globalForPrisma.prisma) {
 } else {
   const databaseUrl = process.env.DATABASE_URL;
   if (databaseUrl) {
-    pool = new Pool({ connectionString: databaseUrl });
+    const poolConfig: any = { connectionString: databaseUrl };
+    if (databaseUrl.includes('sslmode=require') || databaseUrl.includes('sslmode=no-verify')) {
+      poolConfig.ssl = { rejectUnauthorized: false };
+    }
+    pool = new Pool(poolConfig);
     const adapter = new PrismaPg(pool);
     prisma = new PrismaClient({ adapter });
     
