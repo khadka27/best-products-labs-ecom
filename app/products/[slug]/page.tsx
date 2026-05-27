@@ -79,7 +79,6 @@ async function getRelatedProducts(subcategoryId: string, currentId: string) {
 
   if (related.length > 0) return related;
 
-  // Fallback to latest products if no related found
   return prisma.product.findMany({
     where: { id: { not: currentId } },
     take: 4,
@@ -114,7 +113,7 @@ export default async function ProductPage({
   );
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-[#FAF7F2]">
       <ProductFirstH1HashUrl slug={firstH1Slug} />
       <ProductSchema
         name={product.name}
@@ -167,7 +166,7 @@ export default async function ProductPage({
       />
 
       {/* Hero Section */}
-      <section className="relative pt-6 sm:pt-8 pb-10 sm:pb-16 bg-slate-50">
+      <section className="relative pt-6 sm:pt-8 pb-10 sm:pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="hidden">
             <Breadcrumb
@@ -182,7 +181,7 @@ export default async function ProductPage({
           <div className="mt-6 sm:mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
             {/* Left: Image Gallery */}
             <div className="lg:col-span-7 xl:col-span-7">
-              <div className="relative aspect-[16/10] sm:aspect-[16/9] rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden border border-white shadow-2xl shadow-[#007BFF]/10 bg-white">
+              <div className="relative aspect-[16/10] sm:aspect-[16/9] rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden border border-white shadow-2xl shadow-orange-500/10 bg-white">
                 <Image
                   src={product.image}
                   alt={product.imageAlt || product.name}
@@ -191,7 +190,7 @@ export default async function ProductPage({
                   priority
                 />
                 <div className="absolute top-4 left-4 sm:top-6 sm:left-6 flex flex-col gap-2">
-                  <span className="px-4 py-1.5 bg-white/90 backdrop-blur-md rounded-full text-[10px] sm:text-xs font-bold text-[#007BFF] uppercase tracking-widest shadow-sm border border-[#007BFF]/50">
+                  <span className="px-4 py-1.5 bg-white/90 backdrop-blur-md rounded-full text-[10px] sm:text-xs font-bold text-orange-500 uppercase tracking-widest shadow-sm border border-orange-500/30">
                     Product
                   </span>
                 </div>
@@ -199,25 +198,25 @@ export default async function ProductPage({
 
               {/* Trust Markers */}
               <div className="grid grid-cols-3 gap-3 sm:gap-4 mt-6 sm:mt-8">
-                <div className="bg-white p-3 sm:p-5 rounded-2xl sm:rounded-3xl border border-gray-100 flex flex-col items-center text-center group hover:border-[#007BFF]/40 transition-colors shadow-sm">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-[#007BFF]/10 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                    <ShieldCheck className="w-5 h-5 sm:w-6 sm:h-6 text-[#007BFF]" />
+                <div className="bg-white p-3 sm:p-5 rounded-2xl sm:rounded-3xl border border-slate-100 flex flex-col items-center text-center group hover:border-orange-500/40 transition-colors shadow-sm">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-orange-500/10 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                    <ShieldCheck className="w-5 h-5 sm:w-6 sm:h-6 text-orange-500" />
                   </div>
                   <span className="text-[10px] sm:text-xs font-bold text-slate-900 uppercase tracking-tight">
                     Pure Quality
                   </span>
                 </div>
-                <div className="bg-white p-3 sm:p-5 rounded-2xl sm:rounded-3xl border border-gray-100 flex flex-col items-center text-center group hover:border-[#007BFF]/40 transition-colors shadow-sm">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-[#007BFF]/10 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                    <Truck className="w-5 h-5 sm:w-6 sm:h-6 text-[#007BFF]" />
+                <div className="bg-white p-3 sm:p-5 rounded-2xl sm:rounded-3xl border border-slate-100 flex flex-col items-center text-center group hover:border-orange-500/40 transition-colors shadow-sm">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-orange-500/10 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                    <Truck className="w-5 h-5 sm:w-6 sm:h-6 text-orange-500" />
                   </div>
                   <span className="text-[10px] sm:text-xs font-bold text-slate-900 uppercase tracking-tight">
                     Fast Shipping
                   </span>
                 </div>
-                <div className="bg-white p-3 sm:p-5 rounded-2xl sm:rounded-3xl border border-gray-100 flex flex-col items-center text-center group hover:border-[#007BFF]/40 transition-colors shadow-sm">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-[#007BFF]/10 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                    <RotateCcw className="w-5 h-5 sm:w-6 sm:h-6 text-[#007BFF]" />
+                <div className="bg-white p-3 sm:p-5 rounded-2xl sm:rounded-3xl border border-slate-100 flex flex-col items-center text-center group hover:border-orange-500/40 transition-colors shadow-sm">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-orange-500/10 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                    <RotateCcw className="w-5 h-5 sm:w-6 sm:h-6 text-orange-500" />
                   </div>
                   <span className="text-[10px] sm:text-xs font-bold text-slate-900 uppercase tracking-tight">
                     Easy Returns
@@ -247,7 +246,7 @@ export default async function ProductPage({
               </h1>
 
               <div className="flex items-baseline gap-3 mb-6 sm:mb-8">
-                <span className="text-4xl sm:text-5xl font-black text-[#007BFF] tracking-tighter">
+                <span className="text-4xl sm:text-5xl font-black text-orange-500 tracking-tighter">
                   ${product.price.toFixed(2)}
                 </span>
                 <span className="text-sm font-bold text-slate-400 uppercase tracking-widest line-through decoration-2">
@@ -256,7 +255,7 @@ export default async function ProductPage({
               </div>
 
               {/* Short description */}
-              <p className="text-gray-500 text-sm sm:text-base leading-relaxed border-l-4 border-[#007BFF]/40 pl-4 italic mb-5">
+              <p className="text-slate-500 text-sm sm:text-base leading-relaxed border-l-4 border-orange-500/40 pl-4 italic mb-5">
                 {product.shortDescription}
               </p>
 
@@ -278,7 +277,7 @@ export default async function ProductPage({
                       href={product.readMoreLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3.5 rounded-xl transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 text-sm sm:text-base"
+                      className="flex items-center justify-center gap-2 bg-orange-600 hover:bg-orange-700 text-white font-bold px-6 py-3.5 rounded-xl transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 text-sm sm:text-base"
                     >
                       <ExternalLink className="w-4 h-4" />
                       Read More
@@ -290,20 +289,20 @@ export default async function ProductPage({
               {/* Key Features */}
               {keyFeaturesList.length > 0 && (
                 <div>
-                  <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">
+                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-3">
                     Key Features
                   </p>
                   <ul className="space-y-1.5 sm:space-y-2">
                     {keyFeaturesList.slice(0, 5).map((feature, i) => (
                       <li key={i} className="flex items-start gap-2.5">
-                        <CheckCircle2 className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />
-                        <span className="text-sm text-gray-700 leading-relaxed">
+                        <CheckCircle2 className="w-4 h-4 text-orange-500 mt-0.5 flex-shrink-0" />
+                        <span className="text-sm text-slate-700 leading-relaxed">
                           {feature}
                         </span>
                       </li>
                     ))}
                     {keyFeaturesList.length > 5 && (
-                      <li className="text-xs text-gray-400 pl-6">
+                      <li className="text-xs text-slate-400 pl-6">
                         +{keyFeaturesList.length - 5} more below
                       </li>
                     )}
@@ -314,14 +313,14 @@ export default async function ProductPage({
           </div>
 
           {/* Content & TOC Section */}
-          <div className="px-4 sm:px-6 lg:px-10 py-6 sm:py-8 border-t border-gray-100 bg-white rounded-3xl mt-12 shadow-sm border border-gray-100">
+          <div className="px-4 sm:px-6 lg:px-10 py-6 sm:py-8 border-t border-slate-100 bg-white rounded-3xl mt-12 shadow-sm border border-slate-100">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
               {/* Content Column */}
               <div className="lg:col-span-8 order-2 lg:order-1">
                 {/* Author Info at Top */}
                 {product.author && (
                   <div className="mb-10 p-5 sm:p-6 bg-white rounded-[2rem] border border-slate-100 shadow-sm relative overflow-hidden group">
-                    <div className="absolute top-0 left-0 w-1 h-full bg-blue-500" />
+                    <div className="absolute top-0 left-0 w-1 h-full bg-orange-500" />
                     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-6">
                       <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden shadow-md border-4 border-white flex-shrink-0 ring-1 ring-slate-100">
                         <AuthorAvatar
@@ -335,9 +334,9 @@ export default async function ProductPage({
                           <span className="text-lg font-black text-slate-900 tracking-tight">
                             {product.author.name}
                           </span>
-                          <div className="flex items-center gap-1 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-100">
-                            <CheckCircle2 className="w-3 h-3 text-blue-600" />
-                            <span className="text-[10px] font-bold text-blue-700 uppercase tracking-widest">
+                          <div className="flex items-center gap-1 bg-orange-50 px-2 py-0.5 rounded-full border border-orange-100">
+                            <CheckCircle2 className="w-3 h-3 text-orange-600" />
+                            <span className="text-[10px] font-bold text-orange-700 uppercase tracking-widest">
                               Verified Expert
                             </span>
                           </div>
@@ -378,7 +377,7 @@ export default async function ProductPage({
                           </div>
                           <div className="h-3 w-px bg-slate-200" />
                           <div className="flex items-center gap-1.5">
-                            <ShieldCheck className="w-3.5 h-3.5 text-blue-500" />
+                            <ShieldCheck className="w-3.5 h-3.5 text-orange-500" />
                             <span className="text-xs font-bold text-slate-700">
                               12+ yrs
                             </span>
@@ -428,12 +427,12 @@ export default async function ProductPage({
 
                   {/* Ingredients Sidebar Widget */}
                   {product.ingredients && product.ingredients.length > 0 && (
-                    <div className="mt-8 bg-slate-900 rounded-[2rem] p-6 text-white shadow-xl shadow-slate-900/20 overflow-hidden relative group">
-                      <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 blur-3xl -mr-16 -mt-16 group-hover:bg-blue-500/20 transition-colors" />
+                    <div className="mt-8 bg-[#2C2C2C] rounded-[2rem] p-6 text-white shadow-xl shadow-slate-900/10 overflow-hidden relative group">
+                      <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/10 blur-3xl -mr-16 -mt-16 group-hover:bg-orange-500/20 transition-colors" />
 
                       <div className="flex items-center gap-3 mb-6 relative z-10">
-                        <div className="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center ring-1 ring-blue-500/30">
-                          <FlaskConical className="w-5 h-5 text-blue-400" />
+                        <div className="w-10 h-10 rounded-xl bg-orange-500/20 flex items-center justify-center ring-1 ring-orange-500/30">
+                          <FlaskConical className="w-5 h-5 text-orange-400" />
                         </div>
                         <div>
                           <h3 className="text-lg font-bold leading-tight">
@@ -451,7 +450,7 @@ export default async function ProductPage({
                             key={ing.id}
                             className="flex items-center gap-4 group/item"
                           >
-                            <div className="relative w-12 h-12 rounded-xl overflow-hidden bg-slate-800 border border-slate-700/50 flex-shrink-0 group-hover/item:border-blue-500/50 transition-colors">
+                            <div className="relative w-12 h-12 rounded-xl overflow-hidden bg-slate-800 border border-slate-700/50 flex-shrink-0 group-hover/item:border-orange-500/50 transition-colors">
                               <Image
                                 src={ing.image || "/ingredient-placeholder.png"}
                                 alt={ing.name}
@@ -460,31 +459,45 @@ export default async function ProductPage({
                               />
                             </div>
                             <div className="flex-1 min-w-0">
-                              <p className="text-sm font-bold text-white group-hover/item:text-blue-400 transition-colors">
+                              <p className="text-sm font-bold text-white group-hover/item:text-orange-400 transition-colors">
                                 {ing.name}
                               </p>
-                              <div className="flex items-center gap-1.5 mt-1">
-                                <Activity className="w-3 h-3 text-blue-500" />
-                                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tight">
-                                  Bioavailable Form
-                                </span>
-                              </div>
+                              
+                              {ing.keyFeatures && (
+                                <ul className="mt-2 space-y-1">
+                                  {ing.keyFeatures.split('\n').filter(f => f.trim()).slice(0, 2).map((feature, i) => (
+                                    <li key={i} className="flex items-start gap-1.5">
+                                      <CheckCircle2 className="w-3 h-3 text-orange-500 mt-0.5 flex-shrink-0" />
+                                      <span className="text-[11px] text-slate-300 line-clamp-1">{feature.trim()}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              )}
+
+                              {!ing.keyFeatures && (
+                                <div className="flex items-center gap-1.5 mt-1">
+                                  <Activity className="w-3 h-3 text-orange-500" />
+                                  <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tight">
+                                    Bioavailable Form
+                                  </span>
+                                </div>
+                              )}
                             </div>
                           </div>
                         ))}
                       </div>
 
-                      <div className="mt-8 pt-6 border-t border-slate-800 relative z-10">
+                      <div className="mt-8 pt-6 border-t border-slate-700 relative z-10">
                         <div className="flex items-center justify-between mb-2">
                           <span className="text-xs font-bold text-slate-400">
                             Scientific Trust
                           </span>
-                          <span className="text-xs font-black text-blue-400">
+                          <span className="text-xs font-black text-orange-400">
                             99.8%
                           </span>
                         </div>
                         <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
-                          <div className="h-full bg-gradient-to-r from-blue-600 to-blue-400 w-[99.8%]" />
+                          <div className="h-full bg-gradient-to-r from-orange-600 to-orange-400 w-[99.8%]" />
                         </div>
                       </div>
                     </div>
@@ -498,20 +511,20 @@ export default async function ProductPage({
 
       {/* Related Products */}
       {relatedProducts.length > 0 && (
-        <section className="py-16 sm:py-24 bg-slate-50">
+        <section className="py-16 sm:py-24 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-end justify-between mb-8 sm:mb-12">
               <div className="space-y-3">
-                <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">
+                <div className="inline-flex items-center gap-2 bg-orange-500/10 text-orange-600 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">
                   <Zap className="w-3 h-3" /> Expert Recommendation
                 </div>
                 <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
-                  Complete Your <span className="text-blue-600">Regimen</span>
+                  Complete Your <span className="text-orange-500">Regimen</span>
                 </h2>
               </div>
               <Link
                 href="/products"
-                className="hidden sm:flex items-center gap-2 text-sm font-bold text-blue-700 hover:text-blue-800 transition-colors group"
+                className="hidden sm:flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-orange-500 transition-colors group"
               >
                 View all collection{" "}
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

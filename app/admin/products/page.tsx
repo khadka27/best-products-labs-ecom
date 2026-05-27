@@ -115,14 +115,14 @@ export default function AdminProductsPage() {
                     <td className="px-5 py-3.5">
                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                         String(prod.categoryType).toUpperCase() === 'NUTRA'
-                          ? 'bg-blue-50 text-blue-700 border border-blue-200'
-                          : 'bg-sky-50 text-sky-700 border border-sky-200'
+                          ? 'bg-orange-50 text-orange-700 border border-orange-200'
+                          : 'bg-orange-50 text-orange-700 border border-orange-200'
                       }`}>
                         {String(prod.categoryType).toUpperCase() === 'NUTRA' ? '🌿' : '🛒'} {String(prod.categoryType).toUpperCase()}
                       </span>
                     </td>
                     <td className="px-5 py-3.5 text-gray-500 hidden lg:table-cell">{getSubcategoryName(prod.subcategoryId)}</td>
-                    <td className="px-5 py-3.5 font-semibold text-blue-600">${prod.price.toFixed(2)}</td>
+                    <td className="px-5 py-3.5 font-semibold text-orange-600">${prod.price.toFixed(2)}</td>
                     <td className="px-5 py-3.5">
                       <div className="flex items-center gap-1.5 justify-end">
                         <Link
@@ -130,7 +130,7 @@ export default function AdminProductsPage() {
                           target="_blank"
                           rel="noopener noreferrer"
                           title="View preview on store"
-                          className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-sky-600 hover:bg-sky-50 transition-colors"
+                          className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-orange-600 hover:bg-orange-50 transition-colors"
                         >
                           <ExternalLink className="w-3.5 h-3.5" />
                         </Link>
@@ -173,8 +173,8 @@ export default function AdminProductsPage() {
               <div className="w-12 h-12 rounded-2xl bg-gray-100 flex items-center justify-center">
                 <Package className="w-6 h-6 text-gray-300" />
               </div>
-              <p className="text-sm font-medium">{search || typeFilter ? 'No products match your filters' : 'No products yet'}</p>
-              {!search && !typeFilter && (
+              <p className="text-sm font-medium">{search ? 'No products match your filters' : 'No products yet'}</p>
+              {!search && (
                 <Link href="/admin/products/new" className="text-xs text-amber-600 hover:underline">Add your first product →</Link>
               )}
             </div>

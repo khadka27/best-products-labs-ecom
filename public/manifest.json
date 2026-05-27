@@ -1,7 +1,7 @@
 {
-  "name": "HealthStore - Premium Supplements & Wellness Products",
-  "short_name": "HealthStore",
-  "description": "Discover science-backed supplements, fitness gear, and organic wellness products at HealthStore.",
+  "name": "OfficialProductsLab - Premium Supplements & Wellness Products",
+  "short_name": "OfficialProductsLab",
+  "description": "Discover science-backed supplements, fitness gear, and organic wellness products at OfficialProductsLab.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

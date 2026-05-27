@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { ArrowLeft, Calendar, Clock, Star, Globe, ExternalLink } from 'lucide-react';
 import prisma from '@/lib/db';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://healthstoreinfo7.top';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://officialproductslab.com';
 
 async function getArticle(slug: string) {
   try {
@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       type: 'article', url,
       title: article.metaTitle || article.title,
       description: article.metaDescription || article.excerpt,
-      siteName: 'HealthStore',
+      siteName: 'OfficialProductsLab',
       images: article.featuredImage ? [{ url: article.featuredImage, width: 1200, height: 630, alt: article.featuredImageAlt || article.title }] : [],
       publishedTime: article.publishedAt?.toISOString(),
       modifiedTime: article.updatedAt.toISOString(),
@@ -58,8 +58,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     image: article.featuredImage,
     datePublished: article.publishedAt?.toISOString(),
     dateModified: article.updatedAt.toISOString(),
-    author: author ? { '@type': 'Person', name: author.name, ...(author.title ? { jobTitle: author.title } : {}), ...(author.website ? { url: author.website } : {}) } : { '@type': 'Organization', name: 'HealthStore' },
-    publisher: { '@type': 'Organization', name: 'HealthStore', url: SITE_URL, logo: { '@type': 'ImageObject', url: `${SITE_URL}/logo.png` } },
+    author: author ? { '@type': 'Person', name: author.name, ...(author.title ? { jobTitle: author.title } : {}), ...(author.website ? { url: author.website } : {}) } : { '@type': 'Organization', name: 'OfficialProductsLab' },
+    publisher: { '@type': 'Organization', name: 'OfficialProductsLab', url: SITE_URL, logo: { '@type': 'ImageObject', url: `${SITE_URL}/logo.png` } },
     ...(author?.rating && author?.reviewCount ? { aggregateRating: { '@type': 'AggregateRating', ratingValue: author.rating.toFixed(1), reviewCount: author.reviewCount.toString(), bestRating: '5' } } : {}),
   };
 

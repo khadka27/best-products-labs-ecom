@@ -1205,18 +1205,18 @@ function ButtonDialog({
   const [style, setStyle] = useState("primary");
 
   const styles = [
-    { value: "primary", label: "Primary", preview: "bg-blue-600 text-white" },
+    { value: "primary", label: "Primary", preview: "bg-orange-600 text-white" },
     { value: "amber", label: "Amber", preview: "bg-amber-500 text-white" },
     {
       value: "secondary",
       label: "Outline",
-      preview: "bg-transparent text-blue-600 border-2 border-blue-600",
+      preview: "bg-transparent text-orange-600 border-2 border-orange-600",
     },
     { value: "dark", label: "Dark", preview: "bg-slate-900 text-white" },
     {
       value: "primary-pill",
       label: "Primary Pill",
-      preview: "bg-blue-600 text-white rounded-full",
+      preview: "bg-orange-600 text-white rounded-full",
     },
     {
       value: "amber-pill",
@@ -1471,7 +1471,7 @@ function ReviewDialog({
                   <div className="flex items-center gap-3">
                     {/* Avatar */}
                     <div
-                      className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-teal-500 flex items-center justify-center text-white font-bold text-base flex-shrink-0 shadow-md"
+                      className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-teal-500 flex items-center justify-center text-white font-bold text-base flex-shrink-0 shadow-md"
                       style={{ transform: "rotate(-3deg)" }}
                     >
                       {name ? name.charAt(0).toUpperCase() : "?"}
@@ -1522,8 +1522,8 @@ function ReviewDialog({
                   </div>
 
                   {/* Badge */}
-                  <div className="flex items-center gap-1.5 text-xs font-bold text-blue-800 bg-blue-100 border border-blue-200 px-3 py-1.5 rounded-full w-fit">
-                    <span className="w-3.5 h-3.5 bg-blue-600 text-white rounded-full flex items-center justify-center text-[9px] font-black">
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-orange-800 bg-orange-100 border border-orange-200 px-3 py-1.5 rounded-full w-fit">
+                    <span className="w-3.5 h-3.5 bg-orange-600 text-white rounded-full flex items-center justify-center text-[9px] font-black">
                       ✓
                     </span>
                     Verified Purchase

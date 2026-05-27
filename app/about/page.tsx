@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About Us | HealthStore",
-  description: "Learn more about HealthStore and our commitment to wellness-first living.",
+  title: "About Us | OfficialProductsLab",
+  description: "Learn more about OfficialProductsLab and our commitment to wellness-first living.",
 };
 
 export default function AboutPage() {
@@ -12,7 +12,7 @@ export default function AboutPage() {
         {/* Header Section */}
         <div className="text-center mb-16 fade-in-up">
           <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">
-            About <span className="text-blue-600">HealthStore</span>
+            About <span className="text-orange-600">OfficialProductsLab</span>
           </h1>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
             Elevating your lifestyle with wellness-first living and curated health products. 
@@ -25,16 +25,16 @@ export default function AboutPage() {
           <div className="prose prose-lg prose-slate max-w-none">
             <h2 className="text-2xl font-bold text-slate-800 mb-4">Our Mission</h2>
             <p className="text-slate-600 leading-relaxed mb-8">
-              At HealthStore, our mission is to empower individuals to take control of their health journey. 
+              At OfficialProductsLab, our mission is to empower individuals to take control of their health journey. 
               We meticulously curate high-quality wellness products, supplements, and lifestyle goods to 
               support you in achieving your personal health goals.
             </p>
 
             <h2 className="text-2xl font-bold text-slate-800 mb-4 mt-8">Why Choose Us?</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-              <div className="p-6 bg-blue-50/50 rounded-2xl border border-blue-100 transition-all hover:shadow-md hover:bg-blue-50">
-                <h3 className="font-semibold text-blue-900 mb-2">Curated Quality</h3>
-                <p className="text-sm text-blue-800/80">Every product is verified for efficacy, safety, and premium ingredients.</p>
+              <div className="p-6 bg-orange-50/50 rounded-2xl border border-orange-100 transition-all hover:shadow-md hover:bg-orange-50">
+                <h3 className="font-semibold text-orange-900 mb-2">Curated Quality</h3>
+                <p className="text-sm text-orange-800/80">Every product is verified for efficacy, safety, and premium ingredients.</p>
               </div>
               <div className="p-6 bg-teal-50/50 rounded-2xl border border-teal-100 transition-all hover:shadow-md hover:bg-teal-50">
                 <h3 className="font-semibold text-teal-900 mb-2">Expert Backed</h3>

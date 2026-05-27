@@ -173,7 +173,7 @@ export default function HeroSettingsPage() {
         </div>
       )}
       {saved && (
-        <div className="flex items-center gap-2.5 bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded-xl text-sm">
+        <div className="flex items-center gap-2.5 bg-orange-50 border border-orange-200 text-orange-700 px-4 py-3 rounded-xl text-sm">
           <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
           Settings saved successfully!
         </div>
@@ -187,7 +187,7 @@ export default function HeroSettingsPage() {
             <div className="flex gap-1.5">
               <div className="w-3 h-3 rounded-full bg-red-400" />
               <div className="w-3 h-3 rounded-full bg-amber-400" />
-              <div className="w-3 h-3 rounded-full bg-blue-400" />
+              <div className="w-3 h-3 rounded-full bg-orange-400" />
             </div>
             <span className="text-xs text-gray-400 ml-2">Live Preview</span>
           </div>
@@ -276,84 +276,6 @@ export default function HeroSettingsPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Text Color
-                </label>
-                <div className="flex items-center gap-3">
-                  <input
-                    type="color"
-                    value={settings.textColor}
-                    onChange={(e) => update({ textColor: e.target.value })}
-                    className="w-12 h-10 rounded-lg border border-gray-200 cursor-pointer p-0.5"
-                  />
-                  <span className="text-sm text-gray-500 font-mono">
-                    {settings.textColor}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => update({ textColor: "#FFFFFF" })}
-                    className="text-xs text-gray-400 hover:text-gray-700 px-2 py-1 border border-gray-200 rounded-lg"
-                  >
-                    White
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => update({ textColor: "#111827" })}
-                    className="text-xs text-gray-400 hover:text-gray-700 px-2 py-1 border border-gray-200 rounded-lg"
-                  >
-                    Dark
-                  </button>
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Primary Color (site accent)
-                </label>
-                <div className="flex items-center gap-3">
-                  <input
-                    type="color"
-                    value={settings.primaryColor || "#007BFF"}
-                    onChange={(e) => update({ primaryColor: e.target.value })}
-                    className="w-12 h-10 rounded-lg border border-gray-200 cursor-pointer p-0.5"
-                  />
-                  <span className="text-sm text-gray-500 font-mono">
-                    {settings.primaryColor || "#007BFF"}
-                  </span>
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  CTA Color
-                </label>
-                <div className="flex items-center gap-3">
-                  <input
-                    type="color"
-                    value={settings.ctaColor || "#FF6600"}
-                    onChange={(e) => update({ ctaColor: e.target.value })}
-                    className="w-12 h-10 rounded-lg border border-gray-200 cursor-pointer p-0.5"
-                  />
-                  <span className="text-sm text-gray-500 font-mono">
-                    {settings.ctaColor || "#FF6600"}
-                  </span>
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Accent Color (positive)
-                </label>
-                <div className="flex items-center gap-3">
-                  <input
-                    type="color"
-                    value={settings.accentColor || "#28A745"}
-                    onChange={(e) => update({ accentColor: e.target.value })}
-                    className="w-12 h-10 rounded-lg border border-gray-200 cursor-pointer p-0.5"
-                  />
-                  <span className="text-sm text-gray-500 font-mono">
-                    {settings.accentColor || "#28A745"}
-                  </span>
-                </div>
-              </div>
-              <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1.5">
                   Buy Now Link
                   <span className="ml-2 text-xs font-normal text-gray-400">
@@ -389,57 +311,14 @@ export default function HeroSettingsPage() {
                         : "text-gray-500 hover:text-gray-700"
                     }`}
                   >
-                    {t === "gradient" ? "🎨 Gradient" : "🖼 Image"}
+                    {t === "gradient" ? "🎨 Default Color" : "🖼 Image"}
                   </button>
                 ))}
               </div>
 
               {settings.backgroundType === "gradient" ? (
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-3">
-                    Gradient Colors
-                  </label>
-                  <div className="grid grid-cols-3 gap-4">
-                    {[
-                      {
-                        label: "From",
-                        key: "gradientFrom" as const,
-                        value: settings.gradientFrom,
-                      },
-                      {
-                        label: "Via",
-                        key: "gradientVia" as const,
-                        value: settings.gradientVia,
-                      },
-                      {
-                        label: "To",
-                        key: "gradientTo" as const,
-                        value: settings.gradientTo,
-                      },
-                    ].map(({ label, key, value }) => (
-                      <div key={key} className="text-center">
-                        <label className="block text-xs font-medium text-gray-500 mb-2">
-                          {label}
-                        </label>
-                        <input
-                          type="color"
-                          value={value}
-                          onChange={(e) => update({ [key]: e.target.value })}
-                          className="w-full h-14 rounded-xl border border-gray-200 cursor-pointer p-1"
-                        />
-                        <p className="text-[10px] text-gray-400 mt-1 font-mono">
-                          {value}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                  {/* Gradient preview swatch */}
-                  <div
-                    className="mt-3 h-8 rounded-xl"
-                    style={{
-                      background: `linear-gradient(135deg, ${settings.gradientFrom}, ${settings.gradientVia}, ${settings.gradientTo})`,
-                    }}
-                  />
+                <div className="py-6 text-center text-sm text-gray-500 bg-gray-50 rounded-xl border border-gray-100">
+                  <p>Using the default brand background color.</p>
                 </div>
               ) : (
                 <div className="space-y-4">
@@ -657,28 +536,7 @@ export default function HeroSettingsPage() {
               </div>
             </div>
 
-            {/* Current gradient preview */}
-            {settings.backgroundType === "gradient" && (
-              <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-                <div className="h-0.5 bg-gradient-to-r from-violet-500 to-purple-500" />
-                <div className="p-5">
-                  <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
-                    Gradient Preview
-                  </p>
-                  <div
-                    className="h-20 rounded-xl"
-                    style={{
-                      background: `linear-gradient(135deg, ${settings.gradientFrom}, ${settings.gradientVia}, ${settings.gradientTo})`,
-                    }}
-                  />
-                  <div className="flex justify-between mt-2 text-[10px] font-mono text-gray-400">
-                    <span>{settings.gradientFrom}</span>
-                    <span>{settings.gradientVia}</span>
-                    <span>{settings.gradientTo}</span>
-                  </div>
-                </div>
-              </div>
-            )}
+            {/* Removed Current gradient preview */}
           </div>
         </div>
       </form>

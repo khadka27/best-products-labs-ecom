@@ -40,7 +40,7 @@ function SectionCard({ icon: Icon, title, subtitle, accent = 'teal', children, c
     teal:   'from-teal-500 to-emerald-600',
     violet: 'from-violet-500 to-purple-500',
     amber:  'from-amber-500 to-orange-500',
-    sky:    'from-sky-500 to-blue-500',
+    sky:    'from-orange-500 to-orange-500',
     rose:   'from-rose-500 to-pink-500',
   };
   return (
@@ -260,8 +260,8 @@ export default function ArticleEditor({ initialData, onSave }: Props) {
               <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
                 <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Google Preview</p>
                 <div className="space-y-0.5">
-                  <p className="text-xs text-gray-400">https://healthstoreinfo7.top/article/{form.slug}</p>
-                  <p className="text-blue-700 text-base font-medium leading-tight hover:underline cursor-pointer line-clamp-1">
+                  <p className="text-xs text-gray-400">https://officialproductslab.com/article/{form.slug}</p>
+                  <p className="text-orange-700 text-base font-medium leading-tight hover:underline cursor-pointer line-clamp-1">
                     {form.metaTitle || form.title}
                   </p>
                   <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed">

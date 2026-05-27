@@ -146,7 +146,7 @@ function SectionCard({
 }) {
   const accents: Record<string, string> = {
     amber: "from-amber-500 to-orange-500",
-    blue: "from-blue-500 to-indigo-500",
+    blue: "from-orange-500 to-indigo-500",
     violet: "from-violet-500 to-purple-500",
     rose: "from-rose-500 to-pink-500",
   };
@@ -227,7 +227,7 @@ function ImageZone({
           onClick={() => !uploading && fileRef.current?.click()}
           className={`relative border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all ${
             uploading
-              ? "border-blue-300 bg-blue-50"
+              ? "border-orange-300 bg-orange-50"
               : "border-gray-200 hover:border-amber-400 hover:bg-amber-50/30"
           }`}
         >
@@ -243,8 +243,8 @@ function ImageZone({
           />
           {uploading ? (
             <div className="flex flex-col items-center gap-2">
-              <Loader2 className="w-7 h-7 text-blue-500 animate-spin" />
-              <p className="text-sm text-blue-600 font-medium">Uploading…</p>
+              <Loader2 className="w-7 h-7 text-orange-500 animate-spin" />
+              <p className="text-sm text-orange-600 font-medium">Uploading…</p>
             </div>
           ) : (
             <div className="flex flex-col items-center gap-2">
@@ -339,7 +339,6 @@ export default function ProductForm({
     buyNowLink: "",
     ingredientIds: [],
     ...initialValues,
-    categoryType: "ecom",
   });
   const [subcategories, setSubcategories] = useState<Subcategory[]>([]);
   const [authors, setAuthors] = useState<
@@ -463,7 +462,7 @@ export default function ProductForm({
         </div>
       )}
       {success && (
-        <div className="flex items-center gap-3 bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded-xl text-sm">
+        <div className="flex items-center gap-3 bg-orange-50 border border-orange-200 text-orange-700 px-4 py-3 rounded-xl text-sm">
           <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
           Product saved successfully!
         </div>
@@ -589,7 +588,7 @@ export default function ProductForm({
                   .map((f, i) => (
                     <span
                       key={i}
-                      className="inline-flex items-center gap-1 text-xs bg-blue-50 text-blue-700 border border-blue-200 px-2 py-0.5 rounded-full"
+                      className="inline-flex items-center gap-1 text-xs bg-orange-50 text-orange-700 border border-orange-200 px-2 py-0.5 rounded-full"
                     >
                       <CheckCircle2 className="w-3 h-3" /> {f.trim()}
                     </span>

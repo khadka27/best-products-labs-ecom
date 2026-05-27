@@ -1,8 +1,8 @@
 // ── SEO Schema Components ─────────────────────────────────────────────────────
 // All schemas follow Schema.org structured data standards for Google rich results
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://healthstoreinfo7.top';
-const SITE_NAME = 'HealthStore';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://officialproductslab.com';
+const SITE_NAME = 'OfficialProductsLab';
 
 // ── Helper ────────────────────────────────────────────────────────────────────
 function SchemaScript({ schema }: { schema: object }) {
@@ -115,6 +115,7 @@ export function ProductSchema({
     : [];
 
   const images = [image, featuredImage].filter(Boolean) as string[];
+  const isEcom = String(categoryType).toUpperCase() === 'ECOM';
 
   const productSchema: Record<string, unknown> = {
     '@context': 'https://schema.org',
@@ -128,6 +129,7 @@ export function ProductSchema({
       '@type': 'Brand',
       name: brand,
     },
+    ...(isEcom ? { sku: slug } : {}),
     offers: {
       '@type': 'Offer',
       '@id': `${url}#offer`,
@@ -193,8 +195,8 @@ export function ProductSchema({
     worksFor: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL },
   } : null;
 
-  // Article schema for the content body
-  const articleSchema: Record<string, unknown> = {
+  // Article schema for the content body (skip for ECOM products)
+  const articleSchema: Record<string, unknown> | null = isEcom ? null : {
     '@context': 'https://schema.org',
     '@type': 'Article',
     '@id': `${url}#article`,
@@ -236,7 +238,7 @@ export function ProductSchema({
   // WebPage schema
   const webPageSchema: Record<string, unknown> = {
     '@context': 'https://schema.org',
-    '@type': 'WebPage',
+    '@type': isEcom ? 'ItemPage' : 'WebPage',
     '@id': url,
     url,
     name,
@@ -282,7 +284,7 @@ export function ProductSchema({
   return (
     <>
       <SchemaScript schema={productSchema} />
-      <SchemaScript schema={articleSchema} />
+      {articleSchema && <SchemaScript schema={articleSchema} />}
       <SchemaScript schema={webPageSchema} />
       {itemListSchema && <SchemaScript schema={itemListSchema} />}
       {authorSchema && <SchemaScript schema={{ '@context': 'https://schema.org', ...authorSchema }} />}

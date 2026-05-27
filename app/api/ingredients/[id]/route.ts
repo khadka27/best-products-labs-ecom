@@ -40,6 +40,7 @@ export async function PUT(
         description: body.description,
         image: body.image,
         imageAlt: body.imageAlt,
+        keyFeatures: body.keyFeatures !== undefined ? body.keyFeatures : undefined,
       },
     });
     

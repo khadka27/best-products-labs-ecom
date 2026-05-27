@@ -1,6 +1,6 @@
-# HealthStore SEO Configuration Guide
+# OfficialProductsLab SEO Configuration Guide
 
-## Domain: healthstoreinfo7.top
+## Domain: officialproductslab.com
 
 ### ✅ Implemented SEO Features
 
@@ -43,7 +43,7 @@
 
 #### 6. **Site Security**
 
-- HTTPS enforced (healthstoreinfo7.top)
+- HTTPS enforced (officialproductslab.com)
 - Secure cookie settings
 - CORS properly configured
 
@@ -52,15 +52,15 @@
 #### 1. **Google Search Console**
 
 1. Go to https://search.google.com/search-console
-2. Add property: https://healthstoreinfo7.top
+2. Add property: https://officialproductslab.com
 3. Verify domain ownership
-4. Submit sitemap: https://healthstoreinfo7.top/sitemap.xml
+4. Submit sitemap: https://officialproductslab.com/sitemap.xml
 5. Check coverage and fix any issues
 
 #### 2. **Bing Webmaster Tools**
 
 1. Go to https://www.bing.com/webmasters
-2. Add site: https://healthstoreinfo7.top
+2. Add site: https://officialproductslab.com
 3. Submit sitemap
 4. Verify website
 
@@ -87,7 +87,7 @@ export const metadata: Metadata = {
 
 #### 5. **SSL Certificate**
 
-- ✅ Ensure HTTPS is enforced on healthstoreinfo7.top
+- ✅ Ensure HTTPS is enforced on officialproductslab.com
 - Valid SSL certificate required
 
 #### 6. **Analytics Setup**
@@ -123,15 +123,15 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 
 **Current Status:**
 
-- Sitemap: https://healthstoreinfo7.top/sitemap.xml
-- Robots: https://healthstoreinfo7.top/robots.txt
-- Domain: https://healthstoreinfo7.top
+- Sitemap: https://officialproductslab.com/sitemap.xml
+- Robots: https://officialproductslab.com/robots.txt
+- Domain: https://officialproductslab.com
 - SSL: ✅ Required
 
 **To check indexing:**
 
-1. Google: `site:healthstoreinfo7.top`
-2. Bing: `site:healthstoreinfo7.top`
+1. Google: `site:officialproductslab.com`
+2. Bing: `site:officialproductslab.com`
 
 ### 💡 SEO Best Practices
 

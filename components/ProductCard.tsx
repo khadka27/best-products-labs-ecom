@@ -21,7 +21,7 @@ export default function ProductCard({
 
   if (variant === "list") {
     return (
-      <div className="group bg-white rounded-2xl border border-gray-100 hover:shadow-xl hover:shadow-blue-900/5 transition-all duration-300 hover:-translate-y-1 overflow-hidden flex flex-row h-full w-full">
+      <div className="group bg-white rounded-2xl border border-gray-100 hover:shadow-xl hover:shadow-orange-900/5 transition-all duration-300 hover:-translate-y-1 overflow-hidden flex flex-row h-full w-full">
         <Link
           href={`/products/${product.slug}`}
           className="relative w-24 sm:w-40 md:w-72 aspect-square overflow-hidden bg-gray-50 flex-shrink-0 block"
@@ -33,7 +33,7 @@ export default function ProductCard({
             className="object-contain p-2 sm:p-4 transition-transform duration-500 group-hover:scale-105"
           />
           <div className="absolute top-2 sm:top-3 left-2 sm:left-3">
-            <span className="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-[8px] sm:text-[10px] font-bold tracking-widest uppercase shadow-sm bg-white/95 text-sky-800">
+            <span className="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-[8px] sm:text-[10px] font-bold tracking-widest uppercase shadow-sm bg-white/95 text-orange-800">
               Product
             </span>
           </div>
@@ -42,7 +42,7 @@ export default function ProductCard({
         <div className="p-3 sm:p-4 md:p-5 flex-1 flex flex-col justify-between min-w-0">
           <div className="space-y-1 sm:space-y-2">
             <Link href={`/products/${product.slug}`} className="block">
-              <h3 className="text-sm sm:text-lg font-bold text-slate-900 leading-tight group-hover:text-blue-700 transition-colors line-clamp-2 sm:truncate">
+              <h3 className="text-sm sm:text-lg font-bold text-slate-900 leading-tight group-hover:text-orange-700 transition-colors line-clamp-2 sm:truncate">
                 {product.name}
               </h3>
             </Link>
@@ -56,16 +56,16 @@ export default function ProductCard({
                 {product.ingredients.slice(0, 2).map((ing) => (
                   <div
                     key={ing.id}
-                    className="flex items-center gap-1.5 bg-blue-50/50 border border-blue-100/50 px-2 py-0.5 rounded-lg"
+                    className="flex items-center gap-1.5 bg-orange-50/50 border border-orange-100/50 px-2 py-0.5 rounded-lg"
                   >
-                    <div className="w-3 h-3 rounded-full overflow-hidden bg-white border border-blue-100 flex-shrink-0">
+                    <div className="w-3 h-3 rounded-full overflow-hidden bg-white border border-orange-100 flex-shrink-0">
                       <img
                         src={ing.image || "/ingredient-placeholder.png"}
                         alt=""
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    <span className="text-[8px] font-bold text-blue-800 uppercase tracking-tight">
+                    <span className="text-[8px] font-bold text-orange-800 uppercase tracking-tight">
                       {ing.name}
                     </span>
                   </div>
@@ -79,7 +79,7 @@ export default function ProductCard({
               <span className="text-[8px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">
                 Best Price
               </span>
-              <span className="text-xl sm:text-2xl font-extrabold text-blue-600">
+              <span className="text-xl sm:text-2xl font-extrabold text-orange-600">
                 ${product.price.toFixed(2)}
               </span>
             </div>
@@ -90,7 +90,7 @@ export default function ProductCard({
                   href={product.readMoreLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-2.5 sm:px-4 py-1.5 sm:py-2.5 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-bold text-blue-600 border border-blue-100 hover:bg-blue-50 transition-all flex items-center gap-1"
+                  className="px-2.5 sm:px-4 py-1.5 sm:py-2.5 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-bold text-orange-600 border border-orange-100 hover:bg-orange-50 transition-all flex items-center gap-1"
                 >
                   Read More
                 </a>
@@ -113,11 +113,11 @@ export default function ProductCard({
   }
 
   return (
-    <div className="group bg-white rounded-2xl md:rounded-3xl hover:shadow-xl hover:shadow-blue-950/10 transition-all duration-300 hover:-translate-y-1 overflow-hidden h-full flex flex-col border border-gray-100">
+    <div className="group bg-white rounded-2xl md:rounded-3xl hover:shadow-xl hover:shadow-orange-950/10 transition-all duration-300 hover:-translate-y-1 overflow-hidden h-full flex flex-col border border-gray-100">
       {/* Image Area */}
       <Link
         href={`/products/${product.slug}`}
-        className="relative aspect-[16/9] overflow-hidden bg-blue-50/60 block"
+        className="relative aspect-[16/9] overflow-hidden bg-orange-50/60 block"
       >
         <Image
           src={displayImage || "/placeholder-image.png"}
@@ -126,7 +126,7 @@ export default function ProductCard({
           className="object-contain p-4 transition-transform duration-500 group-hover:scale-105"
         />
         <div className="absolute top-2 left-2 sm:top-3 sm:left-3">
-          <span className="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-semibold tracking-wide uppercase bg-sky-100/95 text-sky-800">
+          <span className="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-semibold tracking-wide uppercase bg-orange-100/95 text-orange-800">
             Product
           </span>
         </div>
@@ -135,7 +135,7 @@ export default function ProductCard({
       <div className="p-3 sm:p-4 flex-1 flex flex-col justify-between">
         <div>
           <Link href={`/products/${product.slug}`} className="block">
-            <h3 className="text-sm sm:text-base font-bold text-slate-900 line-clamp-2 leading-snug group-hover:text-blue-700 transition-colors">
+            <h3 className="text-sm sm:text-base font-bold text-slate-900 line-clamp-2 leading-snug group-hover:text-orange-700 transition-colors">
               {product.name}
             </h3>
           </Link>
@@ -144,7 +144,7 @@ export default function ProductCard({
           </p>
 
           <div className="mt-3">
-            <span className="text-lg sm:text-xl font-black text-blue-700">
+            <span className="text-lg sm:text-xl font-black text-orange-700">
               ${product.price.toFixed(2)}
             </span>
           </div>
@@ -156,7 +156,7 @@ export default function ProductCard({
               href={product.readMoreLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-1.5 py-2 rounded-xl text-[10px] font-bold border border-blue-50 text-blue-600 bg-blue-50/30 hover:bg-blue-50 transition-all"
+              className="flex items-center justify-center gap-1.5 py-2 rounded-xl text-[10px] font-bold border border-orange-50 text-orange-600 bg-orange-50/30 hover:bg-orange-50 transition-all"
             >
               Read More
             </a>

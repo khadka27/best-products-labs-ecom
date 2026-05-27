@@ -82,47 +82,55 @@ export default function TableOfContents({ contentSelector = '.product-content' }
   return (
     <>
       {/* ── Desktop sidebar TOC ── */}
-      <nav className="hidden xl:block sticky top-24 self-start">
+      <nav className="hidden lg:block sticky top-24 self-start">
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-          <div className="h-0.5 bg-gradient-to-r from-blue-500 to-teal-500" />
-          <div className="px-4 py-3 border-b border-gray-50 flex items-center gap-2">
-            <List className="w-4 h-4 text-blue-600" />
-            <span className="text-sm font-semibold text-gray-900">Contents</span>
-          </div>
-          <ul className="py-2 px-2 space-y-0.5 max-h-[60vh] overflow-y-auto">
-            {items.map(item => (
-              <li key={item.id}>
-                <button
-                  onClick={() => scrollTo(item.id)}
-                  className={`w-full text-left px-3 py-1.5 rounded-lg text-sm transition-all duration-150 ${
-                    item.level === 3 ? 'pl-6' : ''
-                  } ${
-                    activeId === item.id
-                      ? 'bg-blue-50 text-blue-700 font-medium'
-                      : 'text-gray-500 hover:text-gray-800 hover:bg-gray-50'
-                  }`}
-                >
-                  {item.level === 3 && (
-                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-current mr-2 opacity-50 align-middle" />
-                  )}
-                  {item.text}
-                </button>
-              </li>
-            ))}
-          </ul>
+          <div className="h-0.5 bg-gradient-to-r from-orange-500 to-teal-500" />
+          <button
+            onClick={() => setOpen(v => !v)}
+            className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold text-gray-900 border-b border-gray-50 transition-colors hover:bg-gray-50"
+          >
+            <span className="flex items-center gap-2">
+              <List className="w-4 h-4 text-orange-600" />
+              Contents
+            </span>
+            {open ? <ChevronUp className="w-4 h-4 text-gray-400" /> : <ChevronDown className="w-4 h-4 text-gray-400" />}
+          </button>
+          {open && (
+            <ul className="py-2 px-2 space-y-0.5 max-h-[60vh] overflow-y-auto">
+              {items.map(item => (
+                <li key={item.id}>
+                  <button
+                    onClick={() => scrollTo(item.id)}
+                    className={`w-full text-left px-3 py-1.5 rounded-lg text-sm transition-all duration-150 ${
+                      item.level === 3 ? 'pl-6' : ''
+                    } ${
+                      activeId === item.id
+                        ? 'bg-orange-50 text-orange-700 font-medium'
+                        : 'text-gray-500 hover:text-gray-800 hover:bg-gray-50'
+                    }`}
+                  >
+                    {item.level === 3 && (
+                      <span className="inline-block w-1.5 h-1.5 rounded-full bg-current mr-2 opacity-50 align-middle" />
+                    )}
+                    {item.text}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </nav>
 
       {/* ── Mobile collapsible TOC ── */}
       <div className="xl:hidden mb-6">
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-          <div className="h-0.5 bg-gradient-to-r from-blue-500 to-teal-500" />
+          <div className="h-0.5 bg-gradient-to-r from-orange-500 to-teal-500" />
           <button
             onClick={() => setOpen(v => !v)}
             className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold text-gray-900"
           >
             <span className="flex items-center gap-2">
-              <List className="w-4 h-4 text-blue-600" />
+              <List className="w-4 h-4 text-orange-600" />
               Table of Contents
             </span>
             {open ? <ChevronUp className="w-4 h-4 text-gray-400" /> : <ChevronDown className="w-4 h-4 text-gray-400" />}
@@ -137,7 +145,7 @@ export default function TableOfContents({ contentSelector = '.product-content' }
                       item.level === 3 ? 'pl-6' : ''
                     } ${
                       activeId === item.id
-                        ? 'bg-blue-50 text-blue-700 font-medium'
+                        ? 'bg-orange-50 text-orange-700 font-medium'
                         : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
                     }`}
                   >

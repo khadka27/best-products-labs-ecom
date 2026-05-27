@@ -44,6 +44,7 @@ export interface Author {
 }
 
 export interface Ingredient {
+  keyFeatures?: string | null;
   id: string;
   name: string;
   slug: string;
@@ -77,6 +78,9 @@ export interface Product {
 }
 
 export interface HeroSettings {
+  primaryColor?: string;
+  ctaColor?: string;
+  accentColor?: string;
   id: string;
   title: string;
   subtitle: string;

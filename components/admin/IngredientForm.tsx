@@ -19,6 +19,7 @@ export default function IngredientForm({ initialData }: Props) {
     name: initialData?.name || '',
     slug: initialData?.slug || '',
     description: initialData?.description || '',
+    keyFeatures: (initialData as any)?.keyFeatures || '',
     image: initialData?.image || '',
     imageAlt: initialData?.imageAlt || ''
   });
@@ -121,6 +122,17 @@ export default function IngredientForm({ initialData }: Props) {
                   rows={6}
                   className={`${inputCls} resize-none`}
                   placeholder="What are the benefits and uses of this ingredient?"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-1.5 ml-1">Key Features (One per line)</label>
+                <textarea
+                  value={form.keyFeatures}
+                  onChange={set('keyFeatures')}
+                  rows={4}
+                  className={`${inputCls} resize-none`}
+                  placeholder="Supports Joint Health&#10;Clinically Proven&#10;All-Natural"
                 />
               </div>
             </div>

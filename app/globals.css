@@ -1,4 +1,5 @@
 @import "tailwindcss/index.css";
+@plugin "tailwindcss-animate";
 
 @theme {
   --color-brand: #0284c7;

@@ -2,7 +2,7 @@ export default function TermsOfServicePage() {
   return (
     <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <article className="surface-shell rounded-3xl p-8 sm:p-12">
-        <p className="text-xs uppercase tracking-[0.24em] text-blue-600/80">
+        <p className="text-xs uppercase tracking-[0.24em] text-orange-600/80">
           Terms of Service
         </p>
         <h1 className="mt-3 text-4xl sm:text-5xl font-semibold text-slate-900">
@@ -12,7 +12,7 @@ export default function TermsOfServicePage() {
 
         <section className="mt-8 space-y-4 text-sm sm:text-base text-slate-700">
           <p>
-            By using HealthStore, you agree to these terms. Please read them
+            By using OfficialProductsLab, you agree to these terms. Please read them
             carefully before making a purchase.
           </p>
           <h2 className="text-lg font-semibold text-slate-900">Eligibility</h2>

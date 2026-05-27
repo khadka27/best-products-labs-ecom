@@ -23,6 +23,7 @@ export async function POST(req: NextRequest) {
       description: body.description || '',
       image: body.image || '',
       imageAlt: body.imageAlt || '',
+      keyFeatures: body.keyFeatures || null,
     };
     
     const created = await prisma.ingredient.create({

@@ -36,7 +36,7 @@ export default function AdminCategoriesPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-teal-500 flex items-center justify-center shadow-sm">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-teal-500 flex items-center justify-center shadow-sm">
             <FolderOpen className="w-5 h-5 text-white" />
           </div>
           <div>
@@ -60,7 +60,7 @@ export default function AdminCategoriesPage() {
         <div className="space-y-3">{[1,2,3].map(i => <div key={i} className="h-16 bg-gray-100 rounded-xl animate-pulse" />)}</div>
       ) : (
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-          <div className="h-0.5 bg-gradient-to-r from-blue-500 to-teal-500" />
+          <div className="h-0.5 bg-gradient-to-r from-orange-500 to-teal-500" />
           <div className="overflow-x-auto">
             <table className="w-full text-sm min-w-[560px]">
               <thead className="bg-gray-50 border-b border-gray-100">
@@ -93,7 +93,7 @@ export default function AdminCategoriesPage() {
                     <td className="px-5 py-3.5">
                       <div className="flex items-center gap-1.5 justify-end">
                         <Link href={`/admin/categories/${cat.id}`}
-                          className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition-colors">
+                          className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-orange-600 hover:bg-orange-50 transition-colors">
                           <Pencil className="w-3.5 h-3.5" />
                         </Link>
                         <AlertDialog>
@@ -129,7 +129,7 @@ export default function AdminCategoriesPage() {
                 <FolderOpen className="w-6 h-6 text-gray-300" />
               </div>
               <p className="text-sm font-medium">{search ? 'No categories match your search' : 'No categories yet'}</p>
-              {!search && <Link href="/admin/categories/new" className="text-xs text-blue-600 hover:underline">Create your first category →</Link>}
+              {!search && <Link href="/admin/categories/new" className="text-xs text-orange-600 hover:underline">Create your first category →</Link>}
             </div>
           )}
         </div>

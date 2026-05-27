@@ -130,6 +130,7 @@ model Ingredient {
   name        String
   slug        String    @unique
   description String?
+  keyFeatures String?   @db.Text
   image       String?
   imageAlt    String?
   products    Product[] @relation("ProductIngredients")
@@ -174,6 +175,20 @@ model Image {
   updatedAt    DateTime @updatedAt
 
   @@map("images")
+}
+
+model Testimonial {
+  id          String   @id @default(cuid())
+  name        String
+  role        String?
+  content     String   @db.Text
+  avatar      String?
+  rating      Int      @default(5)
+  isPublished Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("testimonials")
 }
 
 enum ArticleStatus {

@@ -7,18 +7,19 @@ import { useState } from "react";
 import {
   LayoutDashboard, FolderOpen, Layers, Package,
   ShoppingBag, ArrowLeft, Settings, LogOut, User,
-  Menu, X, ChevronRight, UserCog, FlaskConical, Sparkles, FileText,
+  Menu, X, ChevronRight, UserCog, FlaskConical, Sparkles, FileText, MessageSquareQuote,
 } from "lucide-react";
 
 const navItems = [
-  { label: "Dashboard",     href: "/admin",                icon: LayoutDashboard, color: "text-blue-400" },
-  { label: "Categories",    href: "/admin/categories",     icon: FolderOpen,      color: "text-sky-400" },
+  { label: "Dashboard",     href: "/admin",                icon: LayoutDashboard, color: "text-orange-400" },
+  { label: "Categories",    href: "/admin/categories",     icon: FolderOpen,      color: "text-orange-400" },
   { label: "Subcategories", href: "/admin/subcategories",  icon: Layers,          color: "text-violet-400" },
   { label: "Ingredients",   href: "/admin/ingredients",    icon: FlaskConical,    color: "text-amber-400" },
   { label: "Products",      href: "/admin/products",       icon: Package,         color: "text-amber-400" },
   { label: "Authors",       href: "/admin/authors",        icon: UserCog,         color: "text-indigo-400" },
   { label: "Articles",      href: "/admin/articles",       icon: FileText,        color: "text-teal-400" },
   { label: "SEO Articles",  href: "/admin/seo-article",    icon: Sparkles,        color: "text-violet-400" },
+  { label: "Testimonials",  href: "/admin/testimonials",   icon: MessageSquareQuote, color: "text-yellow-400" },
   { label: "Hero Settings", href: "/admin/hero-settings",  icon: Settings,        color: "text-rose-400" },
   { label: "Account",       href: "/admin/settings",       icon: UserCog,         color: "text-indigo-400" },
 ];
@@ -32,11 +33,11 @@ function Sidebar({ onClose }: { onClose?: () => void }) {
       {/* Brand */}
       <div className="flex items-center justify-between px-5 py-4 border-b border-white/8">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg flex items-center justify-center shadow-lg shadow-blue-900/50">
+          <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-orange-700 rounded-lg flex items-center justify-center shadow-lg shadow-orange-900/50">
             <ShoppingBag className="w-4 h-4 text-white" />
           </div>
           <div>
-            <p className="font-bold text-sm tracking-tight">HealthStore</p>
+            <p className="font-bold text-sm tracking-tight">OfficialProductsLab</p>
             <p className="text-[10px] text-white/40 uppercase tracking-widest">Admin Panel</p>
           </div>
         </div>
@@ -51,14 +52,14 @@ function Sidebar({ onClose }: { onClose?: () => void }) {
       {session?.user && (
         <div className="px-4 py-3 mx-3 mt-3 rounded-xl bg-white/5 border border-white/8">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-teal-700 rounded-full flex items-center justify-center flex-shrink-0">
+            <div className="w-8 h-8 bg-gradient-to-br from-orange-600 to-teal-700 rounded-full flex items-center justify-center flex-shrink-0">
               <User className="w-4 h-4 text-white" />
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium text-white truncate">
                 {session.user.name || session.user.email}
               </p>
-              <p className="text-[10px] text-blue-400 uppercase tracking-wider font-semibold">
+              <p className="text-[10px] text-orange-400 uppercase tracking-wider font-semibold">
                 {(session.user as any)?.role || "Admin"}
               </p>
             </div>
@@ -80,13 +81,13 @@ function Sidebar({ onClose }: { onClose?: () => void }) {
               onClick={onClose}
               className={`group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 ${
                 active
-                  ? "bg-blue-600/20 text-white border border-blue-500/30"
+                  ? "bg-orange-600/20 text-white border border-orange-500/30"
                   : "text-white/50 hover:bg-white/6 hover:text-white"
               }`}
             >
-              <Icon className={`w-4 h-4 flex-shrink-0 ${active ? "text-blue-400" : item.color + " opacity-60 group-hover:opacity-100"}`} />
+              <Icon className={`w-4 h-4 flex-shrink-0 ${active ? "text-orange-400" : item.color + " opacity-60 group-hover:opacity-100"}`} />
               <span className="flex-1">{item.label}</span>
-              {active && <ChevronRight className="w-3.5 h-3.5 text-blue-400" />}
+              {active && <ChevronRight className="w-3.5 h-3.5 text-orange-400" />}
             </Link>
           );
         })}
