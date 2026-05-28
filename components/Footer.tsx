@@ -9,32 +9,45 @@ import {
   Youtube,
   Mail,
   MapPin,
-  Phone,
   ArrowRight,
   CheckCircle,
-  Dumbbell,
+  Compass,
+  Layers,
   BookOpen,
 } from "lucide-react";
 
-const shopLinks = [
-  { label: "All Products", href: "/products" },
-  { label: "Equipment", href: "/products?type=ECOM" },
-  { label: "Latest Articles", href: "/article" },
-  { label: "Best Sellers", href: "/products" },
+const exploreLinks = [
+  { label: "Product Reviews", href: "/products" },
+  { label: "Product Categories", href: "/products" },
+  { label: "Latest Products", href: "/products" },
+  { label: "Buyer Guides", href: "/article" },
+  { label: "Featured Product Pages", href: "/products" },
+];
+
+const categoryLinks = [
+  { label: "Automotive Products", href: "/products" },
+  { label: "Beauty & Personal Care", href: "/products" },
+  { label: "Wellness & Lifestyle", href: "/products" },
+  { label: "Home & Kitchen Gadgets", href: "/products" },
+  { label: "Tech & Smart Gadgets", href: "/products" },
 ];
 
 const companyLinks = [
   { label: "About Us", href: "/about" },
-  { label: "Guides & Articles", href: "/article" },
   { label: "Contact Us", href: "/contact" },
-  { label: "Careers", href: "/about" },
+  { label: "Editorial Process", href: "/legal/editorial" },
+  { label: "How We Review Products", href: "/legal/how-we-review" },
 ];
 
 const legalLinks = [
+  { label: "Affiliate Disclosure", href: "/legal/affiliate" },
+  { label: "Advertising Disclosure", href: "/legal/advertising" },
   { label: "Privacy Policy", href: "/legal/privacy" },
-  { label: "Terms of Service", href: "/legal/terms" },
-  { label: "Cookie Policy", href: "/legal" },
-  { label: "Accessibility", href: "/legal" },
+  { label: "Terms and Conditions", href: "/legal/terms" },
+  { label: "Disclaimer", href: "/legal/disclaimer" },
+  { label: "Cookie Policy", href: "/legal/cookies" },
+  { label: "Corrections Policy", href: "/legal/corrections" },
+  { label: "External Links Policy", href: "/legal/external-links" },
 ];
 
 const socials = [
@@ -65,14 +78,12 @@ export default function Footer() {
       <div className="absolute -top-24 -left-24 w-72 h-72 rounded-full bg-orange-500/10 blur-3xl pointer-events-none" />
       <div className="absolute top-1/2 right-0 w-96 h-96 rounded-full bg-orange-600/5 blur-3xl pointer-events-none" />
 
-
-
       {/* ── Main footer content ── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-8 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-10">
 
           {/* Brand column (wider) */}
-          <div className="lg:col-span-2">
+          <div className="md:col-span-3 lg:col-span-2">
             <Link href="/" className="inline-flex items-center gap-3 group mb-5" aria-label="OfficialProductsLab home">
               <img
                 src="/logo.png"
@@ -85,8 +96,7 @@ export default function Footer() {
             </Link>
 
             <p className="text-sm text-slate-400 leading-relaxed mb-6 max-w-sm">
-              Curated training gear and precision-formulated supplements to help
-              you train harder, recover faster, and perform at your absolute best.
+              Official Products Lab is a product information hub that helps shoppers explore trending e-commerce products through clear reviews, category guides, buyer notes, and dedicated product information pages.
             </p>
 
             {/* Contact info */}
@@ -106,12 +116,12 @@ export default function Footer() {
 
             {/* Socials */}
             <div className="flex items-center gap-2">
-              {socials.map(({ icon: Icon, label, href, color }) => (
+              {socials.map(({ icon: Icon, label, href }) => (
                 <a
                   key={label}
                   href={href}
                   aria-label={label}
-                  className={`w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:border-transparent transition-all duration-200 hover:bg-orange-500`}
+                  className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:border-transparent transition-all duration-200 hover:bg-orange-500"
                 >
                   <Icon className="w-4 h-4" />
                 </a>
@@ -119,14 +129,14 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Shop links */}
+          {/* Explore links */}
           <div>
             <h3 className="flex items-center gap-2 text-xs font-bold text-white uppercase tracking-widest mb-5">
-              <Dumbbell className="w-3.5 h-3.5 text-orange-500" />
-              Shop
+              <Compass className="w-3.5 h-3.5 text-orange-500" />
+              Explore
             </h3>
             <ul className="space-y-3">
-              {shopLinks.map(({ label, href }) => (
+              {exploreLinks.map(({ label, href }) => (
                 <li key={label}>
                   <Link
                     href={href}
@@ -139,13 +149,33 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Company links */}
+          {/* Categories links */}
+          <div>
+            <h3 className="flex items-center gap-2 text-xs font-bold text-white uppercase tracking-widest mb-5">
+              <Layers className="w-3.5 h-3.5 text-orange-500" />
+              Categories
+            </h3>
+            <ul className="space-y-3">
+              {categoryLinks.map(({ label, href }) => (
+                <li key={label}>
+                  <Link
+                    href={href}
+                    className="text-sm text-slate-400 hover:text-white transition-colors duration-200 hover:pl-1 inline-block transition-all"
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Company & Legal links */}
           <div>
             <h3 className="flex items-center gap-2 text-xs font-bold text-white uppercase tracking-widest mb-5">
               <BookOpen className="w-3.5 h-3.5 text-orange-500" />
               Company
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-3 mb-8">
               {companyLinks.map(({ label, href }) => (
                 <li key={label}>
                   <Link
@@ -158,7 +188,7 @@ export default function Footer() {
               ))}
             </ul>
 
-            <h3 className="flex items-center gap-2 text-xs font-bold text-white uppercase tracking-widest mt-8 mb-4">
+            <h3 className="flex items-center gap-2 text-xs font-bold text-white uppercase tracking-widest mb-4">
               Legal
             </h3>
             <ul className="space-y-3">
@@ -179,11 +209,10 @@ export default function Footer() {
           <div>
             <h3 className="flex items-center gap-2 text-xs font-bold text-white uppercase tracking-widest mb-2">
               <Mail className="w-3.5 h-3.5 text-orange-500" />
-              Newsletter
+              Get Research Updates
             </h3>
             <p className="text-sm text-slate-400 mb-5 leading-relaxed">
-              Join 12,000+ athletes. Get exclusive deals, training tips, and
-              first-access to new products.
+              Readers can subscribe to receive new product reviews, buyer guides, and category updates from Official Products Lab.
             </p>
 
             {subscribed ? (
@@ -203,7 +232,7 @@ export default function Footer() {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="your@email.com"
+                    placeholder="Your email address"
                     className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/40 focus:border-orange-500/50 transition-all duration-200"
                     required
                   />
@@ -226,7 +255,7 @@ export default function Footer() {
             )}
 
             <p className="mt-3 text-xs text-slate-500 leading-relaxed">
-              No spam, ever. Unsubscribe at any time.
+              No spam. You can unsubscribe at any time.
             </p>
           </div>
         </div>
@@ -237,7 +266,7 @@ export default function Footer() {
             © {new Date().getFullYear()} OfficialProductsLab. All rights reserved.
           </p>
 
-          <div className="flex items-center gap-4 order-1 sm:order-2">
+          <div className="flex items-center gap-4 order-1 sm:order-2 flex-wrap justify-center">
             {legalLinks.map(({ label, href }) => (
               <Link
                 key={label}

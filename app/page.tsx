@@ -102,10 +102,10 @@ export default function HomePage() {
 
   const defaultHero: HeroSettings = {
     id: "default",
-    title: "Explore Premium Products & Gear",
-    subtitle: "High Quality Collections",
+    title: "Explore Trending Products With Clear Buyer-Focused Reviews",
+    subtitle: "Hand-Picked",
     description:
-      "Discover curated premium products, fitness gear, and top lifestyle essentials selected for outstanding quality and reliability.",
+      "Official Products Lab helps shoppers understand popular online products through simple reviews, product summaries, category guides, feature breakdowns, pricing notes, and dedicated product information pages. The goal is to make product research easier before a visitor decides to check a product offer.",
     backgroundImage: "",
     backgroundType: "gradient",
     gradientFrom: "#FAF7F2",
@@ -345,8 +345,8 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto">
             <SectionHeading
               label="Collections"
-              title="Browse by Category"
-              subtitle="Find exactly what you need from our curated collections"
+              title="Browse Product Categories"
+              subtitle="Official Products Lab organizes products by category so shoppers can quickly find products that match their needs. Each category includes related product reviews, product summaries, and links to dedicated product information pages."
               action={
                 <Link
                   href="/products"
@@ -412,10 +412,10 @@ export default function HomePage() {
                 Hand-Picked
               </p>
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
-                Featured Picks
+                Featured Product Reviews
               </h2>
-              <p className="mt-1.5 text-sm text-slate-500 font-medium">
-                Staff favorites and top-rated gear
+              <p className="mt-1.5 text-sm text-slate-500 font-medium leading-relaxed max-w-3xl">
+                The featured review section highlights selected product reviews added to Official Products Lab. These reviews are designed to help readers understand what a product is, who it may suit, what features it offers, and what to check before visiting a product page.
               </p>
             </div>
 
@@ -625,6 +625,191 @@ export default function HomePage() {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════
+          HOW WE HELP & EDITORIAL PRINCIPLES
+      ════════════════════════════════════ */}
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-white border-t border-slate-100">
+        <div className="max-w-7xl mx-auto space-y-20">
+          
+          {/* Section 1: How Official Products Lab Helps Shoppers */}
+          <div className="space-y-10">
+            <div className="max-w-3xl">
+              <span className="text-xs font-extrabold uppercase tracking-[0.25em] text-orange-500 mb-2.5 block">
+                How We Help
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">
+                How Official Products Lab Helps Shoppers
+              </h2>
+              <p className="mt-3 text-base text-slate-500 leading-relaxed">
+                Online product research can be confusing when claims, prices, reviews, and buying options are scattered across different pages. Official Products Lab helps organize important product information into clear reviews and buyer guides so readers can understand the basics before visiting a product page.
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[
+                { area: "Product Clarity", details: "Explains what the product is and what problem it is designed to address", bg: "bg-orange-500/5", border: "border-orange-500/10", text: "text-orange-600" },
+                { area: "Feature Breakdown", details: "Highlights important features and explains their practical value", bg: "bg-blue-500/5", border: "border-blue-500/10", text: "text-blue-600" },
+                { area: "Buyer Suitability", details: "Helps readers understand who may benefit from the product and who may not need it", bg: "bg-emerald-500/5", border: "border-emerald-500/10", text: "text-emerald-600" },
+                { area: "Pros and Cons", details: "Gives a balanced look at strengths and limitations", bg: "bg-purple-500/5", border: "border-purple-500/10", text: "text-purple-600" },
+                { area: "Pricing Guidance", details: "Points readers toward current price, package, and availability details", bg: "bg-amber-500/5", border: "border-amber-500/10", text: "text-amber-600" },
+                { area: "Product Page Access", details: "Connects readers to dedicated product information pages when they want to learn more", bg: "bg-pink-500/5", border: "border-pink-500/10", text: "text-pink-600" },
+              ].map((item) => (
+                <div key={item.area} className={`p-6 rounded-2xl border ${item.border} ${item.bg} hover:shadow-lg transition-all duration-300`}>
+                  <h3 className={`font-bold text-base ${item.text} mb-2`}>{item.area}</h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">{item.details}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Section 2: What We Cover in Product Reviews */}
+          <div className="space-y-10">
+            <div className="max-w-3xl">
+              <span className="text-xs font-extrabold uppercase tracking-[0.25em] text-orange-500 mb-2.5 block">
+                Review Content Structure
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">
+                What We Cover in Product Reviews
+              </h2>
+              <p className="mt-3 text-base text-slate-500 leading-relaxed">
+                Every product review on Official Products Lab is written to help readers understand the product before visiting a dedicated product page. The content focuses on practical details that shoppers usually check before making a buying decision.
+              </p>
+            </div>
+
+            <div className="bg-slate-50 border border-slate-100 rounded-3xl p-6 sm:p-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+                {[
+                  { section: "Product Overview", details: "Explains what the product is, what category it belongs to, and what it is designed to do" },
+                  { section: "How It Works", details: "Describes the product’s intended working process or usage style" },
+                  { section: "Key Features", details: "Breaks down the main features in a simple and buyer-friendly way" },
+                  { section: "Specifications", details: "Lists product type, use purpose, setup, package details, and other available information" },
+                  { section: "Pros and Cons", details: "Shows useful advantages and realistic limitations" },
+                  { section: "Price and Availability", details: "Explains pricing notes, packages, discounts, and where to check current details" },
+                  { section: "Buyer Notes", details: "Shares safety, usage, compatibility, refund, and expectation-related reminders" },
+                  { section: "FAQs", details: "Answers common buyer questions in a simple format" },
+                ].map((item) => (
+                  <div key={item.section} className="flex gap-4 items-start">
+                    <div className="w-2 h-2 rounded-full bg-orange-500 mt-2 flex-shrink-0" />
+                    <div>
+                      <h3 className="font-bold text-sm text-slate-900 mb-1">{item.section}</h3>
+                      <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">{item.details}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Section 3: Product Information, Not Pressure */}
+          <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-slate-900 to-slate-950 px-8 py-10 sm:p-12 text-white border border-slate-800 shadow-xl">
+            <div className="absolute top-0 right-0 w-80 h-80 rounded-full bg-orange-500/5 blur-3xl pointer-events-none" />
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+              <div className="lg:col-span-1 space-y-4">
+                <span className="text-[10px] font-extrabold uppercase tracking-[0.25em] text-orange-400">
+                  Our Content Approach
+                </span>
+                <h2 className="text-3xl font-black tracking-tight leading-tight">
+                  Product Information, Not Pressure
+                </h2>
+                <p className="text-sm text-slate-400 leading-relaxed">
+                  Official Products Lab is built around helpful product research, not aggressive selling. The content is designed to help shoppers slow down, compare product details, and make a more informed decision before clicking through to a product page.
+                </p>
+              </div>
+              <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-5">
+                {[
+                  { principle: "Clear Information", details: "Content is written to explain products in simple language" },
+                  { principle: "Balanced Reviews", details: "Reviews include both useful points and limitations" },
+                  { principle: "No Unrealistic Claims", details: "We avoid miracle claims, guaranteed results, and one-size-fits-all promises" },
+                  { principle: "Buyer Awareness", details: "Readers are encouraged to check pricing, terms, refund policies, and product details" },
+                  { principle: "Category Organization", details: "Products are grouped into clear categories for easier browsing" },
+                  { principle: "Practical Guidance", details: "Each review focuses on what shoppers should know before buying" },
+                ].map((item) => (
+                  <div key={item.principle} className="p-4 rounded-xl bg-white/5 border border-white/10">
+                    <h3 className="font-bold text-sm text-orange-400 mb-1">{item.principle}</h3>
+                    <p className="text-xs text-slate-300 leading-relaxed">{item.details}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Section 4: Clear Information Before You Click */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+            <div className="lg:col-span-4 space-y-4">
+              <span className="text-xs font-extrabold uppercase tracking-[0.25em] text-orange-500 block">
+                Transparency Details
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight leading-tight">
+                Clear Information Before You Click
+              </h2>
+              <p className="text-sm text-slate-500 leading-relaxed">
+                Some pages on Official Products Lab may link to dedicated product information pages, third-party product offers, affiliate pages, checkout pages, or promotional product websites. These links help readers continue their product research, but visitors should always review the current product page before placing an order.
+              </p>
+            </div>
+            
+            <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {[
+                { topic: "Affiliate Links", details: "Some pages may include links that can generate a commission at no extra cost to the buyer" },
+                { topic: "Product Pricing", details: "Pricing, discounts, and packages may change based on the seller or campaign source" },
+                { topic: "Availability", details: "Product stock and availability may vary over time" },
+                { topic: "Refund Terms", details: "Guarantee and refund policies should be checked on the current product page" },
+                { topic: "Third-Party Offers", details: "Some product pages may lead to external product websites or checkout pages" },
+                { topic: "Buyer Responsibility", details: "Visitors should review all terms, product details, and checkout information before ordering" },
+              ].map((item) => (
+                <div key={item.topic} className="p-5 rounded-2xl border border-slate-100 bg-[#FAF7F2]/50 hover:bg-[#FAF7F2] transition-colors duration-200">
+                  <h3 className="font-bold text-sm text-slate-900 mb-1.5">{item.topic}</h3>
+                  <p className="text-xs text-slate-500 leading-relaxed">{item.details}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Section 5: Find Clear Product Information Before You Buy */}
+          <div className="border-t border-slate-100 pt-16 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            <div className="lg:col-span-5 space-y-5">
+              <span className="text-xs font-extrabold uppercase tracking-[0.25em] text-orange-500 block">
+                Main Actions
+              </span>
+              <h2 className="text-3xl font-black text-slate-900 tracking-tight leading-tight">
+                Find Clear Product Information Before You Buy
+              </h2>
+              <p className="text-sm sm:text-base text-slate-500 leading-relaxed">
+                Official Products Lab helps shoppers explore product reviews, compare features, understand pros and cons, and learn what to check before visiting a product page. Whether someone is researching a car gadget, beauty device, wellness product, home tool, or smart accessory, the platform gives them a clearer starting point.
+              </p>
+              <div className="flex gap-4">
+                <Link href="/products" className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-orange-500 text-white font-bold text-sm hover:bg-orange-600 transition-colors">
+                  Browse All Reviews
+                </Link>
+                <Link href="/legal/how-we-review" className="inline-flex items-center justify-center px-5 py-3 rounded-xl border border-slate-200 text-slate-700 font-bold text-sm hover:bg-slate-50 transition-colors">
+                  About Our Process
+                </Link>
+              </div>
+            </div>
+
+            <div className="lg:col-span-7 space-y-4">
+              {[
+                { action: "Read Latest Reviews", details: "Explore recently added product reviews and buyer guides" },
+                { action: "Browse Categories", details: "Find products by category and use case" },
+                { action: "View Product Pages", details: "Continue to dedicated product information pages" },
+                { action: "Compare Product Details", details: "Review features, pros, cons, pricing notes, and buyer suitability" },
+                { action: "Check Buyer Notes", details: "Understand safety, usage, and expectation-related information before buying" },
+              ].map((item) => (
+                <div key={item.action} className="flex gap-4 items-center p-4 rounded-xl border border-slate-100 bg-white hover:border-orange-500/20 transition-all duration-200 shadow-sm">
+                  <div className="w-5 h-5 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0">
+                    <div className="w-2 h-2 rounded-full bg-orange-500" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-sm text-slate-950">{item.action}</h3>
+                    <p className="text-xs text-slate-500 mt-0.5">{item.details}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
         </div>
       </section>
 
