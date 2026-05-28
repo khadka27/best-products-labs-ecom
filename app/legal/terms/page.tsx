@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function TermsOfServicePage() {
   return (
-    <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <article className="bg-white rounded-3xl border border-slate-100 shadow-xl p-8 sm:p-12">
         <span className="text-xs font-extrabold uppercase tracking-[0.25em] text-orange-500 mb-3 block">
           Terms & Policies
