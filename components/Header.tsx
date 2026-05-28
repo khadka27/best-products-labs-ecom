@@ -8,9 +8,7 @@ import {
   Search,
   ChevronDown,
   Dumbbell,
-  FlaskConical,
   BookOpen,
-  Sparkles,
   LayoutGrid,
 } from "lucide-react";
 import SearchBar from "./SearchBar";
@@ -29,16 +27,10 @@ const shopLinks = [
     desc: "Pro-grade training gear",
   },
   {
-    label: "Supplements",
-    href: "/products?type=NUTRA",
-    icon: FlaskConical,
-    desc: "Scientifically formulated",
-  },
-  {
-    label: "New Arrivals",
-    href: "/products",
-    icon: Sparkles,
-    desc: "Fresh drops & restocks",
+    label: "Latest Articles",
+    href: "/article",
+    icon: BookOpen,
+    desc: "Read our guides and updates",
   },
 ];
 

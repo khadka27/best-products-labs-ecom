@@ -13,26 +13,13 @@ import {
   ArrowRight,
   CheckCircle,
   Dumbbell,
-  FlaskConical,
   BookOpen,
-  Shield,
-  Truck,
-  RefreshCw,
-  Star,
 } from "lucide-react";
-
-const trustBadges = [
-  { icon: Truck, label: "Free shipping over $99" },
-  { icon: Shield, label: "Secure & encrypted checkout" },
-  { icon: RefreshCw, label: "30-day hassle-free returns" },
-  { icon: Star, label: "4.9★ average customer rating" },
-];
 
 const shopLinks = [
   { label: "All Products", href: "/products" },
   { label: "Equipment", href: "/products?type=ECOM" },
-  { label: "Supplements", href: "/products?type=NUTRA" },
-  { label: "New Arrivals", href: "/products" },
+  { label: "Latest Articles", href: "/article" },
   { label: "Best Sellers", href: "/products" },
 ];
 
@@ -78,23 +65,7 @@ export default function Footer() {
       <div className="absolute -top-24 -left-24 w-72 h-72 rounded-full bg-orange-500/10 blur-3xl pointer-events-none" />
       <div className="absolute top-1/2 right-0 w-96 h-96 rounded-full bg-orange-600/5 blur-3xl pointer-events-none" />
 
-      {/* ── Trust strip ── */}
-      <div className="border-b border-white/5 relative z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            {trustBadges.map(({ icon: Icon, label }) => (
-              <div key={label} className="flex items-center gap-3 group">
-                <div className="w-9 h-9 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center flex-shrink-0 group-hover:bg-orange-500/20 transition-colors duration-200">
-                  <Icon className="w-4 h-4 text-orange-400" />
-                </div>
-                <span className="text-xs font-medium text-slate-400 group-hover:text-slate-300 transition-colors duration-200 leading-tight">
-                  {label}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+
 
       {/* ── Main footer content ── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-8 relative z-10">
