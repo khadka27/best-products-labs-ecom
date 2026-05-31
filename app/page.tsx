@@ -338,6 +338,65 @@ export default function HomePage() {
       </section>
 
       {/* ════════════════════════════════════
+          FEATURED PRODUCTS
+      ════════════════════════════════════ */}
+      <section id="products" className="py-14 sm:py-20 px-4 sm:px-6 lg:px-8 bg-[#FAF7F2]">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-10">
+            <div>
+              <p className="text-xs font-extrabold uppercase tracking-[0.25em] text-orange-500 mb-2">
+                Hand-Picked
+              </p>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
+                Featured Product Reviews
+              </h2>
+              <p className="mt-1.5 text-sm text-slate-500 font-medium leading-relaxed max-w-3xl">
+                The featured review section highlights selected product reviews added to Official Products Lab. These reviews are designed to help readers understand what a product is, who it may suit, what features it offers, and what to check before visiting a product page.
+              </p>
+            </div>
+
+            {/* View toggle */}
+            <div className="flex items-center gap-2">
+              <div className="flex items-center bg-white border border-slate-200 p-1 rounded-xl shadow-sm">
+                <button
+                  onClick={() => setViewMode("list")}
+                  className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-bold transition-all ${
+                    viewMode === "list"
+                      ? "bg-orange-500 text-white shadow-sm"
+                      : "text-slate-500 hover:text-slate-800 hover:bg-slate-50"
+                  }`}
+                >
+                  <List className="w-4 h-4" /> List
+                </button>
+                <button
+                  onClick={() => setViewMode("grid")}
+                  className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-bold transition-all ${
+                    viewMode === "grid"
+                      ? "bg-orange-500 text-white shadow-sm"
+                      : "text-slate-500 hover:text-slate-800 hover:bg-slate-50"
+                  }`}
+                >
+                  <LayoutGrid className="w-4 h-4" /> Grid
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {featuredContent}
+
+          <div className="mt-12 flex justify-center">
+            <Link
+              href="/products"
+              className="inline-flex items-center gap-2 px-10 py-4 bg-slate-900 text-white text-sm font-bold rounded-2xl hover:bg-orange-500 transition-all duration-300 hover:-translate-y-0.5 shadow-lg shadow-slate-900/20 group"
+            >
+              View All Products
+              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════
           BROWSE BY CATEGORY
       ════════════════════════════════════ */}
       {subcategories.length > 0 && (
@@ -400,65 +459,6 @@ export default function HomePage() {
           </div>
         </section>
       )}
-
-      {/* ════════════════════════════════════
-          FEATURED PRODUCTS
-      ════════════════════════════════════ */}
-      <section id="products" className="py-14 sm:py-20 px-4 sm:px-6 lg:px-8 bg-[#FAF7F2]">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-10">
-            <div>
-              <p className="text-xs font-extrabold uppercase tracking-[0.25em] text-orange-500 mb-2">
-                Hand-Picked
-              </p>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
-                Featured Product Reviews
-              </h2>
-              <p className="mt-1.5 text-sm text-slate-500 font-medium leading-relaxed max-w-3xl">
-                The featured review section highlights selected product reviews added to Official Products Lab. These reviews are designed to help readers understand what a product is, who it may suit, what features it offers, and what to check before visiting a product page.
-              </p>
-            </div>
-
-            {/* View toggle */}
-            <div className="flex items-center gap-2">
-              <div className="flex items-center bg-white border border-slate-200 p-1 rounded-xl shadow-sm">
-                <button
-                  onClick={() => setViewMode("list")}
-                  className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-bold transition-all ${
-                    viewMode === "list"
-                      ? "bg-orange-500 text-white shadow-sm"
-                      : "text-slate-500 hover:text-slate-800 hover:bg-slate-50"
-                  }`}
-                >
-                  <List className="w-4 h-4" /> List
-                </button>
-                <button
-                  onClick={() => setViewMode("grid")}
-                  className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-bold transition-all ${
-                    viewMode === "grid"
-                      ? "bg-orange-500 text-white shadow-sm"
-                      : "text-slate-500 hover:text-slate-800 hover:bg-slate-50"
-                  }`}
-                >
-                  <LayoutGrid className="w-4 h-4" /> Grid
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {featuredContent}
-
-          <div className="mt-12 flex justify-center">
-            <Link
-              href="/products"
-              className="inline-flex items-center gap-2 px-10 py-4 bg-slate-900 text-white text-sm font-bold rounded-2xl hover:bg-orange-500 transition-all duration-300 hover:-translate-y-0.5 shadow-lg shadow-slate-900/20 group"
-            >
-              View All Products
-              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </Link>
-          </div>
-        </div>
-      </section>
 
       {/* ════════════════════════════════════
           INGREDIENTS
