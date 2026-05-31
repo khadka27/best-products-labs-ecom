@@ -148,19 +148,19 @@ export default function ExternalLinksPolicyPage() {
             <p>For paid, sponsored, advertising, or affiliate links, we may use attributes such as:</p>
             <ul className="space-y-2 text-slate-600">
               <li className="flex items-start gap-2">
-                <code className="text-xs bg-slate-100 border border-slate-200 px-2 py-0.5 rounded text-orange-600 font-mono mt-0.5">rel="sponsored"</code>
+                <code className="text-xs bg-slate-100 border border-slate-200 px-2 py-0.5 rounded text-orange-600 font-mono mt-0.5">rel=&quot;sponsored&quot;</code>
                 <span>Used for links that are advertisements or paid placements.</span>
               </li>
               <li className="flex items-start gap-2">
-                <code className="text-xs bg-slate-100 border border-slate-200 px-2 py-0.5 rounded text-orange-600 font-mono mt-0.5">rel="nofollow"</code>
+                <code className="text-xs bg-slate-100 border border-slate-200 px-2 py-0.5 rounded text-orange-600 font-mono mt-0.5">rel=&quot;nofollow&quot;</code>
                 <span>Used when we do not want to imply endorsement or pass ranking signals.</span>
               </li>
               <li className="flex items-start gap-2">
-                <code className="text-xs bg-slate-100 border border-slate-200 px-2 py-0.5 rounded text-orange-600 font-mono mt-0.5">rel="sponsored nofollow"</code>
+                <code className="text-xs bg-slate-100 border border-slate-200 px-2 py-0.5 rounded text-orange-600 font-mono mt-0.5">rel=&quot;sponsored nofollow&quot;</code>
                 <span>Combined attributes for optimal advertising link compliance.</span>
               </li>
               <li className="flex items-start gap-2">
-                <code className="text-xs bg-slate-100 border border-slate-200 px-2 py-0.5 rounded text-orange-600 font-mono mt-0.5">rel="ugc"</code>
+                <code className="text-xs bg-slate-100 border border-slate-200 px-2 py-0.5 rounded text-orange-600 font-mono mt-0.5">rel=&quot;ugc&quot;</code>
                 <span>Used for user-generated links (such as comments or forums) if applicable.</span>
               </li>
             </ul>

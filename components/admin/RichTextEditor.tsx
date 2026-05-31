@@ -85,8 +85,12 @@ import Underline from "@tiptap/extension-underline";
 import TextAlign from "@tiptap/extension-text-align";
 import { TextStyle } from "@tiptap/extension-text-style";
 import { Color } from "@tiptap/extension-color";
+import { Table } from "@tiptap/extension-table";
+import { TableRow } from "@tiptap/extension-table-row";
+import { TableCell } from "@tiptap/extension-table-cell";
+import { TableHeader } from "@tiptap/extension-table-header";
 import { Node as TiptapNode, mergeAttributes } from "@tiptap/react";
-import { useEffect, useRef, useState, useCallback, useMemo } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo, Fragment } from "react";
 import {
   Bold,
   Italic,
@@ -670,6 +674,13 @@ const SLASH_COMMANDS = [
     desc: "Choose ingredients list",
     icon: "🧪",
     keys: ["/ingredient", "/ing"],
+  },
+  {
+    id: "procon",
+    label: "Pros & Cons",
+    desc: "Insert side-by-side pros & cons list",
+    icon: "±",
+    keys: ["/procon", "/proscons", "/pros", "/cons"],
   },
 ];
 
@@ -1710,6 +1721,500 @@ function IngredientDialog({
   );
 }
 
+// ── Pros & Cons Text Parser Utility ──────────────────────────────────────────
+function parseProConText(text: string) {
+  const lines = text.split("\n").map(l => l.trim()).filter(Boolean);
+  let title = "Pros & Cons";
+  const pros: string[] = [];
+  const cons: string[] = [];
+  
+  let currentSection: "title" | "pros" | "cons" = "title";
+  
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const lowerLine = line.toLowerCase();
+    
+    // Check if this line is a section header
+    if (/^(pros|pro|advantages|strengths|positives)(:|\s*$)/i.test(line) || lowerLine === "pros" || lowerLine === "pro" || lowerLine === "conspros") {
+      currentSection = "pros";
+      continue;
+    }
+    if (/^(cons|con|disadvantages|limitations|drawbacks|negatives)(:|\s*$)/i.test(line) || lowerLine === "cons" || lowerLine === "con") {
+      currentSection = "cons";
+      continue;
+    }
+    
+    // Clean bullet points
+    const cleanedLine = line.replace(/^[\s\-•*𐩒⁃]+\s*/, "").replace(/^\d+[\s.)\-]+\s*/, "");
+    
+    if (currentSection === "title") {
+      // The first line that is not a header can be the title
+      title = cleanedLine;
+    } else if (currentSection === "pros") {
+      pros.push(cleanedLine);
+    } else if (currentSection === "cons") {
+      cons.push(cleanedLine);
+    }
+  }
+  
+  return { title, pros, cons };
+}
+
+// ── Pros & Cons Node View (editor preview) ────────────────────────────────────
+function ProConBlockView({
+  node,
+  updateAttributes,
+  selected,
+  deleteNode,
+}: NodeViewProps) {
+  const [editing, setEditing] = useState(false);
+  const { title, pros, cons } = node.attrs as { title: string; pros: string[]; cons: string[] };
+
+  const formatPointReact = (text: string, isPro: boolean) => {
+    const colonIndex = text.indexOf(":");
+    if (colonIndex > 0 && colonIndex < text.length - 1) {
+      const boldPart = text.substring(0, colonIndex + 1);
+      const normalPart = text.substring(colonIndex + 1);
+      return (
+        <li className="flex items-start gap-2 text-xs text-gray-600">
+          <span className={isPro ? "text-emerald-500 font-bold shrink-0" : "text-rose-500 font-bold shrink-0"}>
+            {isPro ? "✓" : "✗"}
+          </span>
+          <span>
+            <strong className="text-gray-900">{boldPart}</strong>
+            {normalPart}
+          </span>
+        </li>
+      );
+    }
+    return (
+      <li className="flex items-start gap-2 text-xs text-gray-600">
+        <span className={isPro ? "text-emerald-500 font-bold shrink-0" : "text-rose-500 font-bold shrink-0"}>
+          {isPro ? "✓" : "✗"}
+        </span>
+        <span>{text}</span>
+      </li>
+    );
+  };
+
+  return (
+    <NodeViewWrapper className="my-4 block w-full max-w-full">
+      <div
+        className={`relative rounded-2xl border bg-white overflow-hidden ${
+          selected
+            ? "border-amber-400 ring-2 ring-amber-300/60"
+            : "border-gray-200"
+        }`}
+      >
+        <div
+          className="flex items-center gap-1.5 px-3 py-2 border-b border-gray-100 bg-gray-50 text-[10px] font-semibold text-gray-500 uppercase tracking-wider"
+          contentEditable={false}
+          data-drag-handle
+        >
+          <GripVertical
+            className="w-3.5 h-3.5 text-gray-400 shrink-0 cursor-grab active:cursor-grabbing"
+            aria-hidden
+          />
+          Pros & Cons: {title}
+        </div>
+        
+        {/* Render Title inside block in editor */}
+        <div className="px-4 py-3 border-b border-gray-50 bg-gray-50/20" contentEditable={false}>
+          <h3 className="text-xs font-bold text-gray-800 m-0">{title}</h3>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-gray-100" contentEditable={false}>
+          {/* Pros */}
+          <div className="p-4 sm:p-5">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="w-5 h-5 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center text-xs font-bold">✓</span>
+              <span className="text-xs font-bold text-gray-900 uppercase tracking-wider">Pros</span>
+            </div>
+            <ul className="space-y-2 list-none pl-0 m-0">
+              {pros && pros.map((pro: string, idx: number) => (
+                <Fragment key={idx}>
+                  {formatPointReact(pro, true)}
+                </Fragment>
+              ))}
+              {(!pros || pros.length === 0) && (
+                <li className="text-xs text-gray-400 italic">No pros added.</li>
+              )}
+            </ul>
+          </div>
+          {/* Cons */}
+          <div className="p-4 sm:p-5">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="w-5 h-5 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center text-xs font-bold">✗</span>
+              <span className="text-xs font-bold text-gray-900 uppercase tracking-wider">Cons</span>
+            </div>
+            <ul className="space-y-2 list-none pl-0 m-0">
+              {cons && cons.map((con: string, idx: number) => (
+                <Fragment key={idx}>
+                  {formatPointReact(con, false)}
+                </Fragment>
+              ))}
+              {(!cons || cons.length === 0) && (
+                <li className="text-xs text-gray-400 italic">No cons added.</li>
+              )}
+            </ul>
+          </div>
+        </div>
+
+        {selected && (
+          <div className="absolute top-9 right-2 flex gap-1.5 z-20">
+            <button
+              type="button"
+              title="Edit block"
+              className="p-1.5 rounded-lg bg-white border border-gray-200 text-gray-600 hover:bg-amber-50 hover:text-amber-700 hover:border-amber-200 shadow-sm"
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={() => setEditing(true)}
+            >
+              <Pencil className="w-3.5 h-3.5" />
+            </button>
+            <button
+              type="button"
+              title="Remove block"
+              className="p-1.5 rounded-lg bg-white border border-gray-200 text-gray-600 hover:bg-red-50 hover:text-red-600 hover:border-red-200 shadow-sm"
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={() => deleteNode()}
+            >
+              <Trash2 className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        )}
+      </div>
+      {editing && (
+        <ProConDialog
+          mode="edit"
+          initialTitle={title}
+          initialPros={pros}
+          initialCons={cons}
+          onClose={() => setEditing(false)}
+          onInsert={(nextTitle, nextPros, nextCons) => {
+            updateAttributes({
+              title: nextTitle,
+              pros: nextPros,
+              cons: nextCons,
+            });
+            setEditing(false);
+          }}
+        />
+      )}
+    </NodeViewWrapper>
+  );
+}
+
+// ── Pros & Cons Tiptap Extension ──────────────────────────────────────────────
+const ProConBlock = TiptapNode.create({
+  name: "proConBlock",
+  group: "block",
+  atom: true,
+  draggable: true,
+
+  addAttributes() {
+    return {
+      title: { default: "Pros & Cons" },
+      pros: { default: [] },
+      cons: { default: [] },
+    };
+  },
+
+  parseHTML() {
+    return [
+      {
+        tag: "div.pro-con-block[data-pros]",
+        getAttrs: (el) => {
+          if (typeof el === "string" || !(el instanceof HTMLElement))
+            return false;
+          let pros = [];
+          let cons = [];
+          let title = "Pros & Cons";
+          try {
+            pros = JSON.parse(el.getAttribute("data-pros") || "[]");
+            cons = JSON.parse(el.getAttribute("data-cons") || "[]");
+            title = el.getAttribute("data-title") || "Pros & Cons";
+          } catch (e) {}
+          return { title, pros, cons };
+        },
+      },
+    ];
+  },
+
+  renderHTML({ node, HTMLAttributes }) {
+    const title = node.attrs.title || "Pros & Cons";
+    const pros = node.attrs.pros || [];
+    const cons = node.attrs.cons || [];
+
+    const formatPointDom = (text: string, isPro: boolean) => {
+      const bulletClass = isPro ? "pro-item" : "con-item";
+      const colonIndex = text.indexOf(":");
+      if (colonIndex > 0 && colonIndex < text.length - 1) {
+        const boldPart = text.substring(0, colonIndex + 1);
+        const normalPart = text.substring(colonIndex + 1);
+        return [
+          "li",
+          {},
+          ["strong", {}, boldPart],
+          normalPart
+        ];
+      }
+      return [
+        "li",
+        {},
+        text
+      ];
+    };
+
+    const prosList = pros.map((pro: string) => formatPointDom(pro, true));
+    const consList = cons.map((con: string) => formatPointDom(con, false));
+
+    return [
+      "div",
+      mergeAttributes(
+        {
+          class: "pro-con-block",
+          "data-title": title,
+          "data-pros": JSON.stringify(pros),
+          "data-cons": JSON.stringify(cons),
+        },
+        HTMLAttributes,
+      ),
+      [
+        "div",
+        { class: "pro-con-header-block" },
+        ["h3", { class: "pro-con-block-title" }, title]
+      ],
+      [
+        "div",
+        { class: "pro-con-container" },
+        [
+          "div",
+          { class: "pro-column" },
+          [
+            "div",
+            { class: "pro-title-wrap" },
+            ["span", { class: "pro-title-icon" }, "✓"],
+            ["h4", { class: "pro-title" }, "Pros"],
+          ],
+          ["ul", { class: "pro-list" }, ...prosList],
+        ],
+        [
+          "div",
+          { class: "con-column" },
+          [
+            "div",
+            { class: "con-title-wrap" },
+            ["span", { class: "con-title-icon" }, "✗"],
+            ["h4", { class: "con-title" }, "Cons"],
+          ],
+          ["ul", { class: "con-list" }, ...consList],
+        ],
+      ],
+    ];
+  },
+
+  addNodeView() {
+    return ReactNodeViewRenderer(ProConBlockView);
+  },
+});
+
+// ── Pros & Cons Dialog ────────────────────────────────────────────────────────
+function ProConDialog({
+  onInsert,
+  onClose,
+  initialTitle = "Pros & Cons",
+  initialPros = [],
+  initialCons = [],
+  mode = "insert",
+}: {
+  onInsert: (title: string, pros: string[], cons: string[]) => void;
+  onClose: () => void;
+  initialTitle?: string;
+  initialPros?: string[];
+  initialCons?: string[];
+  mode?: "insert" | "edit";
+}) {
+  const [activeTab, setActiveTab] = useState<"smart" | "manual">("smart");
+  const [titleText, setTitleText] = useState(initialTitle);
+  const [prosText, setProsText] = useState(() => initialPros.join("\n"));
+  const [consText, setConsText] = useState(() => initialCons.join("\n"));
+  const [pasteText, setPasteText] = useState("");
+
+  const handleSmartParse = () => {
+    if (!pasteText.trim()) return;
+    const { title, pros, cons } = parseProConText(pasteText);
+    setTitleText(title);
+    setProsText(pros.join("\n"));
+    setConsText(cons.join("\n"));
+    setActiveTab("manual");
+  };
+
+  const handleSave = () => {
+    let finalTitle = titleText;
+    let finalPros = prosText;
+    let finalCons = consText;
+
+    if (activeTab === "smart" && pasteText.trim()) {
+      const parsed = parseProConText(pasteText);
+      finalTitle = parsed.title;
+      finalPros = parsed.pros.join("\n");
+      finalCons = parsed.cons.join("\n");
+    }
+
+    const title = finalTitle.trim() || "Pros & Cons";
+    const pros = finalPros
+      .split("\n")
+      .map((x) => x.trim())
+      .filter(Boolean);
+    const cons = finalCons
+      .split("\n")
+      .map((x) => x.trim())
+      .filter(Boolean);
+    onInsert(title, pros, cons);
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+      <div
+        className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200"
+      >
+        <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between bg-gray-50">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 bg-amber-500 rounded-xl flex items-center justify-center text-white font-bold">
+              ±
+            </div>
+            <h3 className="font-bold text-gray-900">
+              {mode === "edit" ? "Edit Pros & Cons" : "Insert Pros & Cons"}
+            </h3>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="text-gray-400 hover:text-gray-600 text-2xl"
+          >
+            ×
+          </button>
+        </div>
+
+        <div className="flex border-b border-gray-100 px-6 bg-gray-50/50">
+          <button
+            type="button"
+            onClick={() => setActiveTab("smart")}
+            className={`px-4 py-3 text-xs font-bold uppercase tracking-wider border-b-2 transition-all ${
+              activeTab === "smart"
+                ? "border-amber-500 text-amber-600"
+                : "border-transparent text-gray-400 hover:text-gray-600"
+            }`}
+          >
+            📋 Smart Paste
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("manual")}
+            className={`px-4 py-3 text-xs font-bold uppercase tracking-wider border-b-2 transition-all ${
+              activeTab === "manual"
+                ? "border-amber-500 text-amber-600"
+                : "border-transparent text-gray-400 hover:text-gray-600"
+            }`}
+          >
+            ✍️ Edit Fields ({prosText.split("\n").filter(Boolean).length} Pros, {consText.split("\n").filter(Boolean).length} Cons)
+          </button>
+        </div>
+
+        <div className="p-6 overflow-y-auto max-h-[60vh]">
+          {activeTab === "smart" ? (
+            <div className="space-y-4">
+              <div>
+                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">
+                  Paste Entire Pros & Cons Block
+                </label>
+                <p className="text-xs text-gray-400 mb-3">
+                  Paste raw text copied from your document. We will parse the Title, Pros, and Cons.
+                </p>
+                <textarea
+                  autoFocus
+                  value={pasteText}
+                  onChange={(e) => setPasteText(e.target.value)}
+                  rows={10}
+                  className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all font-medium text-gray-700 placeholder-gray-300"
+                  placeholder={`Example:\nUltra Vizion Pros and Cons\nPros\n- Discreet transparent appearance: Less visually noticeable...\nCons\n- Channel availability is not guaranteed...`}
+                />
+              </div>
+              <button
+                type="button"
+                onClick={handleSmartParse}
+                disabled={!pasteText.trim()}
+                className="w-full py-2.5 bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-white rounded-xl text-sm font-semibold transition-all shadow-md"
+              >
+                ⚡ Parse & Auto-Fill Fields
+              </button>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              <div>
+                <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">
+                  Title
+                </label>
+                <input
+                  type="text"
+                  value={titleText}
+                  onChange={(e) => setTitleText(e.target.value)}
+                  className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all font-medium text-gray-700"
+                  placeholder="Pros & Cons"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-emerald-700 uppercase tracking-wider mb-2">
+                    Pros (Advantages)
+                  </label>
+                  <textarea
+                    value={prosText}
+                    onChange={(e) => setProsText(e.target.value)}
+                    rows={8}
+                    className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all font-medium text-gray-700 placeholder-gray-300"
+                    placeholder="Enter pros (one per line)..."
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-rose-700 uppercase tracking-wider mb-2">
+                    Cons (Disadvantages)
+                  </label>
+                  <textarea
+                    value={consText}
+                    onChange={(e) => setConsText(e.target.value)}
+                    rows={8}
+                    className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all font-medium text-gray-700 placeholder-gray-300"
+                    placeholder="Enter cons (one per line)..."
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="px-6 py-4 border-t border-gray-100 bg-gray-50 flex items-center justify-end gap-2">
+          <button
+            type="button"
+            onClick={onClose}
+            className="px-4 py-2 text-sm text-gray-600 font-medium hover:bg-gray-100 rounded-xl transition-all"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            onClick={handleSave}
+            className="px-6 py-2 text-sm bg-amber-500 hover:bg-amber-600 text-white rounded-xl font-bold shadow-md transition-all"
+          >
+            {mode === "edit" ? "Save Changes" : "Insert"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── Product Card Dialog ───────────────────────────────────────────────────────
 interface ProductCardItem {
   id: string;
@@ -2279,7 +2784,7 @@ function ProductCardDialog({
               <label className="block text-xs font-medium text-gray-600 mb-1">
                 Specs / Key Features
                 <span className="ml-1 font-normal text-gray-400">
-                  One per line, use "Label: Value" format
+                  One per line, use &quot;Label: Value&quot; format
                 </span>
               </label>
               <textarea
@@ -2413,7 +2918,7 @@ export default function RichTextEditor({
   } | null>(null);
   const [slashStart, setSlashStart] = useState<number | null>(null);
   const [dialog, setDialog] = useState<
-    "link" | "image" | "button" | "review" | "productcard" | "ingredient" | null
+    "link" | "image" | "button" | "review" | "productcard" | "ingredient" | "procon" | null
   >(null);
   const editorRef = useRef<HTMLDivElement>(null);
 
@@ -2440,6 +2945,13 @@ export default function RichTextEditor({
       ReviewCard,
       ProductCardGrid,
       IngredientList,
+      ProConBlock,
+      Table.configure({
+        resizable: true,
+      }),
+      TableRow,
+      TableHeader,
+      TableCell,
       Placeholder.configure({ placeholder }),
     ],
     content: value || "",
@@ -2562,6 +3074,9 @@ export default function RichTextEditor({
         case "ingredient":
           setDialog("ingredient");
           break;
+        case "procon":
+          setDialog("procon");
+          break;
       }
     },
     [editor, slashStart, closeSlash],
@@ -2671,6 +3186,19 @@ export default function RichTextEditor({
       .run();
   };
 
+  const insertProCon = (title: string, pros: string[], cons: string[]) => {
+    if (!editor) return;
+    setDialog(null);
+    editor
+      .chain()
+      .focus()
+      .insertContent({
+        type: "proConBlock",
+        attrs: { title, pros, cons },
+      })
+      .run();
+  };
+
   if (!editor) return null;
 
   return (
@@ -2729,6 +3257,12 @@ export default function RichTextEditor({
       {dialog === "ingredient" && (
         <IngredientDialog
           onInsert={insertIngredients}
+          onClose={() => setDialog(null)}
+        />
+      )}
+      {dialog === "procon" && (
+        <ProConDialog
+          onInsert={insertProCon}
           onClose={() => setDialog(null)}
         />
       )}

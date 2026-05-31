@@ -98,9 +98,8 @@
   }
 }
 
-@layer base {
   * {
-    border-color: theme(colors.border);
+    border-color: var(--color-border);
   }
 
   html {
@@ -135,9 +134,7 @@
     font-weight: 700;
     letter-spacing: -0.02em;
   }
-}
 
-@layer utilities {
   .line-clamp-1 {
     overflow: hidden;
     display: -webkit-box;
@@ -197,7 +194,6 @@
   .float-in {
     animation: float-in 0.65s cubic-bezier(0.21, 0.95, 0.36, 1) both;
   }
-}
 
 /* Header / Footer polish */
 .site-header-shadow {
@@ -1691,3 +1687,396 @@ a.btn-dark:hover {
 .pc-btn::after {
   content: " →" !important;
 }
+
+/* ── Pros & Cons Block (Modern & Premium Layout) ────────────────────────── */
+.pro-con-block {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.01), 
+    0 10px 15px -3px rgba(0, 0, 0, 0.03),
+    0 0 1px 0 rgba(0, 0, 0, 0.04);
+  margin: 2rem 0;
+}
+
+.pro-con-container {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .pro-con-container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.pro-column {
+  padding: 1.75rem;
+}
+
+.con-column {
+  padding: 1.75rem;
+  background-color: #fafafa;
+}
+
+@media (min-width: 768px) {
+  .pro-column {
+    border-right: 1px solid #f3f4f6;
+  }
+  .con-column {
+    background-color: transparent;
+  }
+}
+
+.pro-title-wrap, .con-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.pro-title-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 9999px;
+  background-color: #d1fae5;
+  color: #059669;
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.con-title-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 9999px;
+  background-color: #fee2e2;
+  color: #dc2626;
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.pro-title, .con-title {
+  font-size: 0.875rem !important;
+  font-weight: 800 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 !important;
+}
+
+.pro-title {
+  color: #065f46;
+}
+
+.con-title {
+  color: #991b1b;
+}
+
+.pro-list, .con-list {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.pro-list li, .con-list li {
+  position: relative !important;
+  padding-left: 1.5rem !important;
+  margin: 0.5rem 0 !important;
+  font-size: 0.875rem !important;
+  line-height: 1.5 !important;
+  color: #4b5563 !important;
+}
+
+.pro-list li::before {
+  content: "✓" !important;
+  position: absolute !important;
+  left: 0 !important;
+  color: #10b981 !important;
+  font-weight: 700 !important;
+}
+
+.con-list li::before {
+  content: "✗" !important;
+  position: absolute !important;
+  left: 0 !important;
+  color: #ef4444 !important;
+  font-weight: 700 !important;
+}
+
+/* ── ProseMirror Editor overrides to match public website ── */
+.ProseMirror .pro-con-block {
+  background: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.05) !important;
+  border-radius: 20px !important;
+  overflow: hidden !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03) !important;
+  margin: 1.5rem 0 !important;
+}
+
+.ProseMirror .pro-con-container {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+}
+
+@media (min-width: 768px) {
+  .ProseMirror .pro-con-container {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+.ProseMirror .pro-column, .ProseMirror .con-column {
+  padding: 1.25rem !important;
+  box-sizing: border-box !important;
+}
+
+@media (min-width: 768px) {
+  .ProseMirror .pro-column {
+    border-right: 1px solid #f3f4f6 !important;
+  }
+}
+
+.ProseMirror .pro-title-wrap, .ProseMirror .con-title-wrap {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  margin: 0 0 0.75rem 0 !important;
+  padding: 0 !important;
+}
+
+.ProseMirror .pro-title, .ProseMirror .con-title {
+  font-size: 0.8rem !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1 !important;
+}
+
+.ProseMirror .pro-list, .ProseMirror .con-list {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.ProseMirror .pro-list li, .ProseMirror .con-list li {
+  position: relative !important;
+  padding-left: 1.25rem !important;
+  margin: 0.35rem 0 !important;
+  font-size: 0.8rem !important;
+  line-height: 1.4 !important;
+  color: #4b5563 !important;
+}
+
+.ProseMirror .pro-list li::before {
+  content: "✓" !important;
+  position: absolute !important;
+  left: 0 !important;
+  color: #10b981 !important;
+  font-weight: 700 !important;
+}
+
+.ProseMirror .con-list li::before {
+  content: "✗" !important;
+  position: absolute !important;
+  left: 0 !important;
+  color: #ef4444 !important;
+  font-weight: 700 !important;
+}
+
+/* ── Premium Tables (Modern, Responsive, Visual Excellence) ──────────────── */
+.product-content table,
+.article-content table,
+.ProseMirror table {
+  width: 100% !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  margin: 2.5rem 0 !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 20px !important;
+  overflow: hidden !important;
+  box-shadow: 
+    0 10px 25px -5px rgba(0, 0, 0, 0.02),
+    0 8px 16px -6px rgba(0, 0, 0, 0.03),
+    0 0 1px 1px rgba(0, 0, 0, 0.01);
+  font-family: inherit !important;
+}
+
+/* Make table responsive on mobile by allowing horizontal scroll */
+@media (max-width: 768px) {
+  .product-content table,
+  .article-content table,
+  .ProseMirror table {
+    display: block !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+}
+
+.product-content th,
+.article-content th,
+.ProseMirror th {
+  background-color: #f8fafc !important;
+  color: #1e293b !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  font-size: 0.75rem !important;
+  padding: 16px 20px !important;
+  border-bottom: 2px solid #e2e8f0 !important;
+  border-right: 1px solid #f1f5f9 !important;
+  text-align: left !important;
+}
+
+.product-content th:last-child,
+.article-content th:last-child,
+.ProseMirror th:last-child {
+  border-right: none !important;
+}
+
+.product-content td,
+.article-content td,
+.ProseMirror td {
+  padding: 16px 20px !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+  border-right: 1px solid #f1f5f9 !important;
+  color: #475569 !important;
+  background-color: #ffffff !important;
+  font-size: 0.875rem !important;
+  line-height: 1.5 !important;
+  transition: all 0.2s ease !important;
+}
+
+.product-content td:last-child,
+.article-content td:last-child,
+.ProseMirror td:last-child {
+  border-right: none !important;
+}
+
+/* Zebra striping for premium look */
+.product-content tr:nth-child(even) td,
+.article-content tr:nth-child(even) td,
+.ProseMirror tr:nth-child(even) td {
+  background-color: #fafbfd !important;
+}
+
+/* Hover highlights */
+.product-content tr:hover td,
+.article-content tr:hover td,
+.ProseMirror tr:hover td {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+/* Clean up last row borders */
+.product-content tr:last-child td,
+.article-content tr:last-child td,
+.ProseMirror tr:last-child td {
+  border-bottom: none !important;
+}
+
+/* Maintain proper spacing on first/last headers and cells for rounded corners */
+.product-content th:first-child,
+.article-content th:first-child,
+.ProseMirror th:first-child {
+  border-top-left-radius: 19px !important;
+}
+
+.product-content th:last-child,
+.article-content th:last-child,
+.ProseMirror th:last-child {
+  border-top-right-radius: 19px !important;
+}
+
+.product-content tr:last-child td:first-child,
+.article-content tr:last-child td:first-child,
+.ProseMirror tr:last-child td:first-child {
+  border-bottom-left-radius: 19px !important;
+}
+
+.product-content tr:last-child td:last-child,
+.article-content tr:last-child td:last-child,
+.ProseMirror tr:last-child td:last-child {
+  border-bottom-right-radius: 19px !important;
+}
+
+/* Tiptap Resizable Table Handle Styles (for rich editor resizing UI) */
+.ProseMirror th, .ProseMirror td {
+  position: relative;
+}
+.ProseMirror .column-resize-handle {
+  position: absolute;
+  right: -2px;
+  top: 0;
+  bottom: -2px;
+  width: 4px;
+  background-color: #38bdf8;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 10;
+}
+.ProseMirror th:hover .column-resize-handle,
+.ProseMirror td:hover .column-resize-handle {
+  opacity: 1;
+}
+.ProseMirror .resize-cursor {
+  cursor: ew-resize;
+  cursor: col-resize;
+}
+
+/* ── Pros & Cons Title Header & Bolding styles ── */
+.pro-con-header-block {
+  padding: 1.5rem 1.75rem 1rem 1.75rem !important;
+  background-color: #fafafa !important;
+  border-bottom: 1px solid #f3f4f6 !important;
+}
+
+.pro-con-block-title {
+  font-size: 1.1rem !important;
+  font-weight: 800 !important;
+  color: #1e293b !important;
+  margin: 0 !important;
+  letter-spacing: -0.02em !important;
+}
+
+.pro-list li strong,
+.con-list li strong {
+  font-weight: 700 !important;
+  color: #0f172a !important;
+}
+
+/* Editor preview specific overrides */
+.ProseMirror .pro-con-header-block {
+  padding: 1rem 1.25rem 0.75rem 1.25rem !important;
+  background-color: #fafafa !important;
+  border-bottom: 1px solid #f3f4f6 !important;
+}
+
+.ProseMirror .pro-con-block-title {
+  font-size: 0.95rem !important;
+  font-weight: 800 !important;
+  color: #1e293b !important;
+  margin: 0 !important;
+  letter-spacing: -0.02em !important;
+}
+
+.ProseMirror .pro-list li strong,
+.ProseMirror .con-list li strong {
+  font-weight: 700 !important;
+  color: #0f172a !important;
+}
+
+
+
