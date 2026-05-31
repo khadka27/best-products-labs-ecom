@@ -23,7 +23,7 @@ export default function ProductCard({
     return (
       <div className="group bg-white rounded-2xl border border-gray-100 hover:shadow-xl hover:shadow-orange-900/5 transition-all duration-300 hover:-translate-y-1 overflow-hidden flex flex-row h-full w-full">
         <Link
-          href={`/products/${product.slug}`}
+          href={`/${product.slug}`}
           className="relative w-24 sm:w-40 md:w-72 aspect-square overflow-hidden bg-gray-50 flex-shrink-0 block"
         >
           <Image
@@ -41,7 +41,7 @@ export default function ProductCard({
 
         <div className="p-3 sm:p-4 md:p-5 flex-1 flex flex-col justify-between min-w-0">
           <div className="space-y-1 sm:space-y-2">
-            <Link href={`/products/${product.slug}`} className="block">
+            <Link href={`/${product.slug}`} className="block">
               <h3 className="text-sm sm:text-lg font-bold text-slate-900 leading-tight group-hover:text-orange-700 transition-colors line-clamp-2 sm:truncate">
                 {product.name}
               </h3>
@@ -116,7 +116,7 @@ export default function ProductCard({
     <div className="group bg-white rounded-2xl md:rounded-3xl hover:shadow-xl hover:shadow-orange-950/10 transition-all duration-300 hover:-translate-y-1 overflow-hidden h-full flex flex-col border border-gray-100">
       {/* Image Area */}
       <Link
-        href={`/products/${product.slug}`}
+        href={`/${product.slug}`}
         className="relative aspect-[16/9] overflow-hidden bg-orange-50/60 block"
       >
         <Image
@@ -134,7 +134,7 @@ export default function ProductCard({
 
       <div className="p-3 sm:p-4 flex-1 flex flex-col justify-between">
         <div>
-          <Link href={`/products/${product.slug}`} className="block">
+          <Link href={`/${product.slug}`} className="block">
             <h3 className="text-sm sm:text-base font-bold text-slate-900 line-clamp-2 leading-snug group-hover:text-orange-700 transition-colors">
               {product.name}
             </h3>

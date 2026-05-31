@@ -245,7 +245,7 @@ export default function HomePage() {
                       {latestProducts[1]?.name || "Featured Product"}
                     </p>
                     <Link
-                      href={`/products/${latestProducts[1]?.slug}`}
+                      href={`/${latestProducts[1]?.slug}`}
                       className="mt-2 inline-flex items-center gap-1 text-[10px] font-bold px-3 py-1.5 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
                     >
                       View →
@@ -277,7 +277,7 @@ export default function HomePage() {
                       {latestProducts[currentSlideIndex]?.name}
                     </p>
                     <Link
-                      href={`/products/${latestProducts[currentSlideIndex]?.slug}`}
+                      href={`/${latestProducts[currentSlideIndex]?.slug}`}
                       className="mt-3 w-full flex items-center justify-center gap-1.5 py-2 rounded-xl text-[11px] font-bold bg-orange-500 text-white hover:bg-orange-600 transition-colors"
                     >
                       View Details

@@ -120,7 +120,7 @@ export default async function ProductPage({
         description={product.detailedDescription}
         price={product.price}
         image={product.image}
-        url={`${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/products/${product.slug}`}
+        url={`${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/${product.slug}`}
         slug={product.slug}
         shortDescription={product.shortDescription || ""}
         keyFeatures={product.keyFeatures || ""}
@@ -160,7 +160,7 @@ export default async function ProductPage({
           },
           {
             name: product.name,
-            url: `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/products/${product.slug}`,
+            url: `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/${product.slug}`,
           },
         ]}
       />

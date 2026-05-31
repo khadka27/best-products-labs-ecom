@@ -126,7 +126,7 @@ export default function AdminProductsPage() {
                     <td className="px-5 py-3.5">
                       <div className="flex items-center gap-1.5 justify-end">
                         <Link
-                          href={`/products/${prod.slug}`}
+                          href={`/${prod.slug}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           title="View preview on store"

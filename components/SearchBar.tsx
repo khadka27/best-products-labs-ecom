@@ -89,7 +89,7 @@ export default function SearchBar() {
               {results.map((product) => (
                 <Link
                   key={product.id}
-                  href={`/products/${product.slug}`}
+                  href={`/${product.slug}`}
                   onClick={() => { setQuery(""); setIsOpen(false); }}
                   className="flex items-center gap-4 px-4 py-3 hover:bg-orange-50/50 rounded-2xl transition-all duration-200 group border-b border-gray-50 last:border-0"
                 >
