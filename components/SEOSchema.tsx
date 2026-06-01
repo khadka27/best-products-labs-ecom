@@ -259,7 +259,7 @@ export function ProductSchema({
       target: [url],
     }, {
       '@type': 'ViewAction',
-      name: 'Read More',
+      name: 'Explore the Full Product Guide',
       target: readMoreLink,
     }] : [{
       '@type': 'ReadAction',
