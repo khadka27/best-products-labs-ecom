@@ -2272,10 +2272,11 @@ function escapeAttr(text: string): string {
     .replace(/"/g, "&quot;");
 }
 
-function parseCardsJson(raw: string | undefined): ProductCardItem[] {
-  if (!raw?.trim()) return [];
+function parseCardsJson(raw: any): ProductCardItem[] {
+  if (Array.isArray(raw)) return raw;
+  if (typeof raw !== "string" || !raw.trim()) return [];
   try {
-    const parsed = JSON.parse(raw) as ProductCardItem[];
+    const parsed = JSON.parse(raw);
     return Array.isArray(parsed) ? parsed : [];
   } catch {
     return [];
