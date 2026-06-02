@@ -90,7 +90,7 @@ import { TableRow } from "@tiptap/extension-table-row";
 import { TableCell } from "@tiptap/extension-table-cell";
 import { TableHeader } from "@tiptap/extension-table-header";
 import { Node as TiptapNode, mergeAttributes } from "@tiptap/react";
-import { useEffect, useRef, useState, useCallback, useMemo, Fragment } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo, Fragment, JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal } from "react";
 import {
   Bold,
   Italic,
@@ -468,9 +468,11 @@ const ReviewCard = TiptapNode.create({
 
 // ── Ingredients List Node View (editor preview) ───────────────────────────────
 function IngredientListView({ node, selected }: NodeViewProps) {
-  const { ingredients } = node.attrs as {
-    ingredients: { id: string; name: string; image: string }[];
-  };
+  let ingredients = node.attrs.ingredients;
+  if (typeof ingredients === "string") {
+    try { ingredients = JSON.parse(ingredients); } catch { ingredients = []; }
+  }
+  if (!Array.isArray(ingredients)) ingredients = [];
 
   return (
     <NodeViewWrapper>
@@ -488,7 +490,7 @@ function IngredientListView({ node, selected }: NodeViewProps) {
         </div>
         <div className="p-6">
           <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4">
-            {ingredients?.map((ing) => (
+            {ingredients?.map((ing: { id: Key | null | undefined; image: any; name: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; }) => (
               <div key={ing.id} className="flex flex-col items-center gap-2">
                 <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-lg bg-gray-100 overflow-hidden border border-gray-200 flex-shrink-0">
                   <img
@@ -1776,7 +1778,17 @@ function ProConBlockView({
   deleteNode,
 }: NodeViewProps) {
   const [editing, setEditing] = useState(false);
-  const { title, pros, cons } = node.attrs as { title: string; pros: string[]; cons: string[] };
+  const { title } = node.attrs;
+  let pros = node.attrs.pros;
+  let cons = node.attrs.cons;
+  if (typeof pros === "string") {
+    try { pros = JSON.parse(pros); } catch { pros = []; }
+  }
+  if (typeof cons === "string") {
+    try { cons = JSON.parse(cons); } catch { cons = []; }
+  }
+  if (!Array.isArray(pros)) pros = [];
+  if (!Array.isArray(cons)) cons = [];
 
   const formatPointReact = (text: string, isPro: boolean) => {
     const colonIndex = text.indexOf(":");
