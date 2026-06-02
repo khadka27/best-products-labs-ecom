@@ -104,6 +104,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: product.metaTitle || product.name,
     description: product.metaDescription || product.shortDescription,
     alternates: { canonical: url },
+    authors: product.author ? [{ name: product.author.name, url: product.author.website || siteUrl }] : undefined,
     openGraph: {
       type: 'website',
       url,
