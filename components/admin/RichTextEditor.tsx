@@ -531,9 +531,17 @@ const IngredientList = TiptapNode.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    const { ingredients } = HTMLAttributes as {
-      ingredients: { id: string; name: string; image: string }[];
+    let { ingredients } = HTMLAttributes as {
+      ingredients: any;
     };
+    if (typeof ingredients === "string") {
+      try {
+        ingredients = JSON.parse(ingredients);
+      } catch (e) {
+        ingredients = [];
+      }
+    }
+    if (!Array.isArray(ingredients)) ingredients = [];
     return [
       "div",
       {
@@ -547,7 +555,7 @@ const IngredientList = TiptapNode.create({
           class:
             "grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 sm:gap-4",
         },
-        ...(ingredients || []).map((ing) => [
+        ...ingredients.map((ing: any) => [
           "div",
           { class: "flex flex-col items-center gap-2" },
           [
@@ -1942,8 +1950,16 @@ const ProConBlock = TiptapNode.create({
 
   renderHTML({ node, HTMLAttributes }) {
     const title = node.attrs.title || "Pros & Cons";
-    const pros = node.attrs.pros || [];
-    const cons = node.attrs.cons || [];
+    let pros = node.attrs.pros;
+    let cons = node.attrs.cons;
+    if (typeof pros === "string") {
+      try { pros = JSON.parse(pros); } catch { pros = []; }
+    }
+    if (typeof cons === "string") {
+      try { cons = JSON.parse(cons); } catch { cons = []; }
+    }
+    if (!Array.isArray(pros)) pros = [];
+    if (!Array.isArray(cons)) cons = [];
 
     const formatPointDom = (text: string, isPro: boolean) => {
       const bulletClass = isPro ? "pro-item" : "con-item";
@@ -2511,11 +2527,13 @@ const ProductCardGrid = TiptapNode.create({
   renderHTML({ node, HTMLAttributes }) {
     let cards: ProductCardItem[] = [];
     try {
-      cards = JSON.parse((node.attrs.cardsJson as string) || "[]");
+      const raw = node.attrs.cardsJson;
+      cards = typeof raw === "string" ? JSON.parse(raw || "[]") : raw;
     } catch {
       cards = [];
     }
-    const json = (node.attrs.cardsJson as string) || "[]";
+    if (!Array.isArray(cards)) cards = [];
+    const json = typeof node.attrs.cardsJson === "string" ? node.attrs.cardsJson : JSON.stringify(cards);
     const childSpecs: unknown[] = cards.length
       ? cards.map((c, i) => oneCardDom(c, i))
       : [
