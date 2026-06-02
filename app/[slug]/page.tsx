@@ -7,7 +7,7 @@ import ProductCard from "@/components/ProductCard";
 import TableOfContent from "@/components/TableOfContent";
 import ProductFirstH1HashUrl from "@/components/ProductFirstH1HashUrl";
 import AuthorAvatar from "@/components/AuthorAvatar";
-import { ProductSchema, BreadcrumbSchema } from "@/components/SEOSchema";
+import { ProductSchema, BreadcrumbSchema, FAQSchema } from "@/components/SEOSchema";
 import {
   ShoppingCart,
   ExternalLink,
@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import type { Product, Subcategory, Ingredient } from "@/lib/types";
 import { injectFirstH1Id } from "@/lib/productContentHeading";
+import { extractFaqsFromHtml } from "@/lib/utils";
 
 interface ProductFull extends Omit<
   Product,
@@ -111,6 +112,7 @@ export default async function ProductPage({
   const { html: descriptionHtml, firstH1Slug } = injectFirstH1Id(
     product.detailedDescription,
   );
+  const faqs = extractFaqsFromHtml(product.detailedDescription);
 
   return (
     <main className="min-h-screen bg-[#FAF7F2]">
@@ -164,6 +166,7 @@ export default async function ProductPage({
           },
         ]}
       />
+      {faqs.length > 0 && <FAQSchema faqs={faqs} />}
 
       {/* Hero Section */}
       <section className="relative pt-6 sm:pt-8 pb-10 sm:pb-16">

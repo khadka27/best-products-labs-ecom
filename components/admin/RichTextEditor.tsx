@@ -117,6 +117,7 @@ import {
   Pencil,
   Trash2,
   GripVertical,
+  X,
 } from "lucide-react";
 
 // ── Resizable Image Node View ─────────────────────────────────────────────────
@@ -691,6 +692,13 @@ const SLASH_COMMANDS = [
     desc: "Insert side-by-side pros & cons list",
     icon: "±",
     keys: ["/procon", "/proscons", "/pros", "/cons"],
+  },
+  {
+    id: "faq",
+    label: "FAQ Block",
+    desc: "Interactive open/close questions",
+    icon: "❓",
+    keys: ["/faq", "/questions"],
   },
 ];
 
@@ -2931,6 +2939,254 @@ function ProductCardDialog({
   );
 }
 
+// ── FAQ Node View (editor preview) ────────────────────────────────────────────
+function FAQBlockView({ node, updateAttributes, selected, deleteNode }: NodeViewProps) {
+  const [editing, setEditing] = useState(false);
+  let faqs = node.attrs.faqs;
+  if (typeof faqs === "string") {
+    try { faqs = JSON.parse(faqs); } catch { faqs = []; }
+  }
+  if (!Array.isArray(faqs)) faqs = [];
+
+  return (
+    <NodeViewWrapper className="my-4 block w-full max-w-full">
+      <div
+        className={`relative rounded-xl border bg-white overflow-hidden ${
+          selected ? "border-amber-400 ring-2 ring-amber-300/60" : "border-gray-200"
+        }`}
+      >
+        <div
+          className="flex items-center gap-1.5 px-3 py-2 border-b border-gray-100 bg-gray-50 text-[10px] font-semibold text-gray-500 uppercase tracking-wider"
+          contentEditable={false}
+          data-drag-handle
+        >
+          <GripVertical className="w-3.5 h-3.5 text-gray-400 shrink-0 cursor-grab active:cursor-grabbing" aria-hidden />
+          FAQ Block ({faqs.length} items)
+        </div>
+
+        <div className="p-4 sm:p-5" contentEditable={false}>
+          {faqs.length === 0 ? (
+            <p className="text-sm text-gray-400 italic m-0">No questions added yet.</p>
+          ) : (
+            <div className="space-y-3">
+              {faqs.map((faq: {q: string, a: string}, idx: number) => (
+                <details key={idx} className="group border border-gray-100 rounded-lg" open={idx === 0}>
+                  <summary className="flex justify-between items-center p-3 font-medium cursor-pointer list-none text-sm text-gray-800 hover:bg-gray-50 transition-colors [&::-webkit-details-marker]:hidden">
+                    <span>{faq.q}</span>
+                    <span className="transition group-open:rotate-180 flex-shrink-0 ml-3 text-gray-400">
+                      ▼
+                    </span>
+                  </summary>
+                  <div className="p-3 pt-0 text-gray-600 text-xs border-t border-gray-50 bg-gray-50/50">
+                    {faq.a.split("\n").map((line: string, i: number) => <p key={i} className="mb-1 last:mb-0">{line}</p>)}
+                  </div>
+                </details>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {selected && (
+          <div className="absolute top-9 right-2 flex gap-1.5 z-20">
+            <button
+              type="button"
+              className="p-1.5 rounded-lg bg-white border border-gray-200 text-gray-600 hover:bg-amber-50 hover:text-amber-700 hover:border-amber-200 shadow-sm"
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={() => setEditing(true)}
+            >
+              <Pencil className="w-3.5 h-3.5" />
+            </button>
+            <button
+              type="button"
+              className="p-1.5 rounded-lg bg-white border border-gray-200 text-gray-600 hover:bg-red-50 hover:text-red-600 hover:border-red-200 shadow-sm"
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={() => deleteNode()}
+            >
+              <Trash2 className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        )}
+      </div>
+
+      {editing && (
+        <FAQDialog
+          mode="edit"
+          initialFaqs={faqs}
+          onClose={() => setEditing(false)}
+          onInsert={(nextFaqs) => {
+            updateAttributes({ faqs: nextFaqs });
+            setEditing(false);
+          }}
+        />
+      )}
+    </NodeViewWrapper>
+  );
+}
+
+// ── FAQ Dialog & Text Parser ──────────────────────────────────────────────────
+function parseFaqText(text: string) {
+  const lines = text.split("\n").map((l) => l.trim()).filter(Boolean);
+  const faqs: { q: string; a: string }[] = [];
+  let currentQ = "";
+  let currentA: string[] = [];
+
+  for (const line of lines) {
+    const isQ = line.startsWith("Q:") || line.endsWith("?");
+    if (isQ) {
+      if (currentQ) {
+        faqs.push({ q: currentQ, a: currentA.join("\n") });
+      }
+      currentQ = line.replace(/^Q:\\s*/i, "").trim();
+      currentA = [];
+    } else {
+      let aLine = line.replace(/^A:\\s*/i, "").trim();
+      if (aLine) currentA.push(aLine);
+    }
+  }
+  if (currentQ) {
+    faqs.push({ q: currentQ, a: currentA.join("\n") });
+  }
+  return faqs;
+}
+
+function FAQDialog({
+  onInsert,
+  onClose,
+  initialFaqs = [],
+  mode = "insert",
+}: {
+  onInsert: (faqs: { q: string; a: string }[]) => void;
+  onClose: () => void;
+  initialFaqs?: { q: string; a: string }[];
+  mode?: "insert" | "edit";
+}) {
+  const [text, setText] = useState(() => 
+    initialFaqs.map(f => `Q: ${f.q}\nA: ${f.a}`).join("\n\n")
+  );
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-gray-900/40 backdrop-blur-sm transition-opacity">
+      <div className="bg-white rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 bg-gray-50/50">
+          <h3 className="font-semibold text-gray-900">
+            {mode === "insert" ? "Insert FAQs" : "Edit FAQs"}
+          </h3>
+          <button
+            onClick={onClose}
+            className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+        <div className="p-5 space-y-3">
+          <p className="text-xs text-gray-500">Paste your FAQ text below. Questions should end with a question mark (?) or start with &quot;Q:&quot;. Answers will be automatically grouped.</p>
+          <textarea
+            autoFocus
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            rows={10}
+            className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm resize-none focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 font-mono"
+            placeholder="Q: Where can I buy this?&#10;A: On our official website.&#10;&#10;Q: Does it work?&#10;A: Yes, it works great."
+          />
+        </div>
+        <div className="px-5 py-4 border-t border-gray-100 bg-gray-50 flex justify-end gap-2">
+          <button
+            onClick={onClose}
+            className="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-200 bg-gray-100 rounded-xl transition-colors"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={() => onInsert(parseFaqText(text))}
+            disabled={!text.trim()}
+            className="px-4 py-2 text-sm font-medium text-white bg-amber-500 hover:bg-amber-600 rounded-xl disabled:opacity-50 transition-colors shadow-sm"
+          >
+            {mode === "insert" ? "Insert FAQs" : "Save Changes"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── FAQ Tiptap Extension ──────────────────────────────────────────────────────
+const FAQBlock = TiptapNode.create({
+  name: "faqBlock",
+  group: "block",
+  atom: true,
+  draggable: true,
+
+  addAttributes() {
+    return {
+      faqs: { default: [] },
+    };
+  },
+
+  parseHTML() {
+    return [
+      {
+        tag: "div.faq-block-wrapper",
+        getAttrs: (el) => {
+          if (typeof el === "string" || !(el instanceof HTMLElement)) return false;
+          const raw = el.getAttribute("data-faqs");
+          if (!raw) return false;
+          try {
+            return { faqs: JSON.parse(raw) };
+          } catch {
+            return false;
+          }
+        },
+      },
+    ];
+  },
+
+  renderHTML({ node }) {
+    let faqs = node.attrs.faqs;
+    if (typeof faqs === "string") {
+      try { faqs = JSON.parse(faqs); } catch { faqs = []; }
+    }
+    if (!Array.isArray(faqs)) faqs = [];
+
+    const jsonAttr = escapeAttr(JSON.stringify(faqs));
+
+    if (faqs.length === 0) {
+      return ["div", { class: "faq-block-wrapper", "data-faqs": jsonAttr }, "No FAQs"];
+    }
+
+    const faqElements = faqs.map((faq: {q: string, a: string}, idx: number) => {
+      return [
+        "details",
+        { class: "group bg-white border border-gray-200 rounded-xl mb-4 overflow-hidden shadow-sm" },
+        [
+          "summary",
+          { class: "flex justify-between items-center font-bold cursor-pointer list-none p-4 text-gray-900 transition-colors hover:bg-gray-50 [&::-webkit-details-marker]:hidden" },
+          ["span", {}, faq.q],
+          [
+            "span",
+            { class: "transition group-open:rotate-180 flex-shrink-0 ml-4" },
+            [
+              "svg",
+              { fill: "none", height: "20", stroke: "currentColor", "stroke-linecap": "round", "stroke-linejoin": "round", "stroke-width": "2", viewBox: "0 0 24 24", width: "20" },
+              ["path", { d: "M6 9l6 6 6-6" }]
+            ]
+          ]
+        ],
+        [
+          "div",
+          { class: "p-4 pt-0 text-gray-600 leading-relaxed m-0 mt-1" },
+          ...faq.a.split("\n").map((line: string) => ["p", { class: "mb-2 last:mb-0" }, line])
+        ]
+      ];
+    });
+
+    return ["div", { class: "faq-block-wrapper", "data-faqs": jsonAttr }, ...faqElements];
+  },
+
+  addNodeView() {
+    return ReactNodeViewRenderer(FAQBlockView);
+  },
+});
+
 // ── Main editor ───────────────────────────────────────────────────────────────
 interface RichTextEditorProps {
   value: string;
@@ -2949,7 +3205,7 @@ export default function RichTextEditor({
   } | null>(null);
   const [slashStart, setSlashStart] = useState<number | null>(null);
   const [dialog, setDialog] = useState<
-    "link" | "image" | "button" | "review" | "productcard" | "ingredient" | "procon" | null
+    "link" | "image" | "button" | "review" | "productcard" | "ingredient" | "procon" | "faq" | null
   >(null);
   const editorRef = useRef<HTMLDivElement>(null);
 
@@ -2977,6 +3233,7 @@ export default function RichTextEditor({
       ProductCardGrid,
       IngredientList,
       ProConBlock,
+      FAQBlock,
       Table.configure({
         resizable: true,
       }),
@@ -3108,6 +3365,9 @@ export default function RichTextEditor({
         case "procon":
           setDialog("procon");
           break;
+        case "faq":
+          setDialog("faq");
+          break;
       }
     },
     [editor, slashStart, closeSlash],
@@ -3230,6 +3490,19 @@ export default function RichTextEditor({
       .run();
   };
 
+  const insertFaq = (faqs: { q: string; a: string }[]) => {
+    if (!editor) return;
+    setDialog(null);
+    editor
+      .chain()
+      .focus()
+      .insertContent({
+        type: "faqBlock",
+        attrs: { faqs },
+      })
+      .run();
+  };
+
   if (!editor) return null;
 
   return (
@@ -3294,6 +3567,12 @@ export default function RichTextEditor({
       {dialog === "procon" && (
         <ProConDialog
           onInsert={insertProCon}
+          onClose={() => setDialog(null)}
+        />
+      )}
+      {dialog === "faq" && (
+        <FAQDialog
+          onInsert={insertFaq}
           onClose={() => setDialog(null)}
         />
       )}

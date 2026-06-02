@@ -79,10 +79,15 @@ function generateArticleHTML(config: ArticleConfig): string {
     { q: `Is ${keyword} worth the investment?`, a: `Yes, a quality ${keyword} can make a significant difference. We recommend investing in a reputable brand.` },
     { q: `What should I avoid when buying ${keyword}?`, a: `Avoid products with no reviews, unclear return policies, or suspiciously low prices that seem too good to be true.` },
   ].map(({ q, a }) => `
-<div style="margin:1rem 0;padding:1rem;background:#f9fafb;border-radius:12px;border:1px solid #e5e7eb;">
-  <h3 style="margin:0 0 0.5rem;font-size:1rem;">${q}</h3>
-  <p style="margin:0;color:#374151;">${a}</p>
-</div>`).join('\n');
+<details class="faq-block group bg-white border border-gray-200 rounded-xl mb-4 overflow-hidden shadow-sm" data-question="${q}" data-answer="${a}">
+  <summary class="flex justify-between items-center font-bold cursor-pointer list-none p-4 text-gray-900 transition-colors hover:bg-gray-50 [&::-webkit-details-marker]:hidden">
+    <span>${q}</span>
+    <span class="transition group-open:rotate-180">
+      <svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="20"><path d="M6 9l6 6 6-6"></path></svg>
+    </span>
+  </summary>
+  <p class="text-gray-600 p-4 pt-0 m-0">${a}</p>
+</details>`).join('\n');
 
   return `<!-- META
 title: ${title}
