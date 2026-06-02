@@ -12,10 +12,23 @@ const staticPages = [
   "/legal/cookies",
 ];
 
+function getQuantizedDate(intervalDays: number = 5): Date {
+  const now = new Date();
+  now.setUTCHours(0, 0, 0, 0);
+
+  const startDate = new Date("2026-01-01T00:00:00Z");
+  const diffTime = now.getTime() - startDate.getTime();
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+  const currentIntervalStart = Math.floor(diffDays / intervalDays) * intervalDays;
+
+  return new Date(startDate.getTime() + currentIntervalStart * 24 * 60 * 60 * 1000);
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticEntries = staticPages.map((path) => ({
     url: `${baseUrl}${path}`,
-    lastModified: new Date(),
+    lastModified: getQuantizedDate(5),
     changeFrequency: "weekly" as const,
     priority: path === "" ? 1 : 0.6,
   }));
