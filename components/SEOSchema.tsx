@@ -159,25 +159,6 @@ export function ProductSchema({
     } : {}),
     ...(createdAt ? { datePublished: createdAt } : {}),
     ...(updatedAt ? { dateModified: updatedAt } : {}),
-    ...(rating && reviewCount ? {
-      aggregateRating: {
-        '@type': 'AggregateRating',
-        ratingValue: rating.toFixed(1),
-        reviewCount: reviewCount.toString(),
-        bestRating: '5',
-        worstRating: '1',
-      },
-    } : {}),
-    // Author aggregate rating from author trust signals
-    ...(author?.rating && author?.reviewCount ? {
-      aggregateRating: {
-        '@type': 'AggregateRating',
-        ratingValue: author.rating.toFixed(1),
-        reviewCount: author.reviewCount.toString(),
-        bestRating: '5',
-        worstRating: '1',
-      },
-    } : {}),
   };
 
   // Build Person schema for author
@@ -224,15 +205,6 @@ export function ProductSchema({
     },
     ...(createdAt ? { datePublished: createdAt } : {}),
     ...(updatedAt ? { dateModified: updatedAt } : {}),
-    ...(author?.rating && author?.reviewCount ? {
-      aggregateRating: {
-        '@type': 'AggregateRating',
-        ratingValue: author.rating.toFixed(1),
-        reviewCount: author.reviewCount.toString(),
-        bestRating: '5',
-        worstRating: '1',
-      },
-    } : {}),
   };
 
   // WebPage schema

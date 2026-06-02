@@ -60,7 +60,6 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     dateModified: article.updatedAt.toISOString(),
     author: author ? { '@type': 'Person', name: author.name, ...(author.title ? { jobTitle: author.title } : {}), ...(author.website ? { url: author.website } : {}) } : { '@type': 'Organization', name: 'OfficialProductsLab' },
     publisher: { '@type': 'Organization', name: 'OfficialProductsLab', url: SITE_URL, logo: { '@type': 'ImageObject', url: `${SITE_URL}/logo.png` } },
-    ...(author?.rating && author?.reviewCount ? { aggregateRating: { '@type': 'AggregateRating', ratingValue: author.rating.toFixed(1), reviewCount: author.reviewCount.toString(), bestRating: '5' } } : {}),
   };
 
   return (
