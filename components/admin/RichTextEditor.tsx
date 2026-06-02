@@ -530,7 +530,19 @@ const IngredientList = TiptapNode.create({
   },
 
   parseHTML() {
-    return [{ tag: "div.ingredient-list-block" }];
+    return [
+      {
+        tag: "div.ingredient-list-block",
+        getAttrs: (el) => {
+          if (typeof el === "string" || !(el instanceof HTMLElement)) return false;
+          let ingredients = [];
+          try {
+            ingredients = JSON.parse(el.getAttribute("data-ingredients") || "[]");
+          } catch (e) {}
+          return { ingredients };
+        },
+      },
+    ];
   },
 
   renderHTML({ HTMLAttributes }) {
@@ -549,7 +561,7 @@ const IngredientList = TiptapNode.create({
       "div",
       {
         class: "ingredient-list-block",
-        "data-ingredients": JSON.stringify(ingredients),
+        "data-ingredients": escapeAttr(JSON.stringify(ingredients)),
       },
       ["h3", { class: "text-lg font-bold mb-4" }, "Key Ingredients"],
       [
@@ -2010,8 +2022,8 @@ const ProConBlock = TiptapNode.create({
         {
           class: "pro-con-block",
           "data-title": title,
-          "data-pros": JSON.stringify(pros),
-          "data-cons": JSON.stringify(cons),
+          "data-pros": escapeAttr(JSON.stringify(pros)),
+          "data-cons": escapeAttr(JSON.stringify(cons)),
         },
         HTMLAttributes,
       ),

@@ -1,5 +1,6 @@
 import prisma from "@/lib/db";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import Breadcrumb from "@/components/Breadcrumb";
@@ -88,6 +89,37 @@ async function getRelatedProducts(subcategoryId: string, currentId: string) {
     },
     orderBy: { createdAt: "desc" },
   });
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const product = await getProduct(slug);
+  
+  if (!product) return { title: 'Product Not Found' };
+  
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://officialproductslab.com';
+  const url = `${siteUrl}/${slug}`;
+  
+  return {
+    title: product.metaTitle || product.name,
+    description: product.metaDescription || product.shortDescription,
+    alternates: { canonical: url },
+    openGraph: {
+      type: 'website',
+      url,
+      title: product.metaTitle || product.name,
+      description: product.metaDescription || product.shortDescription,
+      siteName: 'OfficialProductsLab',
+      images: product.image ? [{ url: product.image, width: 1200, height: 630, alt: product.imageAlt || product.name }] : [],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: product.metaTitle || product.name,
+      description: product.metaDescription || product.shortDescription,
+      images: product.image ? [product.image] : [],
+    },
+    robots: { index: true, follow: true },
+  };
 }
 
 export default async function ProductPage({
