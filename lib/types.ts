@@ -59,6 +59,7 @@ export interface Product {
   slug: string;
   price: number;
   categoryType: CategoryType;
+  status: 'DRAFT' | 'PUBLISHED';
   subcategoryId: string;
   shortDescription: string;
   detailedDescription: string;

@@ -15,10 +15,12 @@ export async function GET(req: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '12');
     const skip = (page - 1) * limit;
 
+    const isAdmin = searchParams.get('admin') === 'true';
+
     // Single product by slug
     if (slug) {
-      const product = await prisma.product.findUnique({
-        where: { slug },
+      const product = await (prisma.product.findFirst as any)({
+        where: isAdmin ? { slug } : { slug, status: 'PUBLISHED' },
         include: {
           subcategory: {
             include: { category: true },
@@ -32,6 +34,10 @@ export async function GET(req: NextRequest) {
     
     // Construct where clause
     const where: any = {};
+    if (!isAdmin) {
+      where.status = 'PUBLISHED';
+    }
+
     if (subcategoryId) {
       where.subcategoryId = subcategoryId;
     } else if (type) {
@@ -82,7 +88,8 @@ export async function POST(req: NextRequest) {
       name: body.name,
       slug: body.slug || body.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''),
       price: parseFloat(body.price),
-      categoryType: body.categoryType.toUpperCase(),
+      categoryType: body.categoryType.toUpperCase() as any,
+      status: (body.status === 'PUBLISHED' ? 'PUBLISHED' : 'DRAFT') as any,
       subcategoryId: body.subcategoryId,
       authorId: body.authorId || null,
       shortDescription: body.shortDescription || '',

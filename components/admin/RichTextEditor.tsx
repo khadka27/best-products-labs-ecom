@@ -77,6 +77,7 @@ import {
   ReactNodeViewRenderer,
   NodeViewRendererProps,
 } from "@tiptap/react";
+import { BubbleMenu } from "@tiptap/react/menus";
 import StarterKit from "@tiptap/starter-kit";
 import Heading from "@tiptap/extension-heading";
 import Link from "@tiptap/extension-link";
@@ -749,6 +750,39 @@ function ToolBtn({
 }
 
 // ── Toolbar ───────────────────────────────────────────────────────────────────
+function BubbleBtn({
+  onClick,
+  active,
+  disabled,
+  title,
+  children,
+}: {
+  onClick: () => void;
+  active?: boolean;
+  disabled?: boolean;
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onMouseDown={(e) => {
+        e.preventDefault();
+        onClick();
+      }}
+      disabled={disabled}
+      title={title}
+      className={`p-1 rounded-md transition-colors ${
+        active
+          ? "bg-amber-400 text-slate-950 font-bold"
+          : "text-slate-300 hover:bg-slate-800 hover:text-white"
+      } disabled:opacity-30 disabled:cursor-not-allowed`}
+    >
+      {children}
+    </button>
+  );
+}
+
 function Toolbar({ editor }: { editor: Editor }) {
   const setLink = () => {
     const prev = editor.getAttributes("link").href as string | undefined;
@@ -1238,12 +1272,20 @@ function ButtonDialog({
   onInsert,
   onClose,
 }: {
-  onInsert: (label: string, href: string, style: string) => void;
+  onInsert: (
+    label: string,
+    href: string,
+    style: string,
+    color?: string,
+    hoverEffect?: string
+  ) => void;
   onClose: () => void;
 }) {
   const [label, setLabel] = useState("Click here");
   const [href, setHref] = useState("https://");
   const [style, setStyle] = useState("primary");
+  const [btnColor, setBtnColor] = useState("#7d2ae8");
+  const [hoverEffect, setHoverEffect] = useState("bubble");
 
   const styles = [
     { value: "primary", label: "Primary", preview: "bg-orange-600 text-white" },
@@ -1263,6 +1305,11 @@ function ButtonDialog({
       value: "amber-pill",
       label: "Amber Pill",
       preview: "bg-amber-500 text-white rounded-full",
+    },
+    {
+      value: "bubble",
+      label: "Bubble (Custom)",
+      preview: "bg-purple-600 text-white rounded-lg",
     },
   ];
 
@@ -1307,14 +1354,65 @@ function ButtonDialog({
             ))}
           </div>
         </div>
+        
+        {style === "bubble" && (
+          <div className="space-y-3 border-t border-gray-100 pt-3">
+            <div>
+              <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">
+                Bubble Button Color
+              </label>
+              <div className="flex gap-3 items-center">
+                <input
+                  type="color"
+                  value={btnColor}
+                  onChange={(e) => setBtnColor(e.target.value)}
+                  className="w-10 h-10 p-0 border-0 rounded-lg cursor-pointer shrink-0"
+                />
+                <input
+                  type="text"
+                  value={btnColor}
+                  onChange={(e) => setBtnColor(e.target.value)}
+                  placeholder="#7d2ae8"
+                  className="flex-grow px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 font-mono"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">
+                Hover Effect
+              </label>
+              <select
+                value={hoverEffect}
+                onChange={(e) => setHoverEffect(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-amber-400"
+              >
+                <option value="bubble">Bubble Explosion</option>
+                <option value="shine">Shine Sweep</option>
+                <option value="glow">Pulse Glow</option>
+                <option value="float">Float Scale</option>
+              </select>
+            </div>
+          </div>
+        )}
+
         {/* Live preview */}
         <div className="bg-gray-50 rounded-xl p-4 text-center">
           <span className="text-xs text-gray-400 block mb-2">Preview</span>
-          <span
-            className={`inline-block px-5 py-2.5 rounded-xl text-sm font-bold ${styles.find((s) => s.value === style)?.preview}`}
-          >
-            {label || "Button"}
-          </span>
+          {style === "bubble" ? (
+            <span
+              className="inline-block px-5 py-2.5 rounded-lg text-sm font-bold text-white shadow-sm transition-all animate-pulse"
+              style={{ backgroundColor: btnColor }}
+            >
+              {label || "Button"}
+            </span>
+          ) : (
+            <span
+              className={`inline-block px-5 py-2.5 rounded-xl text-sm font-bold ${styles.find((s) => s.value === style)?.preview}`}
+            >
+              {label || "Button"}
+            </span>
+          )}
         </div>
         <div className="flex gap-2 justify-end">
           <button
@@ -1326,7 +1424,7 @@ function ButtonDialog({
           </button>
           <button
             type="button"
-            onClick={() => onInsert(label, href, style)}
+            onClick={() => onInsert(label, href, style, btnColor, hoverEffect)}
             className="px-4 py-2 text-sm bg-amber-500 hover:bg-amber-600 text-white rounded-lg font-medium"
           >
             Insert
@@ -3235,7 +3333,21 @@ export default function RichTextEditor({
       TextStyle,
       Color,
       TextAlign.configure({ types: ["heading", "paragraph"] }),
-      Link.configure({
+      Link.extend({
+        addAttributes() {
+          return {
+            ...this.parent?.(),
+            style: {
+              default: null,
+              parseHTML: (element) => element.getAttribute("style"),
+              renderHTML: (attributes) => {
+                if (!attributes.style) return {};
+                return { style: attributes.style };
+              },
+            },
+          };
+        },
+      }).configure({
         openOnClick: false,
         HTMLAttributes: { target: "_blank", rel: "noopener noreferrer" },
       }),
@@ -3453,7 +3565,13 @@ export default function RichTextEditor({
       .run();
   };
 
-  const insertButton = (label: string, href: string, style: string) => {
+  const insertButton = (
+    label: string,
+    href: string,
+    style: string,
+    color?: string,
+    hoverEffect?: string
+  ) => {
     if (!editor) return;
     setDialog(null);
     const classMap: Record<string, string> = {
@@ -3464,12 +3582,18 @@ export default function RichTextEditor({
       "primary-pill": "btn btn-primary btn-pill",
       "amber-pill": "btn btn-amber btn-pill",
     };
-    const cls = classMap[style] || "btn btn-primary";
+    let cls = classMap[style] || "btn btn-primary";
+    if (style === "bubble") {
+      const effect = hoverEffect || "bubble";
+      cls = `btn btn-bubble btn-hover-${effect}`;
+    }
+    const styleAttr =
+      style === "bubble" && color ? ` style="--btn-color: ${color};"` : "";
     editor
       .chain()
       .focus()
       .insertContent(
-        `<p><a href="${href}" target="_blank" class="${cls}">${label}</a></p>`,
+        `<p><a href="${href}" target="_blank" class="${cls}"${styleAttr}>${label}</a></p>`
       )
       .run();
   };
@@ -3515,12 +3639,188 @@ export default function RichTextEditor({
       .run();
   };
 
+  const setLinkBubble = () => {
+    if (!editor) return;
+    const prev = editor.getAttributes("link").href as string | undefined;
+    const url = window.prompt("Enter URL:", prev ?? "https://");
+    if (url === null) return;
+    if (url === "") {
+      editor.chain().focus().extendMarkRange("link").unsetLink().run();
+      return;
+    }
+    editor
+      .chain()
+      .focus()
+      .extendMarkRange("link")
+      .setLink({ href: url, target: "_blank" })
+      .run();
+  };
+
   if (!editor) return null;
 
   return (
     <div className="relative">
       <div className="border border-gray-200 rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-amber-400 focus-within:border-transparent transition-all">
         <Toolbar editor={editor} />
+        {editor && (
+          <BubbleMenu
+            editor={editor}
+            className="flex items-center gap-1 bg-slate-900 border border-slate-800 text-white rounded-xl shadow-2xl p-1 z-50 transition-all max-w-[95vw] sm:max-w-none flex-wrap"
+          >
+            {/* Bold */}
+            <BubbleBtn
+              onClick={() => editor.chain().focus().toggleBold().run()}
+              active={editor.isActive("bold")}
+              title="Bold"
+            >
+              <Bold className="w-3.5 h-3.5" />
+            </BubbleBtn>
+            
+            {/* Italic */}
+            <BubbleBtn
+              onClick={() => editor.chain().focus().toggleItalic().run()}
+              active={editor.isActive("italic")}
+              title="Italic"
+            >
+              <Italic className="w-3.5 h-3.5" />
+            </BubbleBtn>
+
+            {/* Underline */}
+            <BubbleBtn
+              onClick={() => editor.chain().focus().toggleUnderline().run()}
+              active={editor.isActive("underline")}
+              title="Underline"
+            >
+              <UnderlineIcon className="w-3.5 h-3.5" />
+            </BubbleBtn>
+
+            {/* Strikethrough */}
+            <BubbleBtn
+              onClick={() => editor.chain().focus().toggleStrike().run()}
+              active={editor.isActive("strike")}
+              title="Strikethrough"
+            >
+              <Strikethrough className="w-3.5 h-3.5" />
+            </BubbleBtn>
+
+            <div className="w-px h-4 bg-slate-800 self-center mx-1" />
+
+            {/* Headings Selector */}
+            <select
+              value={
+                editor.isActive("heading", { level: 1 }) ? "h1" :
+                editor.isActive("heading", { level: 2 }) ? "h2" :
+                editor.isActive("heading", { level: 3 }) ? "h3" : "p"
+              }
+              onChange={(e) => {
+                const val = e.target.value;
+                if (val === "p") {
+                  editor.chain().focus().setParagraph().run();
+                } else if (val === "h1") {
+                  editor.chain().focus().toggleHeading({ level: 1 }).run();
+                } else if (val === "h2") {
+                  editor.chain().focus().toggleHeading({ level: 2 }).run();
+                } else if (val === "h3") {
+                  editor.chain().focus().toggleHeading({ level: 3 }).run();
+                }
+              }}
+              className="bg-slate-950 border border-slate-800 text-white rounded-lg text-xs px-2 py-1 focus:outline-none focus:ring-1 focus:ring-amber-400"
+            >
+              <option value="p">Paragraph</option>
+              <option value="h1">H1</option>
+              <option value="h2">H2</option>
+              <option value="h3">H3</option>
+            </select>
+
+            <div className="w-px h-4 bg-slate-800 self-center mx-1" />
+
+            {/* Alignment */}
+            <BubbleBtn
+              onClick={() => editor.chain().focus().setTextAlign("left").run()}
+              active={editor.isActive({ textAlign: "left" })}
+              title="Align Left"
+            >
+              <AlignLeft className="w-3.5 h-3.5" />
+            </BubbleBtn>
+            <BubbleBtn
+              onClick={() => editor.chain().focus().setTextAlign("center").run()}
+              active={editor.isActive({ textAlign: "center" })}
+              title="Align Center"
+            >
+              <AlignCenter className="w-3.5 h-3.5" />
+            </BubbleBtn>
+            <BubbleBtn
+              onClick={() => editor.chain().focus().setTextAlign("right").run()}
+              active={editor.isActive({ textAlign: "right" })}
+              title="Align Right"
+            >
+              <AlignRight className="w-3.5 h-3.5" />
+            </BubbleBtn>
+
+            <div className="w-px h-4 bg-slate-800 self-center mx-1" />
+
+            {/* Color Selector */}
+            <div className="relative group/color flex items-center">
+              <button
+                type="button"
+                className="flex items-center gap-1.5 text-xs px-2.5 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition-all font-semibold"
+                title="Text Color"
+              >
+                <span className="w-3.5 h-3.5 rounded-full border border-white/20" style={{ backgroundColor: editor.getAttributes("textStyle").color || "#ffffff" }} />
+                <span className="hidden sm:inline">Color</span>
+              </button>
+              <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 hidden group-hover/color:flex flex-col bg-slate-950 border border-slate-800 rounded-xl p-2.5 shadow-2xl z-[60] gap-2 w-[140px]">
+                <div className="grid grid-cols-4 gap-1.5">
+                  {[
+                    { label: "Default", val: "" },
+                    { label: "Blue", val: "#0284c7" },
+                    { label: "Orange", val: "#ea580c" },
+                    { label: "Green", val: "#16a34a" },
+                    { label: "Red", val: "#dc2626" },
+                    { label: "Amber", val: "#d97706" },
+                    { label: "Purple", val: "#7d2ae8" },
+                    { label: "Slate", val: "#64748b" },
+                  ].map((c) => (
+                    <button
+                      key={c.label}
+                      type="button"
+                      onClick={() => {
+                        if (c.val === "") {
+                          editor.chain().focus().unsetColor().run();
+                        } else {
+                          editor.chain().focus().setColor(c.val).run();
+                        }
+                      }}
+                      className="w-5 h-5 rounded-full border border-white/10 flex items-center justify-center hover:scale-110 active:scale-95 transition-transform"
+                      style={{ backgroundColor: c.val || "#ffffff" }}
+                      title={c.label}
+                    >
+                      {c.val === "" && <span className="text-[9px] text-red-500 font-bold text-center flex items-center justify-center leading-none">X</span>}
+                    </button>
+                  ))}
+                </div>
+                <input
+                  type="color"
+                  value={editor.getAttributes("textStyle").color || "#000000"}
+                  onChange={(e) => editor.chain().focus().setColor(e.target.value).run()}
+                  className="w-full h-6 p-0 border-0 rounded cursor-pointer mt-1"
+                  title="Custom Color"
+                />
+              </div>
+            </div>
+
+            <div className="w-px h-4 bg-slate-800 self-center mx-1" />
+
+            {/* Link */}
+            <BubbleBtn
+              onClick={setLinkBubble}
+              active={editor.isActive("link")}
+              title="Insert Link"
+            >
+              <LinkIcon className="w-3.5 h-3.5" />
+            </BubbleBtn>
+          </BubbleMenu>
+        )}
         <div ref={editorRef} onKeyDown={handleKeyDown} className="bg-white">
           <EditorContent editor={editor} />
         </div>

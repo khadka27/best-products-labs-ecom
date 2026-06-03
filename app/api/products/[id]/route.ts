@@ -36,6 +36,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
         name: body.name,
         price: parseFloat(body.price),
         categoryType: body.categoryType?.toUpperCase(),
+        status: body.status === 'PUBLISHED' ? 'PUBLISHED' : 'DRAFT',
         subcategory: { connect: { id: body.subcategoryId } },
         author: body.authorId ? { connect: { id: body.authorId } } : { disconnect: true },
         shortDescription: body.shortDescription,

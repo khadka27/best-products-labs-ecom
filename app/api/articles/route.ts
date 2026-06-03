@@ -49,6 +49,7 @@ export async function POST(req: NextRequest) {
         metaDescription: body.metaDescription || body.excerpt || null,
         metaKeywords: body.metaKeywords || null,
         status: body.status === 'PUBLISHED' ? 'PUBLISHED' : 'DRAFT',
+        isHero: !!body.isHero,
         publishedAt: body.status === 'PUBLISHED' ? new Date() : null,
         authorId: body.authorId || null,
       },

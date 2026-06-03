@@ -2078,5 +2078,160 @@ a.btn-dark:hover {
   color: #0f172a !important;
 }
 
+/* ── Bubble Button — Uiverse.io by zjssun (Modified for dynamic colors) ── */
+.btn-bubble,
+a.btn-bubble {
+  position: relative;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 22px !important;
+  border-radius: 6px !important;
+  border: none !important;
+  color: #ffffff !important;
+  cursor: pointer;
+  background-color: var(--btn-color, #7d2ae8) !important;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12) !important;
+  isolation: isolate;
+}
+
+.btn-bubble:active,
+a.btn-bubble:active {
+  transform: scale(0.96) !important;
+}
+
+/* Base style for bubble particles (only instantiated if btn-hover-bubble class is present) */
+.btn-hover-bubble::before,
+.btn-hover-bubble::after,
+a.btn-hover-bubble::before,
+a.btn-hover-bubble::after {
+  position: absolute;
+  content: "";
+  width: 150%;
+  left: 50%;
+  height: 100%;
+  transform: translateX(-50%);
+  z-index: -1000;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+.btn-hover-bubble:hover::before,
+a.btn-hover-bubble:hover::before {
+  top: -70% !important;
+  background-image: radial-gradient(circle, var(--btn-color, #7d2ae8) 20%, transparent 20%),
+    radial-gradient(circle, transparent 20%, var(--btn-color, #7d2ae8) 20%, transparent 30%),
+    radial-gradient(circle, var(--btn-color, #7d2ae8) 20%, transparent 20%),
+    radial-gradient(circle, var(--btn-color, #7d2ae8) 20%, transparent 20%),
+    radial-gradient(circle, transparent 10%, var(--btn-color, #7d2ae8) 15%, transparent 20%),
+    radial-gradient(circle, var(--btn-color, #7d2ae8) 20%, transparent 20%),
+    radial-gradient(circle, var(--btn-color, #7d2ae8) 20%, transparent 20%),
+    radial-gradient(circle, var(--btn-color, #7d2ae8) 20%, transparent 20%),
+    radial-gradient(circle, var(--btn-color, #7d2ae8) 20%, transparent 20%) !important;
+  background-size: 10% 10%, 20% 20%, 15% 15%, 20% 20%, 18% 18%, 10% 10%, 15% 15%,
+    10% 10%, 18% 18% !important;
+  background-position: 50% 120% !important;
+  animation: greentopBubbles 0.6s ease !important;
+}
+
+.btn-hover-bubble:hover::after,
+a.btn-hover-bubble:hover::after {
+  bottom: -70% !important;
+  background-image: radial-gradient(circle, var(--btn-color, #7d2ae8) 20%, transparent 20%),
+    radial-gradient(circle, var(--btn-color, #7d2ae8) 20%, transparent 20%),
+    radial-gradient(circle, transparent 10%, var(--btn-color, #7d2ae8) 15%, transparent 20%),
+    radial-gradient(circle, var(--btn-color, #7d2ae8) 20%, transparent 20%),
+    radial-gradient(circle, var(--btn-color, #7d2ae8) 20%, transparent 20%),
+    radial-gradient(circle, var(--btn-color, #7d2ae8) 20%, transparent 20%),
+    radial-gradient(circle, var(--btn-color, #7d2ae8) 20%, transparent 20%) !important;
+  background-size: 15% 15%, 20% 20%, 18% 18%, 20% 20%, 15% 15%, 20% 20%, 18% 18% !important;
+  background-position: 50% 0% !important;
+  animation: greenbottomBubbles 0.6s ease !important;
+}
+
+/* ── Shine Sweep Effect ── */
+.btn-hover-shine {
+  overflow: hidden;
+}
+
+.btn-hover-shine::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 65%
+  );
+  transform: translateX(-130%) skewX(-20deg);
+  transition: none;
+  z-index: 1;
+}
+
+.btn-hover-shine:hover::before {
+  animation: shine-sweep 0.6s ease forwards;
+}
+
+.btn-hover-shine:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* ── Pulse Glow Effect ── */
+.btn-hover-glow {
+  transition: all 0.3s ease !important;
+}
+
+.btn-hover-glow:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 0 20px var(--btn-color, #7d2ae8), 0 8px 20px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* ── Float Scale Effect ── */
+.btn-hover-float:hover {
+  transform: translateY(-4px) scale(1.03) !important;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25) !important;
+}
+
+@keyframes greentopBubbles {
+  0% {
+    background-position: 5% 90%, 10% 90%, 10% 90%, 15% 90%, 25% 90%, 25% 90%,
+      40% 90%, 55% 90%, 70% 90%;
+  }
+
+  50% {
+    background-position: 0% 80%, 0% 20%, 10% 40%, 20% 0%, 30% 30%, 22% 50%,
+      50% 50%, 65% 20%, 90% 30%;
+  }
+
+  100% {
+    background-position: 0% 70%, 0% 10%, 10% 30%, 20% -10%, 30% 20%, 22% 40%,
+      50% 40%, 65% 10%, 90% 20%;
+    background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+  }
+}
+
+@keyframes greenbottomBubbles {
+  0% {
+    background-position: 10% -10%, 30% 10%, 55% -10%, 70% -10%, 85% -10%,
+      70% -10%, 70% 0%;
+  }
+
+  50% {
+    background-position: 0% 80%, 20% 80%, 45% 60%, 60% 100%, 75% 70%, 95% 60%,
+      105% 0%;
+  }
+
+  100% {
+    background-position: 0% 90%, 20% 90%, 45% 70%, 60% 110%, 75% 80%, 95% 70%,
+      110% 10%;
+    background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+  }
+}
+
 
 

@@ -24,11 +24,12 @@ interface ArticleData {
   metaKeywords: string;
   authorId: string;
   status: string;
+  isHero: boolean;
 }
 
 interface Props {
   initialData?: any;
-  onSave: (data: ArticleData, publish: boolean) => Promise<void>;
+  onSave: (data: ArticleData, publish: boolean) => Promise<any>;
 }
 
 function SectionCard({ icon: Icon, title, subtitle, accent = 'teal', children, collapsible = false }: {
@@ -75,6 +76,7 @@ export default function ArticleEditor({ initialData, onSave }: Props) {
     metaKeywords: initialData?.metaKeywords || '',
     authorId: initialData?.authorId || '',
     status: initialData?.status || 'DRAFT',
+    isHero: initialData?.isHero || false,
   });
 
   const [authors, setAuthors] = useState<{ id: string; name: string; title: string | null }[]>([]);
@@ -83,6 +85,14 @@ export default function ArticleEditor({ initialData, onSave }: Props) {
   const [error, setError] = useState('');
   const [saved, setSaved] = useState(false);
   const [slugManual, setSlugManual] = useState(!!initialData?.slug);
+
+  const [lastSaved, setLastSaved] = useState<string>('');
+  const [autoSaving, setAutoSaving] = useState(false);
+  const articleIdRef = useRef<string | null>(initialData?.id || null);
+  const onSaveRef = useRef(onSave);
+  onSaveRef.current = onSave;
+
+  const lastSavedFormRef = useRef<ArticleData>({ ...form });
 
   useEffect(() => {
     fetch('/api/authors').then(r => r.json()).then(data => {
@@ -109,6 +119,51 @@ export default function ArticleEditor({ initialData, onSave }: Props) {
     }
   }, [form.title]);
 
+  // Debounced auto-save
+  useEffect(() => {
+    if (!form.title.trim()) return;
+
+    const isDirty =
+      form.title !== lastSavedFormRef.current.title ||
+      form.slug !== lastSavedFormRef.current.slug ||
+      form.excerpt !== lastSavedFormRef.current.excerpt ||
+      form.content !== lastSavedFormRef.current.content ||
+      form.featuredImage !== lastSavedFormRef.current.featuredImage ||
+      form.featuredImageAlt !== lastSavedFormRef.current.featuredImageAlt ||
+      form.metaTitle !== lastSavedFormRef.current.metaTitle ||
+      form.metaDescription !== lastSavedFormRef.current.metaDescription ||
+      form.metaKeywords !== lastSavedFormRef.current.metaKeywords ||
+      form.authorId !== lastSavedFormRef.current.authorId ||
+      form.isHero !== lastSavedFormRef.current.isHero;
+
+    if (!isDirty) return;
+
+    const timer = setTimeout(async () => {
+      setAutoSaving(true);
+      setError('');
+      try {
+        const savedData = await onSaveRef.current(form, false);
+        
+        if (savedData && savedData.id) {
+          articleIdRef.current = savedData.id;
+          if (typeof window !== 'undefined' && window.location.pathname.endsWith('/new')) {
+            window.history.replaceState(null, '', `/admin/articles/${savedData.id}`);
+          }
+        }
+
+        lastSavedFormRef.current = { ...form };
+        const now = new Date();
+        setLastSaved(`Auto-saved at ${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}`);
+      } catch (err) {
+        console.error('Auto-save failed:', err);
+      } finally {
+        setAutoSaving(false);
+      }
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, [form]);
+
   const set = (key: keyof ArticleData) =>
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
       setForm(p => ({ ...p, [key]: e.target.value }));
@@ -119,9 +174,25 @@ export default function ArticleEditor({ initialData, onSave }: Props) {
     setter(true);
     setError('');
     try {
-      await onSave(form, publish);
+      const savedData = await onSave(form, publish);
+
+      if (savedData && savedData.id) {
+        articleIdRef.current = savedData.id;
+        if (typeof window !== 'undefined' && window.location.pathname.endsWith('/new')) {
+          window.history.replaceState(null, '', `/admin/articles/${savedData.id}`);
+        }
+      }
+
       setSaved(true);
-      if (publish) setForm(p => ({ ...p, status: 'PUBLISHED' }));
+      if (publish) {
+        setForm(p => ({ ...p, status: 'PUBLISHED' }));
+        lastSavedFormRef.current = { ...form, status: 'PUBLISHED' };
+      } else {
+        lastSavedFormRef.current = { ...form };
+      }
+
+      const now = new Date();
+      setLastSaved(`Saved at ${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}`);
       setTimeout(() => setSaved(false), 3000);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to save');
@@ -144,9 +215,21 @@ export default function ArticleEditor({ initialData, onSave }: Props) {
           <FileText className="w-4 h-4 text-white" />
         </div>
         <div className="flex-1">
-          <h1 className="text-xl font-bold text-gray-900">
-            {initialData ? 'Edit Article' : 'New Article'}
-          </h1>
+          <div className="flex items-center gap-3">
+            <h1 className="text-xl font-bold text-gray-900">
+              {initialData ? 'Edit Article' : 'New Article'}
+            </h1>
+            {autoSaving && (
+              <span className="text-xs text-gray-400 flex items-center gap-1 bg-gray-50 border border-gray-100 px-2 py-0.5 rounded-full">
+                <Loader2 className="w-3 h-3 animate-spin text-teal-600" /> Auto-saving…
+              </span>
+            )}
+            {!autoSaving && lastSaved && (
+              <span className="text-xs text-emerald-600 flex items-center gap-1 bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded-full">
+                <CheckCircle2 className="w-3 h-3" /> {lastSaved}
+              </span>
+            )}
+          </div>
           <p className="text-xs text-gray-400 mt-0.5">
             {isPublished ? 'Published' : 'Draft'} · {form.content.replace(/<[^>]*>/g, '').split(' ').filter(Boolean).length} words
           </p>
@@ -288,6 +371,16 @@ export default function ArticleEditor({ initialData, onSave }: Props) {
                   {isPublished ? 'Published' : 'Draft'}
                 </span>
               </div>
+
+              <label className="flex items-center gap-2 cursor-pointer pb-2 pt-1 border-b border-gray-100">
+                <input
+                  type="checkbox"
+                  checked={form.isHero}
+                  onChange={e => setForm(p => ({ ...p, isHero: e.target.checked }))}
+                  className="rounded text-teal-600 focus:ring-teal-500 w-4 h-4"
+                />
+                <span className="text-sm font-medium text-gray-700">Featured Hero Article</span>
+              </label>
 
               <button type="button" onClick={() => handleSave(true)} disabled={publishing || saving}
                 className="w-full flex items-center justify-center gap-2 py-3 bg-teal-600 hover:bg-teal-700 disabled:opacity-50 text-white rounded-xl text-sm font-semibold transition-all hover:shadow-md hover:-translate-y-0.5">

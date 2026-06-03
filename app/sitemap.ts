@@ -53,6 +53,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         select: { slug: true, updatedAt: true, createdAt: true },
       }),
       prisma.product.findMany({
+        where: { status: 'PUBLISHED' },
         select: { slug: true, updatedAt: true, createdAt: true },
       }),
       (prisma as any).article.findMany({
@@ -63,21 +64,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     subcategoryEntries = subcategories.map((subcategory: { slug: string; updatedAt: Date | null; createdAt: Date }) => ({
       url: `${baseUrl}/subcategory/${subcategory.slug}`,
-      lastModified: subcategory.updatedAt ?? subcategory.createdAt,
+      lastModified: getQuantizedDate(5),
       changeFrequency: "weekly" as const,
       priority: 0.7,
     }));
 
     productEntries = products.map((product: { slug: string; updatedAt: Date | null; createdAt: Date }) => ({
       url: `${baseUrl}/${product.slug}`,
-      lastModified: product.updatedAt ?? product.createdAt,
+      lastModified: getQuantizedDate(5),
       changeFrequency: "weekly" as const,
       priority: 0.7,
     }));
 
     const articleEntries: MetadataRoute.Sitemap = articles.map((a: { slug: string; updatedAt: Date; publishedAt: Date | null }) => ({
       url: `${baseUrl}/article/${a.slug}`,
-      lastModified: a.updatedAt,
+      lastModified: getQuantizedDate(5),
       changeFrequency: "weekly" as const,
       priority: 0.8,
     }));

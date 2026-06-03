@@ -65,6 +65,7 @@ model Article {
   metaDescription  String?
   metaKeywords     String?
   status           ArticleStatus @default(DRAFT)
+  isHero           Boolean       @default(false)
   publishedAt      DateTime?
   author           Author?       @relation(fields: [authorId], references: [id])
   authorId         String?
@@ -102,6 +103,7 @@ model Product {
   slug                String       @unique
   price               Float
   categoryType        CategoryType
+  status              ProductStatus @default(DRAFT)
   shortDescription    String
   detailedDescription String
   keyFeatures         String?
@@ -196,6 +198,13 @@ enum ArticleStatus {
   PUBLISHED
 
   @@map("article_status")
+}
+
+enum ProductStatus {
+  DRAFT
+  PUBLISHED
+
+  @@map("product_status")
 }
 
 enum UserRole {

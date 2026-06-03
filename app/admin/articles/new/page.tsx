@@ -15,6 +15,7 @@ export default function NewArticlePage() {
     if (!res.ok) throw new Error('Failed to create article');
     const article = await res.json();
     router.push(`/admin/articles/${article.id}`);
+    return article;
   };
 
   return <ArticleEditor onSave={handleSave} />;

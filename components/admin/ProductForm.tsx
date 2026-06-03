@@ -35,6 +35,7 @@ export interface ProductFormData {
   readMoreLink: string;
   buyNowLink: string;
   ingredientIds: string[];
+  status: 'DRAFT' | 'PUBLISHED';
 }
 
 interface Props {
@@ -338,6 +339,7 @@ export default function ProductForm({
     readMoreLink: "",
     buyNowLink: "",
     ingredientIds: [],
+    status: "DRAFT",
     ...initialValues,
   });
   const [subcategories, setSubcategories] = useState<Subcategory[]>([]);
@@ -662,7 +664,37 @@ export default function ProductForm({
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
             <div className="h-0.5 bg-gradient-to-r from-amber-500 to-orange-500" />
             <div className="p-5 space-y-3">
-              <h3 className="text-sm font-semibold text-gray-900">Publish</h3>
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-semibold text-gray-900">Publish</h3>
+                <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
+                  form.status === 'PUBLISHED' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-amber-50 text-amber-700 border border-amber-200'
+                }`}>
+                  {form.status === 'PUBLISHED' ? 'Published' : 'Draft'}
+                </span>
+              </div>
+
+              {/* Status Selector */}
+              <div className="grid grid-cols-2 gap-2 bg-gray-50 p-1 rounded-xl border border-gray-100">
+                <button
+                  type="button"
+                  onClick={() => setForm(p => ({ ...p, status: 'PUBLISHED' }))}
+                  className={`py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                    form.status === 'PUBLISHED' ? 'bg-white shadow text-gray-900' : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  Published
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setForm(p => ({ ...p, status: 'DRAFT' }))}
+                  className={`py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                    form.status === 'DRAFT' ? 'bg-white shadow text-gray-900' : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  Draft
+                </button>
+              </div>
+
               <button
                 type="submit"
                 disabled={saving}

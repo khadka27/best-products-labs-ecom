@@ -18,12 +18,15 @@ export default function EditArticlePage() {
   }, [id]);
 
   const handleSave = async (data: any, publish: boolean) => {
+    const status = publish ? 'PUBLISHED' : (data.status === 'PUBLISHED' ? 'PUBLISHED' : 'DRAFT');
     const res = await fetch(`/api/articles/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...data, status: publish ? 'PUBLISHED' : 'DRAFT' }),
+      body: JSON.stringify({ ...data, status }),
     });
     if (!res.ok) throw new Error('Failed to update article');
+    const article = await res.json();
+    return article;
   };
 
   if (loading) return <div className="animate-pulse h-96 bg-gray-100 rounded-2xl" />;

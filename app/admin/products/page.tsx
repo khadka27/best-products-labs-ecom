@@ -20,7 +20,7 @@ export default function AdminProductsPage() {
   const load = () => {
     setLoading(true);
     Promise.all([
-      fetch('/api/products').then(r => r.json()),
+      fetch('/api/products?admin=true').then(r => r.json()),
       fetch('/api/subcategories').then(r => r.json()),
     ]).then(([prods, subs]) => {
       const list = Array.isArray(prods)
@@ -86,6 +86,7 @@ export default function AdminProductsPage() {
                   <th className="text-left px-5 py-3 font-medium text-gray-500">Product</th>
                   <th className="text-left px-5 py-3 font-medium text-gray-500">Type</th>
                   <th className="text-left px-5 py-3 font-medium text-gray-500 hidden lg:table-cell">Subcategory</th>
+                  <th className="text-left px-5 py-3 font-medium text-gray-500">Status</th>
                   <th className="text-left px-5 py-3 font-medium text-gray-500">Price</th>
                   <th className="text-right px-5 py-3 font-medium text-gray-500 w-32">Actions</th>
                 </tr>
@@ -122,6 +123,15 @@ export default function AdminProductsPage() {
                       </span>
                     </td>
                     <td className="px-5 py-3.5 text-gray-500 hidden lg:table-cell">{getSubcategoryName(prod.subcategoryId)}</td>
+                    <td className="px-5 py-3.5">
+                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold ${
+                        prod.status === 'PUBLISHED'
+                          ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                          : 'bg-amber-50 text-amber-700 border border-amber-200'
+                      }`}>
+                        {prod.status === 'PUBLISHED' ? 'Published' : 'Draft'}
+                      </span>
+                    </td>
                     <td className="px-5 py-3.5 font-semibold text-orange-600">${prod.price.toFixed(2)}</td>
                     <td className="px-5 py-3.5">
                       <div className="flex items-center gap-1.5 justify-end">

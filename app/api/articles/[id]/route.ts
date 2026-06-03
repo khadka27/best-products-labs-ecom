@@ -19,7 +19,15 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
   try {
     const { id } = await params;
     const body = await req.json();
+    const existing = await (prisma.article as any).findUnique({
+      where: { id },
+    });
+    if (!existing) {
+      return NextResponse.json({ error: 'Not found' }, { status: 404 });
+    }
+
     const isPublishing = body.status === 'PUBLISHED';
+    const publishedAt = isPublishing ? (existing.publishedAt || new Date()) : null;
 
     const article = await (prisma.article as any).update({
       where: { id },
@@ -34,7 +42,8 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
         metaDescription: body.metaDescription || null,
         metaKeywords: body.metaKeywords || null,
         status: isPublishing ? 'PUBLISHED' : 'DRAFT',
-        publishedAt: isPublishing ? new Date() : null,
+        isHero: !!body.isHero,
+        publishedAt,
         authorId: body.authorId || null,
       },
     });

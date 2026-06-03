@@ -89,6 +89,7 @@ export default function EditProductPage() {
           buyNowLink: (product as any).buyNowLink || "",
           authorId: (product as any).authorId || "",
           ingredientIds: product.ingredients?.map((i) => i.id) || [],
+          status: product.status || "DRAFT",
         }}
         onSubmit={handleSubmit}
         submitLabel="Save Changes"

@@ -19,6 +19,7 @@ export async function GET() {
           },
         }),
         prisma.product.findMany({
+          where: { status: "PUBLISHED" },
           select: {
             name: true,
             slug: true,
