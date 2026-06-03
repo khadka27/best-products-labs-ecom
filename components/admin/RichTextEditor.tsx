@@ -2344,7 +2344,7 @@ function buildProductCardsHtml(cards: ProductCardItem[]): string {
         : "";
 
       const buyBlock = card.buyLink
-        ? `<a href="${escapeHtml(card.buyLink)}" class="pc-btn" target="_blank" rel="noopener noreferrer">Check Price</a>`
+        ? `<a href="${escapeHtml(card.buyLink)}" class="pc-btn" target="_blank" rel="noopener noreferrer nofollow">Check Price</a>`
         : "";
 
       return `<div class="pc-card">
@@ -2425,7 +2425,7 @@ function oneCardDom(card: ProductCardItem, idx: number): unknown {
         class: "pc-btn",
         href: card.buyLink,
         target: "_blank",
-        rel: "noopener noreferrer",
+        rel: "noopener noreferrer nofollow",
       },
       "Check Price",
     ]);

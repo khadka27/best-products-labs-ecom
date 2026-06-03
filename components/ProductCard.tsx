@@ -89,7 +89,7 @@ export default function ProductCard({
                 <a
                   href={product.readMoreLink}
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel="noopener noreferrer nofollow"
                   className="px-2.5 sm:px-4 py-1.5 sm:py-2.5 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-bold text-orange-600 border border-orange-100 hover:bg-orange-50 transition-all flex items-center gap-1"
                 >
                   Explore the Full Product Guide
@@ -99,7 +99,7 @@ export default function ProductCard({
                 <a
                   href={product.buyNowLink}
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel="noopener noreferrer nofollow"
                   className="bg-amber-400 text-amber-950 px-3 sm:px-6 py-1.5 sm:py-2.5 rounded-lg sm:rounded-xl font-bold text-[11px] sm:text-sm shadow-sm hover:bg-amber-300 transition-all active:scale-95 flex items-center gap-1 whitespace-nowrap"
                 >
                   <ShoppingCart className="w-3 sm:w-4 h-3 sm:h-4" /> Check Current Price & Availability
@@ -155,7 +155,7 @@ export default function ProductCard({
             <a
               href={product.readMoreLink}
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noopener noreferrer nofollow"
               className="flex items-center justify-center gap-1.5 py-2 rounded-xl text-[10px] font-bold border border-orange-50 text-orange-600 bg-orange-50/30 hover:bg-orange-50 transition-all"
             >
               Explore the Full Product Guide
@@ -167,7 +167,7 @@ export default function ProductCard({
             <a
               href={product.buyNowLink}
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noopener noreferrer nofollow"
               className="flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-bold bg-amber-400 text-amber-950 hover:bg-amber-300 transition-all shadow-md shadow-amber-200/50"
             >
               <ShoppingCart className="w-4 h-4" /> Check Current Price & Availability

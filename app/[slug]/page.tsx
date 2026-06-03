@@ -302,7 +302,7 @@ export default async function ProductPage({
                     <a
                       href={product.buyNowLink}
                       target="_blank"
-                      rel="noopener noreferrer"
+                      rel="noopener noreferrer nofollow"
                       className="flex items-center justify-center gap-2 bg-amber-400 hover:bg-amber-300 text-amber-950 font-bold px-6 py-3.5 rounded-xl transition-all shadow-md hover:shadow-lg hover:shadow-amber-300/40 hover:-translate-y-0.5 text-sm sm:text-base"
                     >
                       <ShoppingCart className="w-4 h-4" /> Check Current Price & Availability
@@ -312,7 +312,7 @@ export default async function ProductPage({
                     <a
                       href={product.readMoreLink}
                       target="_blank"
-                      rel="noopener noreferrer"
+                      rel="noopener noreferrer nofollow"
                       className="flex items-center justify-center gap-2 bg-orange-600 hover:bg-orange-700 text-white font-bold px-6 py-3.5 rounded-xl transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 text-sm sm:text-base"
                     >
                       <ExternalLink className="w-4 h-4" />
