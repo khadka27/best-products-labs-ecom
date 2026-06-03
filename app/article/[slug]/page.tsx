@@ -9,7 +9,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://officialproductsla
 async function getArticle(slug: string) {
   try {
     return await (prisma as any).article.findUnique({
-      where: { slug, status: 'PUBLISHED' },
+      where: { slug },
       include: { author: true },
     });
   } catch { return null; }

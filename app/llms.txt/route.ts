@@ -12,14 +12,8 @@ export async function GET() {
       const prisma = (await import("@/lib/db")).default;
       const [sub, prod, art] = await Promise.all([
         prisma.subcategory.findMany({ select: { name: true, slug: true, description: true } }),
-        prisma.product.findMany({
-          where: { status: "PUBLISHED" },
-          select: { name: true, slug: true, shortDescription: true }
-        }),
-        prisma.article.findMany({
-          where: { status: "PUBLISHED" },
-          select: { title: true, slug: true, excerpt: true },
-        }),
+        prisma.product.findMany({ select: { name: true, slug: true, shortDescription: true } }),
+        prisma.article.findMany({ select: { title: true, slug: true, excerpt: true } }),
       ]);
       subcategories = sub;
       products = prod;

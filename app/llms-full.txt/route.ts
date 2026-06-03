@@ -19,7 +19,6 @@ export async function GET() {
           },
         }),
         prisma.product.findMany({
-          where: { status: "PUBLISHED" },
           select: {
             name: true,
             slug: true,
@@ -38,7 +37,6 @@ export async function GET() {
           },
         }),
         prisma.article.findMany({
-          where: { status: "PUBLISHED" },
           select: {
             title: true,
             slug: true,

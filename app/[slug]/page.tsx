@@ -51,7 +51,7 @@ interface ProductFull extends Omit<
 async function getProduct(slug: string): Promise<ProductFull | null> {
   try {
     const product = await (prisma.product.findFirst as any)({
-      where: { slug, status: 'PUBLISHED' },
+      where: { slug },
       include: {
         subcategory: {
           include: { category: true },
@@ -71,7 +71,6 @@ async function getRelatedProducts(subcategoryId: string, currentId: string) {
     where: {
       subcategoryId,
       id: { not: currentId },
-      status: 'PUBLISHED',
     },
     take: 4,
     include: {
@@ -83,7 +82,7 @@ async function getRelatedProducts(subcategoryId: string, currentId: string) {
   if (related.length > 0) return related;
 
   return prisma.product.findMany({
-    where: { id: { not: currentId }, status: 'PUBLISHED' },
+    where: { id: { not: currentId } },
     take: 4,
     include: {
       ingredients: true,

@@ -53,11 +53,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         select: { slug: true, updatedAt: true, createdAt: true },
       }),
       prisma.product.findMany({
-        where: { status: 'PUBLISHED' },
         select: { slug: true, updatedAt: true, createdAt: true },
       }),
       (prisma as any).article.findMany({
-        where: { status: 'PUBLISHED' },
         select: { slug: true, updatedAt: true, publishedAt: true },
       }),
     ]);

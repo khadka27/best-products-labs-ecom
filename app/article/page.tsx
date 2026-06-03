@@ -10,9 +10,6 @@ export const metadata = {
 
 export default async function ArticlesIndexPage() {
   const allArticles = await prisma.article.findMany({
-    where: {
-      status: "PUBLISHED",
-    },
     include: {
       author: true,
     },
@@ -21,9 +18,9 @@ export default async function ArticlesIndexPage() {
     },
   });
 
-  const heroArticle = allArticles.find((a: any) => a.isHero);
-  const otherArticles = heroArticle 
-    ? allArticles.filter((a) => a.id !== heroArticle.id)
+  const heroArticle = allArticles[0] ?? null;
+  const otherArticles = heroArticle
+    ? allArticles.slice(1)
     : allArticles;
 
   return (
