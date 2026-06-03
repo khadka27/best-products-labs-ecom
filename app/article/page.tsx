@@ -10,8 +10,21 @@ export const metadata = {
 
 export default async function ArticlesIndexPage() {
   const allArticles = await prisma.article.findMany({
-    include: {
-      author: true,
+    select: {
+      id: true,
+      slug: true,
+      title: true,
+      excerpt: true,
+      featuredImage: true,
+      featuredImageAlt: true,
+      publishedAt: true,
+      author: {
+        select: {
+          name: true,
+          avatar: true,
+          title: true,
+        },
+      },
     },
     orderBy: {
       publishedAt: "desc",

@@ -10,7 +10,35 @@ async function getArticle(slug: string) {
   try {
     return await (prisma as any).article.findUnique({
       where: { slug },
-      include: { author: true },
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        excerpt: true,
+        content: true,
+        featuredImage: true,
+        featuredImageAlt: true,
+        metaTitle: true,
+        metaDescription: true,
+        metaKeywords: true,
+        publishedAt: true,
+        updatedAt: true,
+        author: {
+          select: {
+            name: true,
+            title: true,
+            bio: true,
+            expertise: true,
+            avatar: true,
+            avatarAlt: true,
+            website: true,
+            twitter: true,
+            linkedin: true,
+            reviewCount: true,
+            rating: true,
+          },
+        },
+      },
     });
   } catch { return null; }
 }
