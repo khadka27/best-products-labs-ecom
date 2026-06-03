@@ -221,6 +221,8 @@ export default function HomePage() {
               <div className="flex flex-wrap items-center gap-4 pt-1">
                 <a
                   href={hero.buyNowLink || "#products"}
+                  target={hero.buyNowLink ? "_blank" : undefined}
+                  rel={hero.buyNowLink ? "noopener noreferrer nofollow" : undefined}
                   className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-orange-500 text-white font-bold text-sm hover:bg-orange-600 transition-all hover:-translate-y-0.5 shadow-lg shadow-orange-200/60"
                 >
                   Explore More <ArrowRight className="w-4 h-4" />
