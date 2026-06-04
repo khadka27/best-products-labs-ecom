@@ -1919,8 +1919,17 @@ a.btn-dark:hover {
   .ProseMirror table {
     display: block !important;
     overflow-x: auto !important;
-    white-space: nowrap !important;
+    white-space: normal !important;
     -webkit-overflow-scrolling: touch !important;
+  }
+
+  .product-content th,
+  .article-content th,
+  .ProseMirror th,
+  .product-content td,
+  .article-content td,
+  .ProseMirror td {
+    min-width: 160px !important;
   }
 }
 
