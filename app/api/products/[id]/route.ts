@@ -75,3 +75,26 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
     return NextResponse.json({ error: 'Failed to delete product' }, { status: 500 });
   }
 }
+
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  try {
+    const { id } = await params;
+    const body = await req.json();
+    
+    if (body.status === undefined) {
+       return NextResponse.json({ error: 'Status is required' }, { status: 400 });
+    }
+
+    const updated = await prisma.product.update({
+      where: { id },
+      data: {
+        status: body.status === 'PUBLISHED' ? 'PUBLISHED' : 'DRAFT',
+      },
+    });
+    
+    return NextResponse.json(updated);
+  } catch (error) {
+    console.error('Product PATCH error:', error);
+    return NextResponse.json({ error: 'Failed to update product status' }, { status: 500 });
+  }
+}

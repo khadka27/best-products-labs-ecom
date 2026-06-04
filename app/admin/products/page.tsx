@@ -16,6 +16,7 @@ export default function AdminProductsPage() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [updatingStatusId, setUpdatingStatusId] = useState<string | null>(null);
 
   const load = () => {
     setLoading(true);
@@ -38,6 +39,24 @@ export default function AdminProductsPage() {
     await fetch(`/api/products/${id}`, { method: 'DELETE' });
     setDeletingId(null);
     load();
+  };
+
+  const handleStatusChange = async (id: string, newStatus: string) => {
+    setUpdatingStatusId(id);
+    try {
+      const res = await fetch(`/api/products/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus }),
+      });
+      if (res.ok) {
+        setProducts(products.map(p => p.id === id ? { ...p, status: newStatus as 'PUBLISHED' | 'DRAFT' } : p));
+      }
+    } catch (error) {
+      console.error('Failed to update status', error);
+    } finally {
+      setUpdatingStatusId(null);
+    }
   };
 
   const getSubcategoryName = (id: string) => subcategories.find(s => s.id === id)?.name ?? '—';
@@ -124,13 +143,19 @@ export default function AdminProductsPage() {
                     </td>
                     <td className="px-5 py-3.5 text-gray-500 hidden lg:table-cell">{getSubcategoryName(prod.subcategoryId)}</td>
                     <td className="px-5 py-3.5">
-                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold ${
-                        prod.status === 'PUBLISHED'
-                          ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                          : 'bg-amber-50 text-amber-700 border border-amber-200'
-                      }`}>
-                        {prod.status === 'PUBLISHED' ? 'Published' : 'Draft'}
-                      </span>
+                      <select
+                        value={prod.status}
+                        onChange={(e) => handleStatusChange(prod.id, e.target.value)}
+                        disabled={updatingStatusId === prod.id}
+                        className={`text-xs font-semibold rounded-full px-2.5 py-1 focus:outline-none focus:ring-2 focus:ring-amber-500 appearance-none cursor-pointer border ${
+                          prod.status === 'PUBLISHED'
+                            ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                            : 'bg-amber-50 text-amber-700 border-amber-200'
+                        } ${updatingStatusId === prod.id ? 'opacity-50 cursor-wait' : ''}`}
+                      >
+                        <option value="PUBLISHED" className="text-emerald-700 bg-white">Published</option>
+                        <option value="DRAFT" className="text-amber-700 bg-white">Draft</option>
+                      </select>
                     </td>
                     <td className="px-5 py-3.5 font-semibold text-orange-600">${prod.price.toFixed(2)}</td>
                     <td className="px-5 py-3.5">
