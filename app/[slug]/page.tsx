@@ -352,7 +352,7 @@ export default async function ProductPage({
           <div className="px-4 sm:px-6 lg:px-10 py-6 sm:py-8 border-t border-slate-100 bg-white rounded-3xl mt-12 shadow-sm border border-slate-100">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
               {/* Content Column */}
-              <div className="lg:col-span-8 order-2 lg:order-1">
+              <div className="lg:col-span-8 order-2 lg:order-1 min-w-0">
                 {/* Author Info at Top */}
                 {product.author && (
                   <div className="mb-10 p-5 sm:p-6 bg-white rounded-[2rem] border border-slate-100 shadow-sm relative overflow-hidden group">

@@ -1899,6 +1899,7 @@ a.btn-dark:hover {
 .article-content table,
 .ProseMirror table {
   width: 100% !important;
+  max-width: 100% !important;
   border-collapse: separate !important;
   border-spacing: 0 !important;
   margin: 2.5rem 0 !important;
