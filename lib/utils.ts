@@ -28,3 +28,13 @@ export function extractFaqsFromHtml(html: string): Array<{ question: string; ans
   }
   return allFaqs;
 }
+
+export function wrapTablesInResponsiveDiv(html: string): string {
+  if (!html) return html;
+  // Wrap any table in a responsive container div to prevent overflow
+  return html.replace(
+    /(<table[^>]*>[\s\S]*?<\/table>)/gi,
+    '<div class="table-responsive-container">$1</div>'
+  );
+}
+

@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowLeft, Calendar, Clock, Star, Globe, ExternalLink } from 'lucide-react';
 import prisma from '@/lib/db';
+import { wrapTablesInResponsiveDiv } from '@/lib/utils';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://officialproductslab.com';
 
@@ -188,7 +189,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
               <div className="px-6 sm:px-8 py-8">
                 <div className="article-content product-content"
-                  dangerouslySetInnerHTML={{ __html: article.content }} />
+                  dangerouslySetInnerHTML={{ __html: wrapTablesInResponsiveDiv(article.content) }} />
               </div>
 
               {/* Footer */}

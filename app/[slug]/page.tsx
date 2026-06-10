@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 import type { Product, Subcategory, Ingredient } from "@/lib/types";
 import { injectFirstH1Id } from "@/lib/productContentHeading";
-import { extractFaqsFromHtml } from "@/lib/utils";
+import { extractFaqsFromHtml, wrapTablesInResponsiveDiv } from "@/lib/utils";
 
 interface ProductFull extends Omit<
   Product,
@@ -145,6 +145,7 @@ export default async function ProductPage({
   const { html: descriptionHtml, firstH1Slug } = injectFirstH1Id(
     product.detailedDescription,
   );
+  const responsiveDescriptionHtml = wrapTablesInResponsiveDiv(descriptionHtml);
   const faqs = extractFaqsFromHtml(product.detailedDescription);
 
   return (
@@ -440,7 +441,7 @@ export default async function ProductPage({
                 <div className="prose prose-slate max-w-none prose-headings:text-slate-900 prose-headings:font-extrabold prose-p:text-slate-600 prose-p:leading-relaxed prose-li:text-slate-600">
                   <div
                     className="product-content"
-                    dangerouslySetInnerHTML={{ __html: descriptionHtml }}
+                    dangerouslySetInnerHTML={{ __html: responsiveDescriptionHtml }}
                   />
                 </div>
               </div>
