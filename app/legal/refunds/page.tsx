@@ -25,7 +25,7 @@ export default function RefundPolicyPage() {
             How to request a refund
           </h2>
           <ol className="list-decimal pl-5 space-y-2">
-            <li>Email your order number to support@healthstore.example.</li>
+            <li>Email your order number to support@bestproductslab.example.</li>
             <li>Our team will respond with return instructions.</li>
             <li>Refunds are issued to the original payment method.</li>
           </ol>

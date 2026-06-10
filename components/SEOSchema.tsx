@@ -32,9 +32,9 @@ export function OrganizationSchema() {
       },
       description: 'Premium health, wellness, and fitness products',
       sameAs: [
-        'https://www.facebook.com/healthstore',
-        'https://www.twitter.com/healthstore',
-        'https://www.instagram.com/healthstore',
+        'https://www.facebook.com/bestproductslab',
+        'https://www.twitter.com/bestproductslab',
+        'https://www.instagram.com/bestproductslab',
       ],
       contactPoint: {
         '@type': 'ContactPoint',
