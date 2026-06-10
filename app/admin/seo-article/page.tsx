@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { FileText, Copy, CheckCircle2, Loader2, ChevronDown, ChevronUp } from 'lucide-react';
+import { wrapTablesInResponsiveDiv } from '@/lib/utils';
 
 const inputCls = 'w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent bg-white';
 
@@ -338,7 +339,7 @@ export default function SEOArticlePage() {
                 <div className="h-0.5 bg-gradient-to-r from-violet-500 to-purple-500" />
                 {showPreview ? (
                   <div className="p-6 max-h-[600px] overflow-y-auto">
-                    <div className="product-content" dangerouslySetInnerHTML={{ __html: htmlContent }} />
+                    <div className="product-content" dangerouslySetInnerHTML={{ __html: wrapTablesInResponsiveDiv(htmlContent) }} />
                   </div>
                 ) : (
                   <div className="p-4 max-h-[600px] overflow-y-auto">
